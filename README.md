@@ -1,4 +1,4 @@
-# electron_dcm
+# pacemaker_dcm
 
 ## Project setup
 ```
