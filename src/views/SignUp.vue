@@ -1,16 +1,19 @@
 <template>
 	<div>
 		<h1>This is a sign up page</h1>
-		<input v-model="username" placeholder="User Name" />
 		<p>User Name</p>
-		<input v-model="tempPassWord1" placeholder="Password" />
+		<input v-model="username" placeholder="User Name" />
 		<p>Password</p>
-		<input v-model="tempPassWord2" placeholder="One more time" />
+		<input v-model="tempPassWord1" placeholder="Password" />
 		<p>Retype Password</p>
-		<button v-on:click="doSignUp">Sign Up</button>
+		<input v-model="tempPassWord2" placeholder="One more time" />
+		<div>
+			<button v-on:click="doSignUp" class="btn">Sign Up</button>
+		</div>
 		<p>{{message}}</p>
 	</div>
 </template>
+
 <script>
 export default {
 	name: "signUp",
@@ -47,3 +50,9 @@ export default {
 	}
 };
 </script>
+
+<style scoped>
+.btn { 
+	margin-top: 10px;
+}
+</style>
