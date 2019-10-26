@@ -25,16 +25,22 @@ export default {
 	methods: {
 		doSignUp: function(event) {
       if(event){
+        console.log(this.$store.state)
+        console.log(this.$store.state.users)
         if (this.$store.state.users.includes[this.username]) {
           this.message = "User name is already taken";
         } else if (this.tempPassWord1 != this.tempPassWord2) {
           this.message = "Passwords don't match";
         } else {
           this.message = "Yeah you signed up!";
+          console.log(this.username)
+          console.log(this.tempPassWord1)
           this.$store.dispatch("signUp", {
             username: this.username,
-            tempPassWord1: this.username
-          });
+            password: this.tempPassWord1
+          }).then( () => {
+            this.$router.push('/DashBoard')
+          })
         }
       }
 		}
