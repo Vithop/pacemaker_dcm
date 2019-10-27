@@ -1,12 +1,12 @@
 <template>
 	<div>
-		<h1>This is a sign up page</h1>
+		<h1>Sign Up</h1>
 		<p>User Name</p>
 		<input v-model="username" placeholder="User Name" />
 		<p>Password</p>
 		<input v-model="tempPassWord1" placeholder="Password" />
 		<p>Retype Password</p>
-		<input v-model="tempPassWord2" placeholder="One more time" />
+		<input type="password" v-model="tempPassWord2" placeholder="One more time" />
 		<div>
 			<button v-on:click="doSignUp" class="btn">Sign Up</button>
 		</div>
