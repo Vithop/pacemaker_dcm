@@ -28,6 +28,15 @@
             <q-icon name="ion-options" />
           </q-item-section>
         </q-item>
+
+        <q-space />
+
+        <q-item active clickable v-ripple>
+          <q-item-section avatar>
+            <q-icon name="ion-log-out" />
+          </q-item-section>
+        </q-item>
+
         <q-item active clickable v-ripple>
           <q-item-section avatar>
             <q-icon name="ion-settings" />

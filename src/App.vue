@@ -2,10 +2,10 @@
   <div id="app">
     <q-layout view="hHh lpR fFf">
     
-      <SideBar v-if="this.$store.state.users[0] != null"/>
+      <SideBar v-if="this.$store.state.currentUser != null"/>
       <q-page-container>
         <div id="nav">
-          <div id="welcomePage" v-if="this.$store.state.users[0] === null">
+          <div id="welcomePage" v-if="this.$store.state.currentUser === null">
             <router-link to="/">Login</router-link> |
             <router-link to="/SignUp">Sign Up</router-link>
           </div>
@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import SideBar from "@/component/SideBar";
+import SideBar from "@/components/SideBar";
   // console.log(this.$store.state.users);
 export default {
   components:{
