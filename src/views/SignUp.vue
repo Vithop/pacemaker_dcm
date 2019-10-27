@@ -11,6 +11,18 @@
 			<button v-on:click="doSignUp" class="btn">Sign Up</button>
 		</div>
 		<p>{{message}}</p>
+
+		
+     <q-layout view="hHh lpR fFf">
+      <q-drawer show-if-above v-model="left" side="left" behavior="desktop">
+        <!-- drawer content -->
+      </q-drawer>
+
+      <q-page-container>
+        <router-view />
+      </q-page-container>
+
+    </q-layout>
 	</div>
 </template>
 
