@@ -34,8 +34,6 @@
           </q-item-section>
         </q-item>
 
-        <q-space />
-
         <q-item 
           active
           clickable
@@ -61,12 +59,9 @@
 </template>
 
 <script>
-import { QSpace } from "quasar"
 
 export default {
-  components: {
-    QSpace
-  },
+
   name: "sideBar",
   methods: {
     signOut: function(event) {
