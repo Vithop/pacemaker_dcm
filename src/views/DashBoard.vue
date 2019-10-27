@@ -1,6 +1,6 @@
 <template>
 <div>
-  yoy yo yo
+  dashboard view
 </div>
 </template>
 <script>
