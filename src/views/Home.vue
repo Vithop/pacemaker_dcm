@@ -1,17 +1,29 @@
 <template>
 	<div>
-		<h1>This is a login page</h1>
-		<input v-model="username" placeholder="User Name" />
-		<p>User Name</p>
-		<input v-model="password" placeholder="Password" />
-		<p>Password</p>
-		<button v-on:click="doLogin">Login</button>
-		<p>{{message}}</p>
+		<h2 v-if="username == ''">Login</h2>
+		<h2 v-else>Welcome {{username}}</h2>
+		<div class="login">
+			<q-input rounded outlined v-model="username" hint="User Name" />
+			<br>
+			<q-input rounded outlined v-model="password" type="password" hint="Password" />
+		</div>
+		<q-btn unelevated rounded color="teal-13" label="Login"  v-on:click="doLogin" />
+		<p style="color: red">{{message}}</p>
+		<h4>About</h4>
+		<ul>Application Model Number: 1.0</ul>
+		<ul>Revision Number: 0.0</ul>
+		<ul>DCM serial number: 235-457-553</ul>
+		<h5>Made by Dasani Skwad</h5>
 	</div>
 </template>
 <script>
+import { QInput, QBtn } from "quasar";
 export default {
 	name: "home",
+	components: {
+		QInput,
+		QBtn
+	},
 	data: function() {
 		return {
 			username: "",
@@ -21,17 +33,27 @@ export default {
 	},
 	methods: {
 		doLogin: function(event) {
-      if(event){
-        this.$store.dispatch("login", {
-            username: this.username,
-            password: this.password
-          }).then(() => {
-            this.$router.push('/DashBoard')
-          }).catch((err =>{
-            this.message = err
-          }))
-      }
+			if (event) {
+				this.$store
+					.dispatch("login", {
+						username: this.username,
+						password: this.password
+					})
+					.then(() => {
+						this.$router.push("/DashBoard");
+					})
+					.catch(err => {
+						this.message = err;
+					});
+			}
 		}
 	}
 };
 </script>
+
+<style lang="css">
+	.login{
+		width: 30%;
+		margin: auto; 
+	}
+</style>

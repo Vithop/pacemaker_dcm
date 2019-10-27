@@ -1,27 +1,42 @@
 <template>
 	<div>
-		<h1>This is a sign up page</h1>
-		<p>User Name</p>
-		<input v-model="username" placeholder="User Name" />
-		<p>Password</p>
-		<input v-model="tempPassWord1" placeholder="Password" />
-		<p>Retype Password</p>
-		<input v-model="tempPassWord2" placeholder="One more time" />
-		<div>
-			<button v-on:click="doSignUp" class="btn">Sign Up</button>
+		<h2>Sign Up</h2>
+		<div class="login">
+			<q-input rounded outlined v-model="username" hint="User Name" />
+			<br>
+			<q-input v-model="tempPassWord1" rounded outlined :type="isPwd ? 'password' : 'text'" hint="Password">
+				<template v-slot:append>
+				<q-icon
+					:name="isPwd ? 'ion-eye-off':'ion-eye'"
+					class="cursor-pointer"
+					v-on:click="isPwd = !isPwd"
+				/>
+				</template>
+			</q-input>
+			<br>
+			<q-input rounded outlined v-model="tempPassWord2" type="password" hint="Retype Password" />
 		</div>
-		<p>{{message}}</p>
+		<q-btn unelevated rounded color="teal-13" label="Login"  v-on:click="doSignUp" />
+		<p style="color: red" >{{message}}</p>
 	</div>
 </template>
 
 <script>
+import { QInput, QBtn, QIcon } from "quasar";
+
 export default {
 	name: "signUp",
+	components:{
+		QInput,
+		QBtn,
+		QIcon
+	},
 	data: function() {
 		return {
 			username: "",
 			tempPassWord1: "",
 			tempPassWord2: "",
+			isPwd:true,
 			message: ""
 		};
 	},
