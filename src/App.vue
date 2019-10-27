@@ -1,12 +1,33 @@
 <template>
   <div id="app">
-    <div id="nav">
-      <router-link to="/">Login</router-link> |
-      <router-link to="/SignUp">Sign Up</router-link>
-    </div>
-    <router-view/>
+    <q-layout view="hHh lpR fFf">
+    
+      <SideBar v-if="this.$store.state.users[0] != null"/>
+      <q-page-container>
+        <div id="nav">
+          <div id="welcomePage" v-if="this.$store.state.users[0] === null">
+            <router-link to="/">Login</router-link> |
+            <router-link to="/SignUp">Sign Up</router-link>
+          </div>
+          <div v-else> should be logged in </div>
+        </div>
+        <router-view/>
+      </q-page-container>
+    </q-layout>
   </div>
 </template>
+
+<script>
+import SideBar from "@/component/SideBar";
+  // console.log(this.$store.state.users);
+export default {
+  components:{
+    SideBar
+  }
+
+
+}
+</script>
 
 <style lang="scss">
 #app {
@@ -17,7 +38,7 @@
   color: #2c3e50;
 }
 
-#nav {
+#welcomePage {
   padding: 30px;
 
   a {
