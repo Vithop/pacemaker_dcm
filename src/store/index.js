@@ -43,6 +43,9 @@ export default new Vuex.Store({
           throw new Error("User doesn't exist!! Go Sign Up!")
         }
       })
+    },
+    logout({commit}){
+      commit('setCurrentUsers',{username:''})
     }
   },
   modules: {
