@@ -13,22 +13,43 @@
     >
       <!-- drawer content -->
       <q-list padding class="sidebar">
-        <q-item active clickable v-ripple>
+        <q-item 
+          active
+          clickable
+          v-ripple
+          to="/DashBoard"
+        >
           <q-item-section avatar>
             <q-icon name="ion-pulse" />
           </q-item-section>
         </q-item>
-        <q-item active clickable v-ripple>
+        <q-item 
+          active
+          clickable
+          v-ripple
+          to="/PacingModes"
+        >
           <q-item-section avatar>
             <q-icon name="ion-heart" />
           </q-item-section>
         </q-item>
-        <q-item active clickable v-ripple>
+
+        <q-item 
+          active
+          clickable
+          v-ripple
+          v-on:click="signOut"
+        >
           <q-item-section avatar>
-            <q-icon name="ion-options" />
+            <q-icon name="ion-log-out" />
           </q-item-section>
         </q-item>
-        <q-item active clickable v-ripple>
+
+        <q-item 
+          active
+          clickable
+          v-ripple
+        >
           <q-item-section avatar>
             <q-icon name="ion-settings" />
           </q-item-section>
@@ -38,9 +59,18 @@
 </template>
 
 <script>
+
 export default {
-  name: "sideBar"
-};
+
+  name: "sideBar",
+  methods: {
+    signOut: function(event) {
+      if(event) {
+        this.$store.dispatch("logout")
+      }
+    }
+  }
+}
 </script>
 
 <style scoped>
