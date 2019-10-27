@@ -31,6 +31,10 @@ const routes = [
   {
     path: '/DashBoard',
     name: 'dashboard',
+    beforeEnter: (to, from, next) => {
+      if(store.state.currentUser == '')next('/')
+      else next()
+    },
     component: () => import('../views/DashBoard.vue')
   }
 ]

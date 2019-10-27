@@ -1,15 +1,14 @@
 <template>
 	<div>
 		<h2 v-if="username == ''">Login</h2>
-		<h2 v-else>Hello {{username}}</h2>
+		<h2 v-else>Welcome {{username}}</h2>
 		<div class="login">
 			<q-input rounded outlined v-model="username" hint="User Name" />
 			<br>
 			<q-input rounded outlined v-model="password" type="password" hint="Password" />
 		</div>
-		<button v-on:click="doLogin">Login</button>
-		<p>{{message}}</p>
-		<br />
+		<q-btn unelevated rounded color="teal-13" label="Login"  v-on:click="doLogin" />
+		<p style="color: red">{{message}}</p>
 		<h4>About</h4>
 		<ul>Application Model Number: 1.0</ul>
 		<ul>Revision Number: 0.0</ul>
@@ -18,12 +17,13 @@
 	</div>
 </template>
 <script>
-import { QInput } from "quasar";
+import { QInput, QBtn } from "quasar";
 export default {
-	components: {
-		QInput
-	},
 	name: "home",
+	components: {
+		QInput,
+		QBtn
+	},
 	data: function() {
 		return {
 			username: "",

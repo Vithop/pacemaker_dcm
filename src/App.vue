@@ -19,7 +19,6 @@
 
 <script>
 import SideBar from "@/components/SideBar";
-  // console.log(this.$store.state.users);
 export default {
   components:{
     SideBar
