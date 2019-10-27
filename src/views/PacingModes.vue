@@ -1,11 +1,11 @@
 <template>
 <div>
-  dashboard view
+  pacing mode view
 </div>
 </template>
 <script>
 export default {
-    name:'dashboard'
+    name:'pacingmodes'
 }
 </script>
 
