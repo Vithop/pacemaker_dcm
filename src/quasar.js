@@ -19,6 +19,8 @@ import {
   QItem,
   QItemSection,
   QItemLabel,
+  QSpace,
+  Ripple
 } from 'quasar'
 
 Vue.use(Quasar, {
@@ -37,8 +39,10 @@ Vue.use(Quasar, {
     QItem,
     QItemSection,
     QItemLabel,
+    QSpace
   },
   directives: {
+    Ripple
   },
   plugins: {
   },

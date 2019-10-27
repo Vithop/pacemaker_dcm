@@ -36,6 +36,15 @@ const routes = [
       else next()
     },
     component: () => import('../views/DashBoard.vue')
+  },
+  {
+    path: '/PacingModes',
+    name: 'pacingmodes',
+    beforeEnter: (to, from, next) => {
+      if(store.state.currentUser == '')next('/')
+      else next()
+    },
+    component: () => import('../views/PacingModes.vue')
   }
 ]
 
