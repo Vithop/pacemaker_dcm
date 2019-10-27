@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import SideBar from "@/component/SideBar";
+import SideBar from "@/components/SideBar";
   // console.log(this.$store.state.users);
 export default {
   components:{
