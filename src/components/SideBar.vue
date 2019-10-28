@@ -66,7 +66,9 @@ export default {
   methods: {
     signOut: function(event) {
       if(event) {
-        this.$store.dispatch("logout")
+        this.$store.dispatch("logout").then(()=>{
+          this.$router.push('/')
+        })
       }
     }
   }
