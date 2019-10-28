@@ -74,8 +74,12 @@ export default {
 
 <style scoped>
 .small {
-	max-width: 90%;
-	margin: 150px auto;
+	max-width: 50%;
+  max-height: 50%;
+}
+.chartjs-render-monitor {
+  width: 400px;
+  height: 400px;
 }
 .my-card{
   width: 100%;
