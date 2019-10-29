@@ -10,18 +10,18 @@ const routes = [
     path: '/',
     name: 'home',
     component: Home,
-    beforeEnter: (to, from, next) => {
-      if(store.state.currentUser != '')next('/DashBoard')
-      else next()
-    }
+    // beforeEnter: (to, from, next) => {
+    //   if(store.state.currentUser != '')next('/DashBoard')
+    //   else next()
+    // }
   },
   {
     path: '/SignUp',
     name: 'signUp',
-    beforeEnter: (to, from, next) => {
-      if(store.state.currentUser != '')next('/DashBoard')
-      else next()
-    },
+    // beforeEnter: (to, from, next) => {
+    //   if(store.state.currentUser != '')next('/DashBoard')
+    //   else next()
+    // },
     // route level code-splitting
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
@@ -31,19 +31,19 @@ const routes = [
   {
     path: '/DashBoard',
     name: 'dashboard',
-    beforeEnter: (to, from, next) => {
-      if(store.state.currentUser == '')next('/')
-      else next()
-    },
+    // beforeEnter: (to, from, next) => {
+    //   if(store.state.currentUser == '')next('/')
+    //   else next()
+    // },
     component: () => import('../views/DashBoard.vue')
   },
   {
     path: '/PacingModes',
     name: 'pacingmodes',
-    beforeEnter: (to, from, next) => {
-      if(store.state.currentUser == '')next('/')
-      else next()
-    },
+    // beforeEnter: (to, from, next) => {
+    //   if(store.state.currentUser == '')next('/')
+    //   else next()
+    // },
     component: () => import('../views/PacingModes.vue')
   }
 ]
@@ -51,8 +51,10 @@ const routes = [
 const router = new VueRouter({
   routes
 })
-// router.beforeEach((to,from, next) =>{
-//   if(store.state.currentuser == '')next('/')
-//   else next('/dashboard')
-// })
+router.beforeEach((to,from, next) =>{
+  if(to != '/SignUp'){
+    if(store.state.currentuser == '')next('/')
+    else next()
+  }
+})
 export default router

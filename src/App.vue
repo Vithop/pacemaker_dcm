@@ -3,7 +3,7 @@
 		<q-layout view="hHh lpR fFf">
 			<SideBar v-if="this.$store.state.currentUser != ''" />
 			<q-page-container>
-        <NavBar/>
+				<NavBar />
 				<router-view />
 			</q-page-container>
 		</q-layout>
@@ -15,10 +15,10 @@ import SideBar from "@/components/SideBar";
 import NavBar from "@/components/NavBar";
 
 export default {
-  name: "app",
+	name: "app",
 	components: {
-    SideBar,
-    NavBar,
+		SideBar,
+		NavBar
 	}
 };
 </script>
@@ -31,7 +31,7 @@ export default {
 	text-align: center;
 	color: #2c3e50;
 }
-p{
-	font-size: 15px
+p {
+	font-size: 15px;
 }
 </style>

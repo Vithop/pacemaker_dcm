@@ -45,7 +45,7 @@ export default new Vuex.Store({
       })
     },
     logout({commit}){
-      commit('setCurrentUsers',{username:''})
+      commit('setCurrentUsers','')
     }
   },
   modules: {
