@@ -58,7 +58,7 @@ export default {
 					},
 					{
 						label: "Data Two",
-						backgroundColor: "#027be3",
+						backgroundColor: "#26a69a",
 						data: [this.getRandomInt(), this.getRandomInt()]
 					}
 				]
