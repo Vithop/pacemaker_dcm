@@ -6,8 +6,7 @@
 		<div class="q-pa-md row items-start q-gutter-md">
 			<q-card class="my-card bg-grey-3 text-grey-10">
 				<q-card-section>
-					<div class="text-h6">Our Changing Planet</div>
-					<div class="text-subtitle2">by John Doe</div>
+					<div class="text-h6">Serial Monitor from Pacemaker</div>
 				</q-card-section>
 
 				<q-card-section>{{ serialMonitor }}</q-card-section>
@@ -54,12 +53,12 @@ export default {
 				datasets: [
 					{
 						label: "Data One",
-						backgroundColor: "#f87979",
+						backgroundColor: "#027be3",
 						data: [this.getRandomInt(), this.getRandomInt()]
 					},
 					{
-						label: "Data One",
-						backgroundColor: "#f87979",
+						label: "Data Two",
+						backgroundColor: "#027be3",
 						data: [this.getRandomInt(), this.getRandomInt()]
 					}
 				]

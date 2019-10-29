@@ -1,7 +1,7 @@
 <template>
 	<div id="app">
 		<q-layout view="hHh lpR fFf">
-			<SideBar v-if="this.$store.state.currentUser != ''" />
+			<SideBar v-if="isLoggedIn" />
 			<q-page-container>
 				<NavBar />
 				<router-view />
@@ -19,6 +19,11 @@ export default {
 	components: {
 		SideBar,
 		NavBar
+	},
+	computed: {
+		isLoggedIn(){
+            return (this.$store.state.currentUser != '')
+        }
 	}
 };
 </script>
