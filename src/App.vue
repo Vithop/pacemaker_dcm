@@ -20,6 +20,9 @@ export default {
 		SideBar,
 		NavBar
 	},
+	beforeCreate: function(){
+		this.$store.dispatch("logout")
+	},
 	computed: {
 		isLoggedIn(){
             return (this.$store.state.currentUser != '')

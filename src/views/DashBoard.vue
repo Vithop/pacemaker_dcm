@@ -11,7 +11,7 @@
 
 				<q-card-section>{{ serialMonitor }}</q-card-section>
 
-				<q-separator/>
+				<q-separator />
 
 				<q-card-actions>
 					<q-btn flat v-on:click="fillData()">Randomize</q-btn>
@@ -22,25 +22,21 @@
 </template>
 <script>
 import LineChart from "../charts/LineChart";
-import {
-  QCard,
-  QCardSection,
-  QCardActions,
-  QSeparator
-} from 'quasar'
+import { QCard, QCardSection, QCardActions, QSeparator } from "quasar";
 export default {
 	name: "dashboard",
 	components: {
-    LineChart,
-    QCard,
-    QCardSection,
-    QCardActions,
-    QSeparator
+		LineChart,
+		QCard,
+		QCardSection,
+		QCardActions,
+		QSeparator
 	},
 	data() {
 		return {
-      datacollection: null,
-      serialMonitor: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.'
+			datacollection: null,
+			serialMonitor:
+				"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
 		};
 	},
 	mounted() {
@@ -74,13 +70,13 @@ export default {
 <style scoped>
 .small {
 	max-width: 50%;
-  max-height: 50%;
+	max-height: 50%;
 }
 .chartjs-render-monitor {
-  width: 400px;
-  height: 400px;
+	width: 400px;
+	height: 400px;
 }
-.my-card{
-  width: 100%;
+.my-card {
+	width: 100%;
 }
 </style>
