@@ -97,6 +97,7 @@
     ]
   },
   "vuese":{
-    "include": ["**/*.vue"]
+    "include": ["**/*.vue"],
+    "outDir": "docs"
   }
 }
