@@ -16,7 +16,20 @@ export default new Vuex.Store({
   state: {
     users: ["admin"],
     passwords: ["password123"],
-    currentUser: ""
+    currentUser: "",
+    newusers:[
+      {
+        userName:"admin",
+        paceType:"AOO",
+        atricalPulseAmp:0,
+        atricalPulseWidth: 0.5,
+        atricalRefractoryPeriod: 200,
+        VentricularPulseAmp: 4.0,
+        VentricularPulseWidth: 0.5,
+        PVARP: 200,
+        HRL: true
+      }
+    ]
   },
   mutations: {
     signUp(state, payload) {

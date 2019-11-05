@@ -141,7 +141,7 @@
 </template>
 <script>
 import { QRange, QBadge, QSlider, QToggle, QTabs, QTab } from "quasar";
-
+//Paceing modes and parameters view
 export default {
   name: "pacingmodes",
   components: {
@@ -163,7 +163,6 @@ export default {
       atricalPulseAmp: 4.0,
       atricalPulseWidth: 0.5,
       atricalRefractoryPeriod: 200,
-
       VentricularPulseAmp: 4.0,
       VentricularPulseWidth: 0.5,
 

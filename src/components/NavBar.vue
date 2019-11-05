@@ -18,7 +18,7 @@
 
 <script>
 import { QTabs, QRouteTab } from "quasar";
-
+// Navagation Bar
 export default {
   name: "navbar",
 	components: {

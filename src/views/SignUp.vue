@@ -29,7 +29,7 @@
 
 <script>
 import { QInput, QBtn, QIcon } from "quasar";
-
+// Sign Up Screen
 export default {
 	name: "signUp",
 	components: {

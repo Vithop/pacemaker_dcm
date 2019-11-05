@@ -18,6 +18,7 @@
 </template>
 <script>
 import { QInput, QBtn } from "quasar";
+//Login Screen
 export default {
 	name: "home",
 	components: {
@@ -26,12 +27,16 @@ export default {
 	},
 	data: function() {
 		return {
+			// Takes User name input
 			username: "",
+			// Take Password input
 			password: "",
+			// Displays messages for user when submiting info
 			message: ""
 		};
 	},
 	methods: {
+		// Used to submit login info and move to Dashboard screen if succesfull
 		doLogin: function(event) {
 			if (event) {
 				this.$store
