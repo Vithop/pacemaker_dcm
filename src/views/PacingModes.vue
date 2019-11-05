@@ -31,17 +31,17 @@
           />
         </div>
 
-        <div class="q-pa-md">
+        <div class="q-pa-md" v-if="paceType === 'AOO' || paceType === 'AAI'">
           <q-item-label header class="pace-rate-label">Atrial Pulse Amplitude</q-item-label>
 
           <span class="slider-badge">
-            <q-badge color="primary">Atrial Pulse Amplitude (3.5 - 7.0V): {{ atricalPulseAmp }}</q-badge>
+            <q-badge color="primary">Atrial Pulse Amplitude (0.5 - 3.2V): {{ atricalPulseAmp }}</q-badge>
           </span>
 
-          <q-slider v-model="atricalPulseAmp" :min="3.5" :max="7.0" :step="0.5" color="blue" label />
+          <q-slider v-model="atricalPulseAmp" :min="0.5" :max="3.2" :step="0.5" color="blue" label />
         </div>
 
-        <div class="q-pa-md">
+        <div class="q-pa-md" v-if="paceType == 'AOO' || paceType == 'AAI'">
           <q-item-label header class="pace-rate-label">Atrial Pulse Width</q-item-label>
 
           <span class="slider-badge">
@@ -58,7 +58,7 @@
           />
         </div>
 
-        <div class="q-pa-md">
+        <div class="q-pa-md" v-if="paceType == 'AAI'">
           <q-item-label header class="pace-rate-label">Atrial Refactory Period</q-item-label>
 
           <span class="slider-badge">
@@ -77,7 +77,7 @@
           />
         </div>
 
-        <div class="q-pa-md">
+        <div class="q-pa-md" v-if="paceType == 'AAI'">
           <q-item-label
             header
             class="pace-rate-label"
@@ -90,8 +90,9 @@
           <q-slider v-model="PVARP" :min="150" :max="500" :step="10" color="blue" label />
         </div>
       </div>
+
       <div class="col2">
-        <div class="q-pa-md">
+        <div class="q-pa-md" v-if="paceType == 'AAI' || paceType == 'VVI'">
           <q-item-label header class="pace-rate-label">Hysteresis Rate Limit</q-item-label>
 
           <span class="slider-badge">
@@ -101,7 +102,7 @@
           <q-toggle v-model="HRL" color="green" />
         </div>
 
-        <div class="q-pa-md">
+        <div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI'">
           <q-item-label header class="pace-rate-label">Ventricular Pulse Amplitude</q-item-label>
 
           <span class="slider-badge">
@@ -118,11 +119,12 @@
           />
         </div>
 
-        <div class="q-pa-md">
+        <div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI'">
           <q-item-label header class="pace-rate-label">Ventricular Pulse Width</q-item-label>
 
           <span class="slider-badge">
             <q-badge color="red">Ventricular Pulse Width (0.1 - 1.9ms): {{ VentricularPulseWidth }}</q-badge>
+            
           </span>
 
           <q-slider
@@ -154,13 +156,13 @@ export default {
   },
   data() {
     return {
-      paceType: null,
+      paceType: "AOO",
       paceOptions: ["AOO", "VOO", "AAI", "VVI"],
       rateLimit: {
         min: 30,
         max: 175
       },
-      atricalPulseAmp: 4.0,
+      atricalPulseAmp: 2.0,
       atricalPulseWidth: 0.5,
       atricalRefractoryPeriod: 200,
       VentricularPulseAmp: 4.0,
