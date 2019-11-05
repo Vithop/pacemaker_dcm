@@ -29,6 +29,7 @@
 
 <script>
 import { QInput, QBtn, QIcon } from "quasar";
+// @vuese
 // Sign Up Screen
 export default {
 	name: "signUp",

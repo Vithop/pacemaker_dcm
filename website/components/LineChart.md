@@ -1,22 +1,24 @@
-# LineChart
+# linechart
+
+Takes data to create Line Graphs
 
 ## Props
 
-<!-- @vuese:LineChart:props:start -->
+<!-- @vuese:linechart:props:start -->
 |Name|Description|Type|Required|Default|
 |---|---|---|---|---|
 |options|-|—|`false`|-|
 
-<!-- @vuese:LineChart:props:end -->
+<!-- @vuese:linechart:props:end -->
 
 
 ## MixIns
 
-<!-- @vuese:LineChart:mixIns:start -->
+<!-- @vuese:linechart:mixIns:start -->
 |MixIn|
 |---|
 |reactiveProp|
 
-<!-- @vuese:LineChart:mixIns:end -->
+<!-- @vuese:linechart:mixIns:end -->
 
 

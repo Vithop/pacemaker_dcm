@@ -31,6 +31,15 @@ npm run test:unit
 ```
 npm run lint
 ```
+### The Following two commands need Vuese CLI to execute
+### Generate Documentation with Vuese
+```
+vuese gen
+```
+### Serves Documentation with Vuese
+```
+vuese serve
+```
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).

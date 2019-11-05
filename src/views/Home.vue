@@ -18,6 +18,7 @@
 </template>
 <script>
 import { QInput, QBtn } from "quasar";
+// @vuese
 //Login Screen
 export default {
 	name: "home",
@@ -36,6 +37,7 @@ export default {
 		};
 	},
 	methods: {
+		// @vuese
 		// Used to submit login info and move to Dashboard screen if succesfull
 		doLogin: function(event) {
 			if (event) {

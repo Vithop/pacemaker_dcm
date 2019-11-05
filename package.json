@@ -95,5 +95,8 @@
       "vue-cli-service lint",
       "git add"
     ]
+  },
+  "vuese":{
+    "include": ["**/*.vue"]
   }
 }

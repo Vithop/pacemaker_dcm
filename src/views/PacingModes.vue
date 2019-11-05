@@ -143,7 +143,8 @@
 </template>
 <script>
 import { QRange, QBadge, QSlider, QToggle, QTabs, QTab } from "quasar";
-//Paceing modes and parameters view
+// @vuese
+// Pacing modes and parameters view
 export default {
   name: "pacingmodes",
   components: {
