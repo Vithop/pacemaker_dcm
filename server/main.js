@@ -20,22 +20,22 @@
 //   console.log('Error: ', err.message)
 // })
 
-const SerialPort = require('serialport');
+// const SerialPort = require('serialport');
 
-SerialPort.list((err, ports) => {
-  if (err) {
-    return console.log(err);
-  }
+// SerialPort.list((err, ports) => {
+//   if (err) {
+//     return console.log(err);
+//   }
 
-  ports.forEach((path) => {
-    console.log(path);
+//   ports.forEach((path) => {
+//     console.log(path);
 
-    let { comName } = path;
+//     let { comName } = path;
 
-    const port = new SerialPort(comName, {
-      baudRate: 9600
-    }, console.log);
+//     const port = new SerialPort(comName, {
+//       baudRate: 9600
+//     }, console.log);
 
-    port.on('data', console.log);
-  });
-});
+//     port.on('data', console.log);
+//   });
+// });

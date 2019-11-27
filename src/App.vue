@@ -13,6 +13,8 @@
 <script>
 import SideBar from "@/components/SideBar";
 import NavBar from "@/components/NavBar";
+import SerialPort from "serialport";
+
 
 export default {
 	name: "app",
@@ -20,13 +22,34 @@ export default {
 		SideBar,
 		NavBar
 	},
-	beforeCreate: function(){
+	beforeCreate: function(){ 
 		this.$store.dispatch("logout")
 	},
 	computed: {
 		isLoggedIn(){
             return (this.$store.state.currentUser != '')
         }
+	},
+	created: function() {
+		// const serialPort = require('serialport');
+
+		SerialPort.list().then ((ports) => {
+			ports.forEach((path) => {
+				console.log(path);
+
+				let { comName } = path;
+
+				const port = new SerialPort(comName, {
+					baudRate: 9600
+				}, console.log);
+				
+				port.on('data', console.log);
+			});
+		}).catch((err) =>{
+			return console.log(err);
+		});
+
+		
 	}
 };
 </script>
