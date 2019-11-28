@@ -21,6 +21,8 @@ export default new Vuex.Store({
       {
         userName:"admin",
         paceType:"AOO",
+        lowerRateLimit:0,
+        upperRateLimit:0,
         atricalPulseAmp:0,
         atricalPulseWidth: 0.5,
         atricalRefractoryPeriod: 200,
@@ -30,7 +32,7 @@ export default new Vuex.Store({
         HRL: true
       }
     ]
-  },
+  }, 
   mutations: {
     signUp(state, payload) {
       state.users.push(payload.username);
@@ -43,7 +45,6 @@ export default new Vuex.Store({
   },
   actions: {
     signUp({ commit }, payload) {
-      // TODO: Add encrytion here and in login
       bcrypt.hash(payload.password, saltRounds).then(hash => {
         commit("signUp", {
           username: payload.username,
