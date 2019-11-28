@@ -17,9 +17,9 @@ export default new Vuex.Store({
     users: ["admin"],
     passwords: ["password123"],
     currentUser: "",
-    newusers:[
-      {
-        userName:"admin",
+    //newUsers should replace users once working
+    newUsers:{
+      "admin":{
         paceType:"AOO",
         lowerRateLimit:0,
         upperRateLimit:0,
@@ -31,16 +31,44 @@ export default new Vuex.Store({
         PVARP: 200,
         HRL: true
       }
-    ]
+    }
   }, 
   mutations: {
     signUp(state, payload) {
       state.users.push(payload.username);
       state.passwords.push(payload.password);
       state.currentUser = payload.username;
+      state.newUsers[payload.username] = 
+      {
+        paceType:"AOO",
+        lowerRateLimit:0,
+        upperRateLimit:0,
+        atricalPulseAmp:0,
+        atricalPulseWidth: 0.5,
+        atricalRefractoryPeriod: 200,
+        VentricularPulseAmp: 4.0,
+        VentricularPulseWidth: 0.5,
+        PVARP: 200,
+        HRL: true
+      };
     },
     setCurrentUsers(state, username) {
       state.currentUser = username;
+    },
+    setProgramableParameters(state, payload){
+      state.newUsers[state.currentUser] = 
+      {
+        paceType:payload.paceType,
+        lowerRateLimit:payload.lowerRateLimit,
+        upperRateLimit:payload.upperRateLimit,
+        atricalPulseAmp:payload.atricalPulseAmp,
+        atricalPulseWidth: payload.atricalPulseWidth,
+        atricalRefractoryPeriod: payload.atricalRefractoryPeriod,
+        VentricularPulseAmp: payload.VentricularPulseAmp,
+        VentricularPulseWidth: payload.VentricularPulseWidth,
+        PVARP: payload.PVARP,
+        HRL: payload.HRL
+      };
     }
   },
   actions: {
@@ -83,7 +111,14 @@ export default new Vuex.Store({
     },
     logout({ commit }) {
       commit("setCurrentUsers", "");
+    },
+    saveUsersParameters({commit}, payload){
+      return new Promise(resolve =>{
+          commit("setProgramableParameters", payload);
+          resolve("User Parameters saved succesfully!");
+      });
     }
+
   },
   modules: {}
 });
