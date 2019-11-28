@@ -14,7 +14,7 @@
 import SideBar from "@/components/SideBar";
 import NavBar from "@/components/NavBar";
 import SerialPort from "serialport";
-
+import Readline from "@serialport/parser-readline";
 
 export default {
 	name: "app",
@@ -32,6 +32,8 @@ export default {
 	},
 	created: function() {
 		// const serialPort = require('serialport');
+		// var number = 26;
+		var devicePort;
 
 		SerialPort.list().then ((ports) => {
 			ports.forEach((path) => {
@@ -39,15 +41,22 @@ export default {
 
 				let { comName } = path;
 
-				const port = new SerialPort(comName, {
-					baudRate: 9600
-				}, console.log);
-				
-				port.on('data', console.log);
+				const port = new SerialPort(comName, {baudRate: 9600}, console.log);
+
+				if (path.manufacturer === "Arduino LLC (www.arduino.cc)") {
+					devicePort = path;
+					console.log("yoyoyo", devicePort);
+				}
+
+				const parser = port.pipe(new Readline({ delimiter: '\r\n' }))
+				parser.on("data", console.log)
+				// port.write("data" + 1);
 			});
-		}).catch((err) =>{
-			return console.log(err);
-		});
+		}).catch(console.log);
+
+		
+
+
 
 		
 	}
