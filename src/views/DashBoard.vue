@@ -23,6 +23,8 @@
 <script>
 import LineChart from "../charts/LineChart";
 import { QCard, QCardSection, QCardActions, QSeparator } from "quasar";
+// @vuese
+// Dashboard view where ECG and other data can be viewed
 export default {
 	name: "dashboard",
 	components: {

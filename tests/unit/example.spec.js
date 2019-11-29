@@ -1,12 +1,9 @@
-import { shallowMount } from '@vue/test-utils'
-import HelloWorld from '@/components/HelloWorld.vue'
+import { mount } from '@vue/test-utils'
+import Home from '@/views/Home.vue'
 
-describe('HelloWorld.vue', () => {
-  it('renders props.msg when passed', () => {
-    const msg = 'new message'
-    const wrapper = shallowMount(HelloWorld, {
-      propsData: { msg }
-    })
-    expect(wrapper.text()).toMatch(msg)
+describe('Home.vue', () => {
+  const wrapper = mount(Home)
+  it('renders the correct markup', () => {
+    expect(wrapper.html()).toContain('<h2>Login</h2>')
   })
 })

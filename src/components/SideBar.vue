@@ -40,6 +40,8 @@
 </template>
 
 <script>
+// @vuese
+// Controls navagation after login
 export default {
 	name: "sideBar",
 	methods: {

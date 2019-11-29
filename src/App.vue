@@ -3,7 +3,7 @@
 		<q-layout view="hHh lpR fFf">
 			<SideBar v-if="isLoggedIn" />
 			<q-page-container>
-				<NavBar />
+				<TopBar />
 				<router-view />
 			</q-page-container>
 		</q-layout>
@@ -12,7 +12,7 @@
 
 <script>
 import SideBar from "@/components/SideBar";
-import NavBar from "@/components/NavBar";
+import TopBar from "@/components/TopBar";
 import SerialPort from "serialport";
 import Readline from "@serialport/parser-readline";
 import Ready from "@serialport/parser-ready";
@@ -22,7 +22,7 @@ export default {
 	name: "app",
 	components: {
 		SideBar,
-		NavBar
+		TopBar
 	},
 	beforeCreate: function(){ 
 		this.$store.dispatch("logout")

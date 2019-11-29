@@ -1,6 +1,6 @@
 <template>
-	<div id="nav">
-        <span v-if="isLoggedIn" class="navbar" >
+	<div id="top">
+        <span v-if="isLoggedIn" class="topbar" >
             <p class="q-mr-xl">Welcome to {{this.$store.state.currentUser}}'s DCM</p>
             <p class="q-mr-sm">Pacemaker status  </p>
             <q-icon v-if="!isPaceMakerConnected" name="ion-radio-button-on" size="20px" color="red-13"/>
@@ -18,9 +18,10 @@
 
 <script>
 import { QTabs, QRouteTab } from "quasar";
-
+// @vuese
+// Used also used for login flow and display user info
 export default {
-  name: "navbar",
+  name: "topbar",
 	components: {
         QTabs,
         QRouteTab,
@@ -39,7 +40,7 @@ export default {
 </script>
 
 <style scoped>
-.navbar{
+.topbar{
     display: flex;
     padding: 20px 20px 0px 20px;
     border-bottom: 2.5px solid lightgray

@@ -3,9 +3,9 @@
 		<h2 v-if="username == ''">Login</h2>
 		<h2 v-else>Welcome {{username}}</h2>
 		<div class="login">
-			<q-input rounded outlined v-model="username" hint="User Name" />
+			<q-input rounded outlined v-model="username" hint="User Name" v-on:keyup.enter="doLogin" />
 			<br>
-			<q-input rounded outlined v-model="password" type="password" hint="Password" />
+			<q-input rounded outlined v-model="password" type="password" hint="Password" v-on:keyup.enter="doLogin" />
 		</div>
 		<q-btn unelevated rounded color="teal-13" label="Login"  v-on:click="doLogin" />
 		<p style="color: red">{{message}}</p>
@@ -18,6 +18,8 @@
 </template>
 <script>
 import { QInput, QBtn } from "quasar";
+// @vuese
+//Login Screen
 export default {
 	name: "home",
 	components: {
@@ -26,12 +28,17 @@ export default {
 	},
 	data: function() {
 		return {
+			// Takes User name input
 			username: "",
+			// Take Password input
 			password: "",
+			// Displays messages for user when submiting info
 			message: ""
 		};
 	},
 	methods: {
+		// @vuese
+		// Used to submit login info and move to Dashboard screen if succesfull
 		doLogin: function(event) {
 			if (event) {
 				this.$store
