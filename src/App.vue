@@ -16,6 +16,7 @@ import NavBar from "@/components/NavBar";
 import SerialPort from "serialport";
 import Readline from "@serialport/parser-readline";
 import Ready from "@serialport/parser-ready";
+// import { resolve } from 'dns';
 
 export default {
 	name: "app",
@@ -31,93 +32,61 @@ export default {
             return (this.$store.state.currentUser != '')
         }
 	},
-	created: function() {
+	mounted: function() {
 		var number = 26;
 		var devicePort;
-
+		var parser;
+		
 		SerialPort.list().then ((ports) => {
+			var devComName;
 			ports.forEach((path) => {
+				let {comName} = path;
 				console.log(path);
-
-				// let { comName } = path;
-
 				// const port = new SerialPort(comName, {baudRate: 9600}, console.log);
-
 				if (path.manufacturer === "Arduino LLC (www.arduino.cc)") {
-					devicePort = new SerialPort(path.comName, {baudRate:9600}, console.log);
-					console.log("yoyoyo", devicePort);
-
-					var parser = devicePort.pipe(new Ready({ delimiter: 'READY' }));
-
-					// parser.on('ready', () => {
-					// 	console.log('the ready byte sequence has been received');
-
-					// 	parser = devicePort.pipe(new Readline({delimiter: '\n'}));
-					// 	if(devicePort.write("Please talk to me\n")) {
-					// 		parser.on('data', console.log); // all data after READY is received
-					// 		if(devicePort.write("Cmon Please talk to me\n")){
-					// 			parser.on('data', console.log); // all data after READY is received
-					// 		}
-					// 	}else {
-					// 		devicePort.write("Please talk to me\n");
-					// 		console.log("Please talk to me");
-					// 	}
-						
-					// 	// console.log("Please talk to me");
-						
-					// 	console.log("Cmon Please talk to me");
-					// 	devicePort.write("Why won't you talk to me\n");
-					// 	console.log("Why won't you talk to me\n");
-					// 	});
-
-					parser.on('ready', () => {
-						console.log('the ready byte sequence has been received');
-						devicePort.write("Please talk to me\n");
-						// devicePort.drain();
-					});
-					
-					parser = devicePort.pipe(new Readline({delimiter: "Please talk to me\n"}));
-					parser.on('data', (data) => {
-						console.log(data);
-						devicePort.write("Cmon Please talk to me\n");
-						// devicePort.drain();
-					}); 
-
-					parser = devicePort.pipe(new Readline({delimiter: "Cmon Please talk to me\n"}));
-					parser.on('data', (data) => {
-						console.log(data);
-						devicePort.write("Why won't you talk to me\n");
-						// devicePort.drain();
-					}); 
-					parser = devicePort.pipe(new Readline({delimiter: "\r\n"}));
-					parser.on('data', (data) => {
-						console.log(data);
-					});
-
-					// parser.on('data', console.log); // all data after READY is received
-					// devicePort.open();
-					
-					// devicePort.close();
-					// const parser2 = devicePort.pipe(new Readline({ delimiter: '\r\n' }))
-					// parser2.on("data", console.log)	
-					// devicePort.close();
+					// deviceComName = path.comName;
+					// const myPort = new SerialPort(path.comName, {baudRate:9600}, console.log);
+					// console.log("yoyoyo", myPort);
+					// resolve(comName);
+					devComName = comName;
 				}else{
 					number++;
 					console.log(number);
 					// port.close();
 				}
+			});
+			return devComName;
 
-				// port.write("data" + 1);
+		}).then((deviceComName) => {
+			console.log(deviceComName);
+			devicePort = new SerialPort(deviceComName, {baudRate:9600}, console.log);
+			console.log(devicePort);
+			// devicePort.open();
+			parser = devicePort.pipe(new Ready({ delimiter: 'READY' }));
+			parser.on('ready', () => {
+				console.log('the ready byte sequence has been received');
+				devicePort.write("Please talk to me\n");
+				// devicePort.drain();
 			});
 		}).then(() => {
-			// devicePort.open();
-			// devicePort.write("Please talk to me");
-			// console.log("Please talk to me")
-			// devicePort.write("Cmon Please talk to me");
-			// console.log("Cmon Please talk to me")
-			// devicePort.write("Why won't you talk to me");
-			// console.log("Why won't you talk to me")
-			// devicePort.close();
+			parser = devicePort.pipe(new Readline({delimiter: "No\n"}));
+			parser.on('data', (data) => {
+				console.log("2" + data);
+				devicePort.write("Cmon Please talk to me\n");
+				// devicePort.drain();
+			}); 
+		}).then(() => {
+			parser = devicePort.pipe(new Readline({delimiter: "I don't wanna\n"}));
+			parser.on('data', (data) => {
+				console.log("3" + data);
+				devicePort.write("Why won't you talk to me\n");
+				// devicePort.drain();
+			}); 
+		}).then(() => {
+			parser = devicePort.pipe(new Readline({delimiter: "Cause they're watching us\n"}));
+			parser.on('data', (data) => {
+				console.log("last read" + data);
+			});
 		}).catch(console.log);
 	}
 };
@@ -135,3 +104,36 @@ p {
 	font-size: 15px;
 }
 </style>
+
+
+
+
+
+// parser.on('ready', () => {
+// 	console.log('the ready byte sequence has been received');
+
+// 	parser = devicePort.pipe(new Readline({delimiter: '\n'}));
+// 	if(devicePort.write("Please talk to me\n")) {
+// 		parser.on('data', console.log); // all data after READY is received
+// 		if(devicePort.write("Cmon Please talk to me\n")){
+// 			parser.on('data', console.log); // all data after READY is received
+// 		}
+// 	}else {
+// 		devicePort.write("Please talk to me\n");
+// 		console.log("Please talk to me");
+// 	}
+	
+// 	// console.log("Please talk to me");
+	
+// 	console.log("Cmon Please talk to me");
+// 	devicePort.write("Why won't you talk to me\n");
+// 	console.log("Why won't you talk to me\n");
+// 	});
+
+// parser.on('data', console.log); // all data after READY is received
+// devicePort.open();
+
+// devicePort.close();
+// const parser2 = devicePort.pipe(new Readline({ delimiter: '\r\n' }))
+// parser2.on("data", console.log)	
+// devicePort.close();
