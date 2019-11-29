@@ -96,8 +96,10 @@
       "git add"
     ]
   },
-  "vuese":{
-    "include": ["**/*.vue"],
+  "vuese": {
+    "include": [
+      "**/*.vue"
+    ],
     "outDir": "docs"
   }
 }
