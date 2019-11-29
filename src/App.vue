@@ -85,7 +85,13 @@ export default {
 		}).then(() => {
 			parser = devicePort.pipe(new Readline({delimiter: "Cause they're watching us\n"}));
 			parser.on('data', (data) => {
-				console.log("last read" + data);
+				console.log("4" + data);
+			});
+		}).then(() => {
+			parser = devicePort.pipe(new Readline({delimiter: "END\n"}));
+			parser.on('data', (data) => {
+				console.log("5" + data);
+				return;
 			});
 		}).catch(console.log);
 	}
