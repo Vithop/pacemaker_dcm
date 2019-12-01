@@ -30,14 +30,7 @@
 
 				<div
 					class="q-pa-md"
-					v-if="
-            paceType === 'AOOR' ||
-              paceType === 'AAIR' ||
-              paceType === 'VOOR' ||
-              paceType === 'VVIR' ||
-              paceType === 'DOOR'
-          "
-				>
+					v-if="paceType === 'AOOR' || paceType === 'AAIR' || paceType === 'VOOR' || paceType === 'VVIR' || paceType === 'DOOR'">
 					<q-item-label header class="pace-rate-label">Maximum Sensor Rate</q-item-label>
 
 					<span class="slider-badge">
@@ -59,13 +52,7 @@
 
 				<div
 					class="q-pa-md"
-					v-if="
-            paceType === 'AOO' ||
-              paceType === 'AAI' ||
-              paceType === 'AOOR' ||
-              paceType === 'AAIR'
-          "
-				>
+					v-if="paceType === 'AOO' ||  paceType === 'AAI' ||  paceType === 'AOOR' || paceType === 'AAIR'">
 					<q-item-label header class="pace-rate-label">Atrial Pulse Amplitude</q-item-label>
 
 					<span class="slider-badge">
@@ -88,13 +75,7 @@
 
 				<div
 					class="q-pa-md"
-					v-if="
-            paceType == 'AOO' ||
-              paceType == 'AAI' ||
-              paceType === 'AOOR' ||
-              paceType === 'AAIR'
-          "
-				>
+					v-if="paceType == 'AOO' || paceType == 'AAI' || paceType === 'AOOR' || paceType === 'AAIR'">
 					<q-item-label header class="pace-rate-label">Atrial Pulse Width</q-item-label>
 
 					<span class="slider-badge">
@@ -160,7 +141,7 @@
 			<div class="col2">
 				<div
 					class="q-pa-md"
-					v-if="paceType == 'AAI' || paceType == 'VVI' || paceType == 'AAI' || paceType == 'VVI'">
+					v-if="paceType == 'AAI' || paceType == 'VVI' || paceType == 'AAIR' || paceType == 'VVIR'">
 					<q-item-label header class="pace-rate-label">Hysteresis Rate Limit</q-item-label>
 
 					<span class="slider-badge">
@@ -207,14 +188,7 @@
 
 				<div
 					class="q-pa-md"
-					v-if="
-            paceType === 'AOOR' ||
-              paceType === 'AAIR' ||
-              paceType === 'VOOR' ||
-              paceType === 'VVIR' ||
-              paceType === 'DOOR'
-          "
-				>
+					v-if="paceType === 'AOOR' ||  paceType === 'AAIR' || paceType === 'VOOR' || paceType === 'VVIR' || paceType === 'DOOR'">
 					<q-item-label header class="pace-rate-label">Reaction Time</q-item-label>
 
 					<span class="slider-badge">
@@ -226,14 +200,7 @@
 
 				<div
 					class="q-pa-md"
-					v-if="
-            paceType === 'AOOR' ||
-              paceType === 'AAIR' ||
-              paceType === 'VOOR' ||
-              paceType === 'VVIR' ||
-              paceType === 'DOOR'
-          "
-				>
+					v-if="paceType === 'AOOR' ||  paceType === 'AAIR' || paceType === 'VOOR' || paceType === 'VVIR' || paceType === 'DOOR'">
 					<q-item-label header class="pace-rate-label">Response Factor</q-item-label>
 
 					<span class="slider-badge">
@@ -369,17 +336,17 @@ export default {
 				"DOOR"
 			],
 			lowerRateLimit: 30,
-			upperRateLimit: 175,
-			maxSensorRate: 5,
-			fixedAvDelay: 5,
+			upperRateLimit: 120,
+			maxSensorRate: 120,
+			fixedAvDelay: 150,
 			atricalPulseAmp: 2.0,
 			atricalPulseWidth: 0.5,
-			atricalSensitivity: 1,
-			ARP: 200,
+			atricalSensitivity: 2.5,
+			ARP: 250,
 			ventricularPulseAmp: 4.0,
 			ventricularPulseWidth: 0.5,
 			ventricularSensitivity: 1,
-			VRP: 200,
+			VRP: 320,
 			PVARP: 200,
 			HRL: true,
 			rateSmoothing: 1,
