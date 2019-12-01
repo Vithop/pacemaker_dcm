@@ -39,7 +39,32 @@ export default {
         isLoggedIn(){
             return (this.$store.state.currentUser != '')
         }
-    },
+	},
+	methods: {
+		getDeviceComName(manufacturer) {
+			SerialPort.list().then ((ports) => {
+			var devComName;
+			ports.forEach((path) => {
+				let {comName} = path;
+				console.log(path);
+				// const port = new SerialPort(comName, {baudRate: 9600}, console.log);
+				if (path.manufacturer === manufacturer)   {
+					// deviceComName = path.comName;
+					// const myPort = new SerialPort(path.comName, {baudRate:9600}, console.log);
+					// console.log("yoyoyo", myPort);
+					// resolve(comName);
+					devComName = comName;
+				}
+			});
+			return devComName;
+
+		});
+		},
+		sendData(){
+			
+		}
+
+	},
     mounted: function(){
         var devicePort;
 		var parser;
