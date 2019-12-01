@@ -30,20 +30,13 @@
 
 				<div
 					class="q-pa-md"
-					v-if="paceType === 'AOOR' || paceType === 'AAIR' || paceType === 'VOOR' || paceType === 'VVIR' || paceType === 'DOOR'"
-				>
-					<q-item-label header class="pace-rate-label">Maximum Sensor Rate</q-item-label>
-
-					<span class="slider-badge">
-						<q-badge color="secondary">Maximum Sensor Rate (50 - 175ppm): {{ atricalPulseAmp }}</q-badge>
-					</span>
-
-					<q-slider v-model="maxSensorRate" :min="50" :max="175" markers :step="5" color="green" label />
-				</div>
-
-				<div
-					class="q-pa-md"
-					v-if="paceType === 'AOOR' || paceType === 'AAIR' || paceType === 'VOOR' || paceType === 'VVIR' || paceType === 'DOOR'"
+					v-if="
+            paceType === 'AOOR' ||
+              paceType === 'AAIR' ||
+              paceType === 'VOOR' ||
+              paceType === 'VVIR' ||
+              paceType === 'DOOR'
+          "
 				>
 					<q-item-label header class="pace-rate-label">Maximum Sensor Rate</q-item-label>
 
@@ -61,17 +54,25 @@
 						<q-badge color="secondary">Fixed AV Delay (70 - 300ms): {{ fixedAvDelay }}</q-badge>
 					</span>
 
-					<q-slider v-model="fixedAvDelay" :min="70" :max="300" markers :step="5" color="green" label />
+					<q-slider v-model="fixedAvDelay" :min="70" :max="300" markers :step="10" color="green" label />
 				</div>
 
 				<div
 					class="q-pa-md"
-					v-if="paceType === 'AOO' || paceType === 'AAI' || paceType === 'AOOR' || paceType === 'AAIR'"
+					v-if="
+            paceType === 'AOO' ||
+              paceType === 'AAI' ||
+              paceType === 'AOOR' ||
+              paceType === 'AAIR'
+          "
 				>
 					<q-item-label header class="pace-rate-label">Atrial Pulse Amplitude</q-item-label>
 
 					<span class="slider-badge">
-						<q-badge color="primary">Atrial Pulse Amplitude (0.5 - 3.2V): {{ atricalPulseAmp }}</q-badge>
+						<q-badge color="primary">
+							Atrial Pulse Amplitude (0.5 - 3.2V):
+							{{ atricalPulseAmp }}
+						</q-badge>
 					</span>
 
 					<q-slider
@@ -79,7 +80,7 @@
 						:min="0.5"
 						:max="3.2"
 						markers
-						:step="0.5"
+						:step="0.1"
 						color="blue"
 						label
 					/>
@@ -87,12 +88,20 @@
 
 				<div
 					class="q-pa-md"
-					v-if="paceType == 'AOO' || paceType == 'AAI' || paceType === 'AOOR' || paceType === 'AAIR'"
+					v-if="
+            paceType == 'AOO' ||
+              paceType == 'AAI' ||
+              paceType === 'AOOR' ||
+              paceType === 'AAIR'
+          "
 				>
 					<q-item-label header class="pace-rate-label">Atrial Pulse Width</q-item-label>
 
 					<span class="slider-badge">
-						<q-badge color="primary">Atrial Pulse Width (0.1 - 1.9ms): {{ atricalPulseWidth }}</q-badge>
+						<q-badge color="primary">
+							Atrial Pulse Width (0.1 - 1.9ms):
+							{{ atricalPulseWidth }}
+						</q-badge>
 					</span>
 
 					<q-slider
@@ -106,58 +115,161 @@
 					/>
 				</div>
 
-        <div class="q-pa-md" v-if="paceType == 'AAI' || paceType == 'AAIR'">
+				<div class="q-pa-md" v-if="paceType == 'AAI' || paceType == 'AAIR'">
 					<q-item-label header class="pace-rate-label">Atrial Sensitivity</q-item-label>
 
 					<span class="slider-badge">
-						<q-badge color="primary">Atrial Sensitivity (150 - 500ms): {{ atricalSensitivity }}</q-badge>
+						<q-badge color="primary">
+							Atrial Sensitivity (1.0 - 10mV):
+							{{ atricalSensitivity }}
+						</q-badge>
 					</span>
 
-					<q-slider v-model="atricalSensitivity" :min="150" :max="500" markers :step="10" color="blue" label />
+					<q-slider
+						v-model="atricalSensitivity"
+						:min="1.0"
+						:max="10"
+						markers
+						:step="0.5"
+						color="blue"
+						label
+					/>
 				</div>
-
 
 				<div class="q-pa-md" v-if="paceType == 'AAI' || paceType == 'AAIR'">
 					<q-item-label header class="pace-rate-label">Atrial Refactory Period</q-item-label>
 
 					<span class="slider-badge">
-						<q-badge color="primary">Atrial Refactory Period (150 - 500ms): {{ ARP }}</q-badge>
+						<q-badge color="orange">Atrial Refactory Period (150 - 500ms): {{ ARP }}</q-badge>
 					</span>
 
-					<q-slider v-model="ARP" :min="150" :max="500" markers :step="10" color="blue" label />
+					<q-slider v-model="ARP" :min="150" :max="500" markers :step="10" color="orange" label />
 				</div>
 
 				<div class="q-pa-md" v-if="paceType == 'AAI' || paceType == 'AAIR'">
 					<q-item-label header class="pace-rate-label">Post Ventricular Atrial Refractory Period (PVARP)</q-item-label>
 
 					<span class="slider-badge">
-						<q-badge color="primary">PVARP (150 - 500ms): {{ PVARP }}</q-badge>
+						<q-badge color="orange">PVARP (150 - 500ms): {{ PVARP }}</q-badge>
 					</span>
 
-					<q-slider v-model="PVARP" :min="150" :max="500" markers :step="10" color="blue" label />
+					<q-slider v-model="PVARP" :min="150" :max="500" markers :step="10" color="orange" label />
 				</div>
 			</div>
-
 
 			<div class="col2">
 				<div
 					class="q-pa-md"
-					v-if="paceType == 'AAI' || paceType == 'VVI' || paceType == 'AAI' || paceType == 'VVI'"
-				>
+					v-if="paceType == 'AAI' || paceType == 'VVI' || paceType == 'AAI' || paceType == 'VVI'">
 					<q-item-label header class="pace-rate-label">Hysteresis Rate Limit</q-item-label>
 
 					<span class="slider-badge">
-						<q-badge color="red">Off or same choice as Lower Rate Limit currently: {{lowerRateLimit}}</q-badge>
+						<q-badge color="green">
+							Off or same choice as Lower Rate Limit currently:
+							{{ lowerRateLimit }}
+						</q-badge>
 					</span>
 
 					<q-toggle v-model="HRL" color="green" />
+				</div>
+
+				<div class="q-pa-md" v-if="paceType == 'AAI' || paceType == 'VVI' || paceType == 'AAI' || paceType == 'VVI'">
+					<q-item-label header class="pace-rate-label">Rate Smoothing</q-item-label>
+
+					<span class="slider-badge">
+						<q-badge color="red">
+							Rate Smoothing:(Off, 3, 6, 9, 12, 15, 18, 21){{
+							rateSmoothing
+							}}
+						</q-badge>
+					</span>
+					<q-slider v-model="rateSmoothing" :min="0" :max="21" markers :step="3" color="red" label />
+				</div>
+
+				<div
+					class="q-pa-md"
+					v-if="
+            paceType === 'AOOR' ||
+              paceType === 'AAIR' ||
+              paceType === 'VOOR' ||
+              paceType === 'VVIR' ||
+              paceType === 'DOOR'
+          "
+				>
+					<q-item-label header class="pace-rate-label">Activity Threshold</q-item-label>
+
+					<span class="slider-badge">
+						<q-badge color="secondary">Activity Threshold: {{ activityThreshold }}</q-badge>
+					</span>
+
+					<q-option-group v-model="activityThreshold" :options="aTOptions" color="primary" inline dense />
+				</div>
+
+				<div
+					class="q-pa-md"
+					v-if="
+            paceType === 'AOOR' ||
+              paceType === 'AAIR' ||
+              paceType === 'VOOR' ||
+              paceType === 'VVIR' ||
+              paceType === 'DOOR'
+          "
+				>
+					<q-item-label header class="pace-rate-label">Reaction Time</q-item-label>
+
+					<span class="slider-badge">
+						<q-badge color="secondary">Reaction Time (10 - 50 sec): {{ reactTime }}</q-badge>
+					</span>
+
+					<q-slider v-model="reactTime" :min="10" :max="50" markers :step="10" color="green" label />
+				</div>
+
+				<div
+					class="q-pa-md"
+					v-if="
+            paceType === 'AOOR' ||
+              paceType === 'AAIR' ||
+              paceType === 'VOOR' ||
+              paceType === 'VVIR' ||
+              paceType === 'DOOR'
+          "
+				>
+					<q-item-label header class="pace-rate-label">Response Factor</q-item-label>
+
+					<span class="slider-badge">
+						<q-badge color="secondary">Response Factor (50 - 175ppm): {{ resFactor }}</q-badge>
+					</span>
+
+					<q-slider v-model="resFactor" :min="50" :max="175" markers :step="5" color="green" label />
+				</div>
+
+				<div
+					class="q-pa-md"
+					v-if="
+            paceType === 'AOOR' ||
+              paceType === 'AAIR' ||
+              paceType === 'VOOR' ||
+              paceType === 'VVIR' ||
+              paceType === 'DOOR'
+          "
+				>
+					<q-item-label header class="pace-rate-label">Recovery Time</q-item-label>
+
+					<span class="slider-badge">
+						<q-badge color="secondary">Recovery Time (2 - 16): {{ recoveryTime }}</q-badge>
+					</span>
+
+					<q-slider v-model="recoveryTime" :min="2" :max="16" markers :step="1" color="green" label />
 				</div>
 
 				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI'">
 					<q-item-label header class="pace-rate-label">Ventricular Pulse Amplitude</q-item-label>
 
 					<span class="slider-badge">
-						<q-badge color="red">Ventricular Pulse Amplitude (3.5 - 7.0V): {{ ventricularPulseAmp }}</q-badge>
+						<q-badge color="red">
+							Ventricular Pulse Amplitude (3.5 - 7.0V):
+							{{ ventricularPulseAmp }}
+						</q-badge>
 					</span>
 
 					<q-slider
@@ -175,7 +287,10 @@
 					<q-item-label header class="pace-rate-label">Ventricular Pulse Width</q-item-label>
 
 					<span class="slider-badge">
-						<q-badge color="red">Ventricular Pulse Width (0.1 - 1.9ms): {{ ventricularPulseWidth }}</q-badge>
+						<q-badge color="red">
+							Ventricular Pulse Width (0.1 - 1.9ms):
+							{{ ventricularPulseWidth }}
+						</q-badge>
 					</span>
 
 					<q-slider
@@ -189,17 +304,36 @@
 					/>
 				</div>
 
+				<div class="q-pa-md" v-if="paceType == 'VVI' || paceType == 'VVIR'">
+					<q-item-label header class="pace-rate-label">Ventricular Sensitivity</q-item-label>
 
-        <div class="q-pa-md" v-if="paceType == 'VVI' || paceType == 'VVIR'">
-          <q-item-label header class="pace-rate-label">Ventricular Refactory Period</q-item-label>
+					<span class="slider-badge">
+						<q-badge color="primary">
+							Ventricular Sensitivity (0.25 - 500ms):
+							{{ ventricularSensitivity }}
+						</q-badge>
+					</span>
 
-          <span class="slider-badge">
-            <q-badge color="primary">Ventricular Refactory Period (150 - 500ms): {{ VRP }}</q-badge>
-          </span>
+					<q-slider
+						v-model="ventricularSensitivity"
+						:min="150"
+						:max="500"
+						markers
+						:step="10"
+						color="blue"
+						label
+					/>
+				</div>
 
-          <q-slider	v-model="VRP"	:min="150"  :max="500"	markers	:step="10"  color="blue"	label />
-        </div>
-        
+				<div class="q-pa-md" v-if="paceType == 'VVI' || paceType == 'VVIR'">
+					<q-item-label header class="pace-rate-label">Ventricular Refactory Period</q-item-label>
+
+					<span class="slider-badge">
+						<q-badge color="orange">Ventricular Refactory Period (150 - 500ms): {{ VRP }}</q-badge>
+					</span>
+
+					<q-slider v-model="VRP" :min="150" :max="500" markers :step="10" color="orange" label />
+				</div>
 			</div>
 		</div>
 		<q-btn unelevated rounded color="teal-13" label="Save Settings" v-on:click="submitData" />
@@ -250,6 +384,36 @@ export default {
 			HRL: true,
 			rateSmoothing: 1,
 			activityThreshold: 5,
+			aTOptions: [
+				{
+					label: "V-Low",
+					value: "V-Low"
+				},
+				{
+					label: "Low",
+					value: "Low"
+				},
+				{
+					label: "Med-Low",
+					value: "Med-Low"
+				},
+				{
+					label: "Med",
+					value: "Med"
+				},
+				{
+					label: "Med-High",
+					value: "Med-High"
+				},
+				{
+					label: "High",
+					value: "High"
+				},
+				{
+					label: "V-High",
+					value: "V-High"
+				}
+			],
 			reactTime: 0.1,
 			resFactor: 3,
 			recoveryTime: 3
@@ -284,7 +448,7 @@ export default {
 						ventricularSensitivity: 1,
 						VRP: this.VRP,
 						PVARP: this.PVARP,
-						HRL: this.HRL,
+						HRL: this.HRL ? this.lowerRateLimit : 0,
 						rateSmoothing: this.rateSmoothing,
 						activityThreshold: this.activityThreshold,
 						reactTime: this.reactTime,
