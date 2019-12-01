@@ -31,7 +31,8 @@ export default new Vuex.Store({
         PVARP: 200,
         HRL: true
       }
-    }
+    },
+    streamMode: [0x55, 0x22] // Set or Echo
   }, 
   mutations: {
     signUp(state, payload) {
