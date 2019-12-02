@@ -13,7 +13,7 @@
 		<ul>Application Model Number: 1.0</ul>
 		<ul>Revision Number: 0.0</ul>
 		<ul>DCM serial number: 235-457-553</ul>
-		<h5>Made by Dasani Skwad</h5>
+		<ul>Made by Dasani Skwad</ul>
 	</div>
 </template>
 <script>
