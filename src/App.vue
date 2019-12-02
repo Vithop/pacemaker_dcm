@@ -29,6 +29,11 @@ export default {
             return (this.$store.state.currentUser != '')
         }
 	},
+	beforeUpdate: function(){
+		// if(!this.isLoggedIn && this.$route.path != "/" && this.$route.path != "/SignUp"){
+		// 	this.$router.push("/");
+		// }
+	}
 };
 </script>
 
