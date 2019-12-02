@@ -60,19 +60,19 @@ export default {
 		},
 		sendData(devicePort){
 			var enumPaceType;
-			const {streamMode, currentUser} = this.$store.state;
+			const {streamMode, userData, currentUser} = this.$store.state;
 			const {
 				paceType,
 				// lowerRateLimit,
 				// upperRateLimit,
 				atricalPulseAmp,
 				atricalPulseWidth,
-				atricalRefractoryPeriod,
-				VentricularPulseAmp,
-				VentricularPulseWidth,
-				PVARP
+				ARP,
+				ventricularPulseAmp,
+				ventricularPulseWidth,
+				VRP
 				// HRL 
-				} = currentUser;
+				} = userData[currentUser];
 		/*
 			Beginning of transmission
 			Set or Echo
@@ -96,25 +96,26 @@ export default {
 			if(paceType == "VVIR") enumPaceType = 10;
 			
 			var buffer = new Buffer(14);
-			// var int8Vals = new Int8Array(buffer);
-			// var int16Values = new Int16Array(buffer);
+			var int8Vals = new Int8Array(buffer);
+			var int16Values = new Int16Array(buffer);
 
 			if(paceType){
 				if(paceType.charAt(0) == 'A'){
-					buffer[2] = atricalPulseWidth;
-					buffer[5] = atricalPulseAmp;
+					int16Values[1] = atricalPulseWidth;
+					int16Values[4] = atricalPulseAmp;
 				} else {
-					buffer[2] = VentricularPulseWidth;
-					buffer[5] = VentricularPulseAmp;
+					int16Values[1] = ventricularPulseWidth;
+					int16Values[4] = ventricularPulseAmp;
 				}
 			}
-			buffer[0] = 0x16;
-			buffer[1] = streamMode;
-			buffer[3] = 60;
-			buffer[4] = enumPaceType
-			buffer[6] = atricalRefractoryPeriod;
-			buffer[7] = PVARP;
+			int8Vals[0] = 15;
+			int8Vals[1] = streamMode;
+			int16Values[2] = 60;	//BPM
+			int16Values[3] = enumPaceType;
+			int16Values[5] = ARP;
+			int16Values[6] = VRP;
 
+			console.log("buffer: " + buffer + " int16vals: " + int16Values + " int8Vals: " + int8Vals);
 			devicePort.write(buffer);
 			devicePort.drain();
 			console.log("wrote some values to paceMaker")
@@ -203,12 +204,16 @@ export default {
 			}).catch(console.log);
 		}
 	},
-    mounted: function(){
-		const arduino = "Arduino LLC (www.arduino.cc)";
-		// const paceMaker = "SEGGER"
-		const t = this.getDeviceComName(arduino);
-		const u = t.then(this.sendData);
-		u.then(this.confirmSet);
+    updated: function(){
+		console.log("topbar is mounted");
+		//var {currentUser, userData} = this.$store.state;
+		if(this.isLoggedIn){
+			const arduino = "Arduino LLC (www.arduino.cc)";
+			// const paceMaker = "SEGGER"
+			const t = this.getDeviceComName(arduino);
+			const u = t.then(this.sendData);
+			u.then(this.confirmSet);
+		}
     }
 };
 </script>
