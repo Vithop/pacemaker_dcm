@@ -175,7 +175,7 @@
 					<q-item-label header class="pace-rate-label">Maximum Sensor Rate</q-item-label>
 
 					<span class="slider-badge">
-						<q-badge color="red">Maximum Sensor Rate (50 - 175ppm): {{ atricalPulseAmp }}</q-badge>
+						<q-badge color="red">Maximum Sensor Rate (50 - 175ppm): {{ maxSensorRate }}</q-badge>
 					</span>
 
 					<q-slider v-model="maxSensorRate" :min="50" :max="175" markers :step="5" color="red" label />
@@ -287,7 +287,7 @@
 
 			</div>
 		</div>
-		<q-btn unelevated rounded color="teal-13" label="Save Settings" v-on:click="submitData" />
+		<q-btn unelevated rounded color="teal-13" label="Save Settings to Board" v-on:click="submitData" />
 	</div>
 </template>
 <script>
@@ -311,14 +311,14 @@ export default {
 			paceOptions: [
 				"AOO",
 				"VOO",
-				"AAI",
-				"VVI",
 				"DOO",
 				"AOOR",
-				"AAIR",
 				"VOOR",
-				"VVIR",
-				"DOOR"
+				"DOOR",
+				"AAI",
+				"VVI",
+				"AAIR",
+				"VVIR"
 			],
 			aTOptions: [
 				{
@@ -536,7 +536,7 @@ export default {
 				this.$store
 					.dispatch("saveUsersParameters").then(() => 
 					{
-						alert("Saved Settings!");
+						alert("Settings have been saved to your pacemaker!");
 						console.log(
 							this.$store.state.userData[
 								this.$store.state.currentUser

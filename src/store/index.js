@@ -46,7 +46,8 @@ export default new Vuex.Store({
   }, 
   mutations: {
     signUp(state, payload) {
-      console.
+      console.log(payload.username);
+      console.log(payload.password);
       state.users.push(payload.username);
       state.passwords.push(payload.password);
       state.currentUser = payload.username;
@@ -145,6 +146,8 @@ export default new Vuex.Store({
             recoveryTime: 5
           }
         });
+      }).catch(err =>{
+        console.log(err);
       });
     },
     login({ commit, state }, payload) {
