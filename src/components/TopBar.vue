@@ -42,86 +42,171 @@ export default {
 	},
 	methods: {
 		getDeviceComName(manufacturer) {
-			SerialPort.list().then ((ports) => {
-			var devComName;
-			ports.forEach((path) => {
-				let {comName} = path;
-				console.log(path);
-				// const port = new SerialPort(comName, {baudRate: 9600}, console.log);
-				if (path.manufacturer === manufacturer)   {
-					// deviceComName = path.comName;
-					// const myPort = new SerialPort(path.comName, {baudRate:9600}, console.log);
-					// console.log("yoyoyo", myPort);
-					// resolve(comName);
-					devComName = comName;
-				}
-			});
-			return devComName;
-
-		});
-		},
-		sendData(){
 			
-		}
-
-	},
-    mounted: function(){
-        var devicePort;
-		var parser;
-		
-		SerialPort.list().then ((ports) => {
-			var devComName;
-			ports.forEach((path) => {
-				let {comName} = path;
-				console.log(path);
-				// const port = new SerialPort(comName, {baudRate: 9600}, console.log);
-				if (path.manufacturer === "Arduino LLC (www.arduino.cc)") {
-					// deviceComName = path.comName;
-					// const myPort = new SerialPort(path.comName, {baudRate:9600}, console.log);
-					// console.log("yoyoyo", myPort);
-					// resolve(comName);
-					devComName = comName;
-				}
+			return SerialPort.list().then ((ports) => {	
+				var devComName;
+				ports.forEach((path) => {
+					let {comName} = path;
+					console.log(path);
+					// const port = new SerialPort(comName, {baudRate: 9600}, console.log);
+					if (path.manufacturer === manufacturer)   {
+						// deviceComName = path.comName;
+						// const myPort = new SerialPort(path.comName, {baudRate:9600}, console.log);
+						// console.log("yoyoyo", myPort);
+						// resolve(comName);
+						devComName = comName;
+					}
+				});
+				return devComName;
 			});
-			return devComName;
+		},
+		sendData(deviceComName){
+			var devicePort;
+			var enumPaceType;
+			const {streamMode, currentUser} = this.$store.state;
+			const {
+				paceType,
+				// lowerRateLimit,
+				// upperRateLimit,
+				atricalPulseAmp,
+				atricalPulseWidth,
+				atricalRefractoryPeriod,
+				VentricularPulseAmp,
+				VentricularPulseWidth,
+				PVARP
+				// HRL 
+				} = currentUser;
+		/*
+			Beginning of transmission
+			Set or Echo
+			Width
+			BPM
+			Mode
+			Duty Cycle In -> amplitude
+			ARP
+			VRP
+			order of pace types Aoo, voo, doo, aoor, voor, door, aai, vvi, aair, vvir
+		*/
+			if(paceType == "AOO") enumPaceType = 1;
+			if(paceType == "VOO") enumPaceType = 2;
+			if(paceType == "DOO") enumPaceType = 3;
+			if(paceType == "AOOR") enumPaceType = 4;
+			if(paceType == "VOOR") enumPaceType = 5;
+			if(paceType == "DOOR") enumPaceType = 6;
+			if(paceType == "AAI") enumPaceType = 7;
+			if(paceType == "VVI") enumPaceType = 8;
+			if(paceType == "AAIR") enumPaceType = 9;
+			if(paceType == "VVIR") enumPaceType = 10;
+			
+			var buffer = new Buffer(7);
+			if(paceType){
+				if(paceType.charAt(0) == 'A'){
+					buffer[2] = atricalPulseWidth;
+					buffer[5] = atricalPulseAmp;
+				} else {
+					buffer[2] = VentricularPulseWidth;
+					buffer[5] = VentricularPulseAmp;
+				}
+			}
+			buffer[0] = 0x16;
+			buffer[1] = streamMode;
+			buffer[3] = 60;
+			buffer[4] = enumPaceType
+			buffer[6] = atricalRefractoryPeriod;
+			buffer[7] = PVARP;
 
-		}).then((deviceComName) => {
 			console.log(deviceComName);
 			devicePort = new SerialPort(deviceComName, {baudRate:9600}, console.log);
 			console.log(devicePort);
-			// devicePort.open();
-			parser = devicePort.pipe(new Ready({ delimiter: 'READY' }));
+			var parser = devicePort.pipe(new Ready({ delimiter: "READY" }));
 			parser.on('ready', () => {
 				console.log('the ready byte sequence has been received');
-				devicePort.write("Please talk to me\n");
-				// devicePort.drain();
+				console.log(buffer);
+				devicePort.write(buffer+ "yoyoyo");
+				devicePort.drain();
 			});
-		}).then(() => {
-			parser = devicePort.pipe(new Readline({delimiter: "No\n"}));
+			return {devicePort, buffer};
+				// console.log('Data:', devicePort.read())
+				// parser = devicePort.pipe(new Readline({delimiter: "\n"}));
+				// parser.on('data', console.log);
+		},
+		confirmSet({devicePort, buffer}) {
+			// console.log(deviceComName);
+			// const devicePort = new SerialPort(deviceComName, {baudRate:9600}, console.log);
+			console.log(devicePort);
+
+			const parser = devicePort.pipe(new Readline({delimiter: "yoyoyo" }));
 			parser.on('data', (data) => {
-				console.log("2" + data);
-				devicePort.write("Cmon Please talk to me\n");
-				// devicePort.drain();
-			}); 
-		}).then(() => {
-			parser = devicePort.pipe(new Readline({delimiter: "I don't wanna\n"}));
-			parser.on('data', (data) => {
-				console.log("3" + data);
-				devicePort.write("Why won't you talk to me\n");
-				// devicePort.drain();
-			}); 
-		}).then(() => {
-			parser = devicePort.pipe(new Readline({delimiter: "Cause they're watching us\n"}));
-			parser.on('data', (data) => {
-				console.log("4" + data);
-			});
-		}).then(() => {
-			parser = devicePort.pipe(new Readline({delimiter: "END\n"}));
-			parser.on('data', (data) => {
-				console.log("5" + data);
-				return;
-			});
-		}).catch(console.log);
+				console.log("confirming Set data: " +  data);
+				if(data === buffer){
+					console.log("data has been set");
+				}else {
+					console.log("data has not been set");
+					this.sendData(devicePort.comName).then(this.confirmSet);
+				}
+			})
+		},
+		arduinoTalk(){
+			var devicePort;
+			var parser;
+			
+			SerialPort.list().then ((ports) => {
+				var devComName;
+				ports.forEach((path) => {
+					let {comName} = path;
+					console.log(path);
+					// const port = new SerialPort(comName, {baudRate: 9600}, console.log);
+					if (path.manufacturer === "Arduino LLC (www.arduino.cc)") {
+						devComName = comName;
+					}
+				});
+				return devComName;
+
+			}).then((deviceComName) => {
+				console.log(deviceComName);
+				devicePort = new SerialPort(deviceComName, {baudRate:9600}, console.log);
+				console.log(devicePort);
+				// devicePort.open();
+				parser = devicePort.pipe(new Ready({ delimiter: 'READY' }));
+				parser.on('ready', () => {
+					console.log('the ready byte sequence has been received');
+					devicePort.write("Please talk to me\n");
+					// devicePort.drain();
+				});
+			}).then(() => {
+				parser = devicePort.pipe(new Readline({delimiter: "No\n"}));
+				parser.on('data', (data) => {
+					console.log("2" + data);
+					devicePort.write("Cmon Please talk to me\n");
+					// devicePort.drain();
+				}); 
+			}).then(() => {
+				parser = devicePort.pipe(new Readline({delimiter: "I don't wanna\n"}));
+				parser.on('data', (data) => {
+					console.log("3" + data);
+					devicePort.write("Why won't you talk to me\n");
+					// devicePort.drain();
+				}); 
+			}).then(() => {
+				parser = devicePort.pipe(new Readline({delimiter: "Cause they're watching us\n"}));
+				parser.on('data', (data) => {
+					console.log("4" + data);
+				});
+			}).then(() => {
+				parser = devicePort.pipe(new Readline({delimiter: "END\n"}));
+				parser.on('data', (data) => {
+					console.log("5" + data);
+					return;
+				});
+			}).catch(console.log);
+		}
+	},
+    mounted: function(){
+		const arduino = "Arduino LLC (www.arduino.cc)";
+		// const paceMaker = "SEGGER"
+		const t = this.getDeviceComName(arduino);
+		const u = t.then(this.sendData);
+		u.then(this.confirmSet);
     }
 };
 </script>

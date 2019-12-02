@@ -554,21 +554,21 @@ export default {
 
 <style scoped>
 .row {
-	display: flex;
+  display: flex;
 }
 .col {
-	width: 50%;
-	padding: 10px 20px;
+  width: 50%;
+  padding: 10px 20px;
 }
 .col2 {
-	width: 50%;
-	padding: 10px 20px 10px 20px;
+  width: 50%;
+  padding: 10px 20px 10px 20px;
 }
 .pace-rate-label {
-	text-align: left;
+  text-align: left;
 }
 .slider-badge {
-	justify-content: space-between;
-	display: flex;
+  justify-content: space-between;
+  display: flex;
 }
 </style>
