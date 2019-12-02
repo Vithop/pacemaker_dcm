@@ -48,20 +48,17 @@ export default {
 				ports.forEach((path) => {
 					let {comName} = path;
 					console.log(path);
-					// const port = new SerialPort(comName, {baudRate: 9600}, console.log);
 					if (path.manufacturer === manufacturer)   {
-						// deviceComName = path.comName;
-						// const myPort = new SerialPort(path.comName, {baudRate:9600}, console.log);
-						// console.log("yoyoyo", myPort);
-						// resolve(comName);
 						devComName = comName;
 					}
 				});
-				return devComName;
+				console.log(devComName);
+				const devicePort = new SerialPort(devComName, {baudRate:115200}, console.log);
+				console.log(devicePort);
+				return devicePort;
 			});
 		},
-		sendData(deviceComName){
-			var devicePort;
+		sendData(devicePort){
 			var enumPaceType;
 			const {streamMode, currentUser} = this.$store.state;
 			const {
@@ -98,7 +95,10 @@ export default {
 			if(paceType == "AAIR") enumPaceType = 9;
 			if(paceType == "VVIR") enumPaceType = 10;
 			
-			var buffer = new Buffer(7);
+			var buffer = new Buffer(14);
+			// var int8Vals = new Int8Array(buffer);
+			// var int16Values = new Int16Array(buffer);
+
 			if(paceType){
 				if(paceType.charAt(0) == 'A'){
 					buffer[2] = atricalPulseWidth;
@@ -115,15 +115,18 @@ export default {
 			buffer[6] = atricalRefractoryPeriod;
 			buffer[7] = PVARP;
 
-			console.log(deviceComName);
-			devicePort = new SerialPort(deviceComName, {baudRate:9600}, console.log);
-			console.log(devicePort);
+			devicePort.write(buffer);
+			devicePort.drain();
+			console.log("wrote some values to paceMaker")
+
 			var parser = devicePort.pipe(new Ready({ delimiter: "READY" }));
 			parser.on('ready', () => {
 				console.log('the ready byte sequence has been received');
 				console.log(buffer);
-				devicePort.write(buffer+ "yoyoyo");
-				devicePort.drain();
+				for(var i = 0; i < 20; i++) {
+					devicePort.write(buffer);
+					devicePort.drain();
+				}
 			});
 			return {devicePort, buffer};
 				// console.log('Data:', devicePort.read())
@@ -131,20 +134,19 @@ export default {
 				// parser.on('data', console.log);
 		},
 		confirmSet({devicePort, buffer}) {
-			// console.log(deviceComName);
-			// const devicePort = new SerialPort(deviceComName, {baudRate:9600}, console.log);
 			console.log(devicePort);
 
-			const parser = devicePort.pipe(new Readline({delimiter: "yoyoyo" }));
+			const parser = devicePort.pipe(new Readline());
 			parser.on('data', (data) => {
 				console.log("confirming Set data: " +  data);
-				if(data === buffer){
+				if(data === "echo: " + buffer + "\n"){
 					console.log("data has been set");
 				}else {
 					console.log("data has not been set");
-					this.sendData(devicePort.comName).then(this.confirmSet);
+					devicePort.write(buffer);
+					// this.sendData(devicePort).then(this.confirmSet);
 				}
-			})
+			});
 		},
 		arduinoTalk(){
 			var devicePort;
