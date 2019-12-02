@@ -516,6 +516,10 @@ export default {
 		}, 
 	
 	},
+	mounted:function(){
+		console.log(this.$store.state.currentUser);
+		console.log(this.$store.state.userData);
+	},
 	methods: {
 		rateLimitCheck: function(val) {
 			// console.log(value)

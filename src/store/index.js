@@ -19,7 +19,7 @@ export default new Vuex.Store({
     currentUser: "",
     //userData should replace users once working
     userData:{
-      "admin":{
+      admin:{
         paceType: "AOO",
         lowerRateLimit: 30,
         upperRateLimit: 120,
@@ -46,6 +46,7 @@ export default new Vuex.Store({
   }, 
   mutations: {
     signUp(state, payload) {
+      console.
       state.users.push(payload.username);
       state.passwords.push(payload.password);
       state.currentUser = payload.username;
