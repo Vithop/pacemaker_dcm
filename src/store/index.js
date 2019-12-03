@@ -58,6 +58,12 @@ export default new Vuex.Store({
     setCurrentUsers(state, username) {
       state.currentUser = username;
     },
+    setDevicePort(state, val){
+      state.devicePort = val;
+    },
+    setIsPaceMakerConnected(state, connected){
+      state.isPaceMakerConnected = connected;
+    },
     setPaceType(state, val){
       state.userData[state.currentUser].paceType = val;
     },
@@ -121,9 +127,6 @@ export default new Vuex.Store({
     // setRecoveryTime(state, val){
     //   state.userData[state.currentUser].recoveryTime = val;
     // },
-    setDevicePort(state, val){
-      state.devicePort = val;
-    },
   },
   actions: {
     signUp({ commit }, payload) {

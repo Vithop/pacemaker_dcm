@@ -30,39 +30,46 @@ export default {
     },
     data() {
         return {
-           isPaceMakerConnected: false, 
+            
         }
     },
     computed:{
         isLoggedIn(){
             return (this.$store.state.currentUser != '')
-        }
+		},
+		isPaceMakerConnected(){
+			return this.$store.state.isPaceMakerConnected;
+		}
 	},
 	methods: {
 		getDeviceComName(manufacturer) {
-			console.log("get Device Com Name");
+			// console.log("get Device Com Name");
+			// console.log(this.isPaceMakerConnected);
 			SerialPort.list().then ((ports) => {	
-				var devComName;
+				var devComName = null;
 				ports.forEach((path) => {
 					let {comName} = path;
-					console.log(path);
-					if (path.manufacturer === manufacturer.name)   {
+					//console.log(path);
+					if (path.manufacturer === manufacturer.name) {
 						devComName = comName;
+						this.$store.commit("setIsPaceMakerConnected", true);
 					}
 				});
-				console.log(devComName);
-				const devicePort = new SerialPort(devComName, {baudRate:manufacturer.baudRate}, console.log);
-				console.log(devicePort);
-				if(devicePort !== null || devicePort !== undefined){
-					this.isPaceMakerConnected = true;
-					this.$store.commit("setDevicePort", devicePort);
-					console.log(this.$store.state.devicePort);
-				} else {
-					this.isPaceMakerConnected = false;
-					this.$store.commit("setDevicePort", devicePort);
-					console.log("devicePort has disconneted");
+				// console.log(devComName);
+				if(devComName === null){
+					this.$store.commit("setIsPaceMakerConnected", false);
 				}
-				return devicePort;
+				try{
+					if(this.$store.state.devicePort === null && this.isPaceMakerConnected){
+						const devicePort = new SerialPort(devComName, {baudRate:manufacturer.baudRate}, console.log);
+						this.$store.commit("setDevicePort", devicePort);
+						// console.log(devicePort);
+					}
+				}catch{
+					this.$store.commit("setDevicePort", null);
+					this.$store.commit("setIsPaceMakerConnected", false);
+				}
+
 			});
 		},
 		sendData(devicePort){
