@@ -48,12 +48,12 @@
 
 					<span class="slider-badge">
 						<q-badge color="primary">
-							Atrial Pulse Amplitude (1-100% of 5V):
+							Atrial Pulse Amplitude (70-100% of 5V):
 							{{ round_two_digits((atricalPulseAmp/100) * 5) }}V
 						</q-badge>
 					</span>
 
-					<q-slider v-model="atricalPulseAmp"	:min="1" :max="100" :step="1"	color="blue" label/>
+					<q-slider v-model="atricalPulseAmp"	:min="70" :max="100" :step="1"	color="blue" label/>
 				</div>
 
 				<div
@@ -76,12 +76,12 @@
 
 					<span class="slider-badge">
 						<q-badge color="red">
-							Ventricular Pulse Amplitude (1-100% of 5V):
+							Ventricular Pulse Amplitude (70-100% of 5V):
 							{{ round_two_digits((ventricularPulseAmp/100) * 5) }}V
 						</q-badge>
 					</span>
 
-					<q-slider v-model="ventricularPulseAmp" :min="1" :max="100" :step="1" color="red" label/>
+					<q-slider v-model="ventricularPulseAmp" :min="70" :max="100" :step="1" color="red" label/>
 				</div>
 
 				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI' || paceType == 'VOOR' || paceType == 'VVIR'">

@@ -54,7 +54,7 @@ export default {
 				console.log(devComName);
 				const devicePort = new SerialPort(devComName, {baudRate:manufacturer.baudRate}, console.log);
 				console.log(devicePort);
-				if(devicePort !== null){
+				if(devicePort !== null || devicePort !== undefined){
 					this.isPaceMakerConnected = true;
 					this.$store.commit("setDevicePort", devicePort);
 					console.log(this.$store.state.devicePort);
@@ -227,7 +227,7 @@ export default {
 		//var {currentUser, userData} = this.$store.state;
 		
 
-		setInterval(this.getDeviceComName(arduino), 500);
+		setInterval(this.getDeviceComName, 500, arduino);
 			// u.then(this.confirmSet);
     }
 };

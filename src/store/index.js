@@ -18,6 +18,7 @@ export default new Vuex.Store({
     passwords: ["password123"],
     currentUser: "",
     devicePort: null,
+    isPaceMakerConnected: false,
     //userData should replace users once working
     userData:{
       admin:{
@@ -120,9 +121,9 @@ export default new Vuex.Store({
     // setRecoveryTime(state, val){
     //   state.userData[state.currentUser].recoveryTime = val;
     // },
-    // setDevicePort(state, val){
-    //   state.devicePort = val;
-    // },
+    setDevicePort(state, val){
+      state.devicePort = val;
+    },
   },
   actions: {
     signUp({ commit }, payload) {
