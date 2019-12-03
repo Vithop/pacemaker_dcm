@@ -63,15 +63,15 @@ export default {
 			const {userData, currentUser} = this.$store.state;
 			const {
 				paceType,
-				// lowerRateLimit,
-				// upperRateLimit,
+				lowerRateLimit,
+				upperRateLimit,
+				BPM,
 				atricalPulseAmp,
 				atricalPulseWidth,
 				ARP,
 				ventricularPulseAmp,
 				ventricularPulseWidth,
 				VRP
-				// HRL 
 				} = userData[currentUser];
 		/*
 			Beginning of transmission
@@ -82,6 +82,8 @@ export default {
 			Duty Cycle In -> amplitude
 			ARP
 			VRP
+			upper rate limit
+			lower rate limit
 			order of pace types Aoo, voo, doo, aoor, voor, door, aai, vvi, aair, vvir
 		*/
 			if(paceType == "AOO") enumPaceType = 1;
@@ -95,9 +97,9 @@ export default {
 			if(paceType == "AAIR") enumPaceType = 9;
 			if(paceType == "VVIR") enumPaceType = 10;
 			
-			var buffer = new ArrayBuffer(14);
+			var buffer = new ArrayBuffer(18);
 			var int8Vals = new Int8Array(buffer, 0, 2);
-			var int16Values = new Int16Array(buffer, 2, 6);
+			var int16Values = new Int16Array(buffer, 2, 8);
 
 			if(paceType){
 				if(paceType.charAt(0) == 'A'){
@@ -110,15 +112,19 @@ export default {
 			}
 			int8Vals[0] = 0x16;
 			int8Vals[1] = 0x55;
-			int16Values[1] = 60;	//BPM
+			int16Values[1] = BPM;
 			int16Values[2] = enumPaceType;
 			int16Values[4] = ARP;
 			int16Values[5] = VRP;
+			int16Values[6] = upperRateLimit;
+			int16Values[7] = lowerRateLimit;
 			var writeBuffer = Buffer.from(buffer)
-			// console.log("buffer: " + buffer + " int16vals: " + int16Values + " int8Vals: " + int8Vals);
-			// devicePort.write(buffer);
-			// devicePort.drain();
-			// console.log("wrote some values to paceMaker")
+			// devicePort.open();
+			// for(var i = 0; i < 20; i++) {
+			// 	devicePort.write(writeBuffer);
+			// 	devicePort.drain();
+			// 	console.log("wrote some values to paceMaker")
+			// }
 
 			var parser = devicePort.pipe(new Ready({ delimiter: "READY" }));
 			parser.on('ready', () => {
@@ -215,6 +221,7 @@ export default {
 			const t = this.getDeviceComName(arduino);
 			const u = t.then((devicePort) => {
 				this.$store.commit("setDevicePort", devicePort);
+				console.log(this.$store.state.devicePort);
 				return this.sendData(devicePort);
 			});
 			u.then(this.confirmSet);
