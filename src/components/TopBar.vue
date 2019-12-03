@@ -59,7 +59,7 @@ export default {
 			});
 		},
 		sendData(devicePort){
-			var enumPaceType;
+			var enumPaceMode;
 			const {userData, currentUser} = this.$store.state;
 			const {
 				paceType,
@@ -86,16 +86,16 @@ export default {
 			lower rate limit
 			order of pace types Aoo, voo, doo, aoor, voor, door, aai, vvi, aair, vvir
 		*/
-			if(paceType == "AOO") enumPaceType = 1;
-			if(paceType == "VOO") enumPaceType = 2;
-			if(paceType == "DOO") enumPaceType = 3;
-			if(paceType == "AOOR") enumPaceType = 4;
-			if(paceType == "VOOR") enumPaceType = 5;
-			if(paceType == "DOOR") enumPaceType = 6;
-			if(paceType == "AAI") enumPaceType = 7;
-			if(paceType == "VVI") enumPaceType = 8;
-			if(paceType == "AAIR") enumPaceType = 9;
-			if(paceType == "VVIR") enumPaceType = 10;
+			if(paceType === "AOO") enumPaceMode = 1;
+			if(paceType === "VOO") enumPaceMode = 2;
+			if(paceType === "DOO") enumPaceMode = 3;
+			if(paceType === "AOOR") enumPaceMode = 4;
+			if(paceType === "VOOR") enumPaceMode = 5;
+			if(paceType === "DOOR") enumPaceMode = 6;
+			if(paceType === "AAI") enumPaceMode = 7;
+			if(paceType === "VVI") enumPaceMode = 8;
+			if(paceType === "AAIR") enumPaceMode = 9;
+			if(paceType === "VVIR") enumPaceMode = 10;
 			
 			var buffer = new ArrayBuffer(18);
 			var int8Vals = new Int8Array(buffer, 0, 2);
@@ -103,39 +103,48 @@ export default {
 
 			if(paceType){
 				if(paceType.charAt(0) == 'A'){
-					int16Values[0] = atricalPulseWidth * 10;
-					int16Values[3] = atricalPulseAmp * 2;
+					int16Values[0] = atricalPulseWidth;
+					int16Values[3] = atricalPulseAmp;
 				} else {
-					int16Values[0] = ventricularPulseWidth * 10;
-					int16Values[3] = ventricularPulseAmp * 2;
+					int16Values[0] = ventricularPulseWidth;
+					int16Values[3] = ventricularPulseAmp;
 				}
 			}
 			int8Vals[0] = 0x16;
 			int8Vals[1] = 0x55;
 			int16Values[1] = BPM;
-			int16Values[2] = enumPaceType;
+			int16Values[2] = enumPaceMode;
 			int16Values[4] = ARP;
 			int16Values[5] = VRP;
 			int16Values[6] = upperRateLimit;
 			int16Values[7] = lowerRateLimit;
 			var writeBuffer = Buffer.from(buffer)
-			// devicePort.open();
-			// for(var i = 0; i < 20; i++) {
-			// 	devicePort.write(writeBuffer);
-			// 	devicePort.drain();
-			// 	console.log("wrote some values to paceMaker")
-			// }
-
-			var parser = devicePort.pipe(new Ready({ delimiter: "READY" }));
-			parser.on('ready', () => {
-				console.log('the ready byte sequence has been received');
-				console.log(buffer);
-				for(var i = 0; i < 20; i++) {
-					devicePort.write(writeBuffer);
-					devicePort.drain();
-					devicePort.read();
-				}
+			devicePort.on("open", () => {
+				console.log("open port");
+				devicePort.write(writeBuffer);
+				devicePort.on("data", (data) => {
+				console.log("data that has been echoed: " + data);
+				});
 			});
+			for(var i = 0; i < 20; i++) {
+				devicePort.write(writeBuffer);
+				// devicePort.drain();
+				console.log("wrote some values to paceMaker: ");
+				console.log("data that has been echoed: " + devicePort.read())
+				console.log(buffer);
+			}
+			// devicePort.close();
+
+			// var parser = devicePort.pipe(new Readline());
+			// parser.on('data', (data) => {
+			// 	console.log('the ready byte sequence has been received and data is: ' + data );
+			// 	console.log(buffer);
+			// 	for(var i = 0; i < 20; i++) {
+			// 		devicePort.write(writeBuffer);
+			// 		devicePort.drain();
+			// 		// devicePort.read();
+			// 	}
+			// });
 			return {devicePort, writeBuffer};
 				// console.log('Data:', devicePort.read())
 				// parser = devicePort.pipe(new Readline({delimiter: "\n"}));
@@ -153,7 +162,6 @@ export default {
 				}else {
 					console.log("data has not been set");
 					devicePort.write(writeBuffer);
-					// this.sendData(devicePort).then(this.confirmSet);
 				}
 			});
 		},
@@ -214,11 +222,11 @@ export default {
 	},
     updated: function(){
 		console.log("topbar is mounted");
-		const arduino = {name: "Arduino LLC (www.arduino.cc)", baudRate: 9600};
-		// const paceMaker = {name: "SEGGER", baudRate: 115200}
+		// const arduino = {name: "Arduino LLC (www.arduino.cc)", baudRate: 9600};
+		const paceMaker = {name: "SEGGER", baudRate: 115200}
 		//var {currentUser, userData} = this.$store.state;
 		if(this.isLoggedIn){
-			const t = this.getDeviceComName(arduino);
+			const t = this.getDeviceComName(paceMaker);
 			const u = t.then((devicePort) => {
 				this.$store.commit("setDevicePort", devicePort);
 				console.log(this.$store.state.devicePort);
