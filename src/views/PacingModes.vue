@@ -49,7 +49,7 @@
 					<span class="slider-badge">
 						<q-badge color="primary">
 							Atrial Pulse Amplitude (1-100% of 5V):
-							{{ (atricalPulseAmp/100) * 5 }}
+							{{ round_two_digits((atricalPulseAmp/100) * 5) }}V
 						</q-badge>
 					</span>
 
@@ -63,20 +63,38 @@
 
 					<span class="slider-badge">
 						<q-badge color="primary">
-							Atrial Pulse Width (0.1 - 1.9ms):
+							Atrial Pulse Width (1 - 10ms):
 							{{ atricalPulseWidth }}
 						</q-badge>
 					</span>
 
-					<q-slider
-						v-model="atricalPulseWidth"
-						:min="0.1"
-						:max="1.9"
-						markers
-						:step="0.1"
-						color="blue"
-						label
-					/>
+					<q-slider v-model="atricalPulseWidth" :min="1" :max="10" markers :step="1" color="blue" label/>
+				</div>
+
+				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI'">
+					<q-item-label header class="pace-rate-label">Ventricular Pulse Amplitude</q-item-label>
+
+					<span class="slider-badge">
+						<q-badge color="red">
+							Ventricular Pulse Amplitude (1-100% of 5V):
+							{{ round_two_digits((ventricularPulseAmp/100) * 5) }}V
+						</q-badge>
+					</span>
+
+					<q-slider v-model="ventricularPulseAmp" :min="1" :max="100" :step="1" color="red" label/>
+				</div>
+
+				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI'">
+					<q-item-label header class="pace-rate-label">Ventricular Pulse Width</q-item-label>
+
+					<span class="slider-badge">
+						<q-badge color="red">
+							Ventricular Pulse Width (1 - 10ms):
+							{{ ventricularPulseWidth }}
+						</q-badge>
+					</span>
+
+					<q-slider v-model="ventricularPulseWidth" :min="1" :max="10"	markers	:step="1"	color="red"	label/>
 				</div>
 
 				<div class="q-pa-md" v-if="paceType == 'AAI' || paceType == 'AAIR'">
@@ -245,47 +263,6 @@
 					<q-slider v-model="recoveryTime" :min="2" :max="16" markers :step="1" color="red" label />
 				</div>
 
-				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI'">
-					<q-item-label header class="pace-rate-label">Ventricular Pulse Amplitude</q-item-label>
-
-					<span class="slider-badge">
-						<q-badge color="red">
-							Ventricular Pulse Amplitude (3.5 - 7.0V):
-							{{ ventricularPulseAmp }}
-						</q-badge>
-					</span>
-
-					<q-slider
-						v-model="ventricularPulseAmp"
-						:min="3.5"
-						:max="7.0"
-						markers
-						:step="0.5"
-						color="red"
-						label
-					/>
-				</div>
-
-				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI'">
-					<q-item-label header class="pace-rate-label">Ventricular Pulse Width</q-item-label>
-
-					<span class="slider-badge">
-						<q-badge color="red">
-							Ventricular Pulse Width (0.1 - 1.9ms):
-							{{ ventricularPulseWidth }}
-						</q-badge>
-					</span>
-
-					<q-slider
-						v-model="ventricularPulseWidth"
-						:min="0.1"
-						:max="1.9"
-						markers
-						:step="0.1"
-						color="red"
-						label
-					/>
-				</div>
 
 			</div>
 		</div>
@@ -531,15 +508,9 @@ export default {
 		console.log(this.$store.state.userData);
 	},
 	methods: {
-		rateLimitCheck: function(val) {
-			// console.log(value)
-			//setTimeout
-			if (val.min > 50) {
-				this.rateLimit = { min: 50, max: val.max };
-			} else if (val.max < 50) {
-				this.rateLimit = { min: val.min, max: 50 };
-			}
-			return this.rateLimitCheck;
+		round_two_digits: function (x) {
+			var y = Math.trunc(x *100);
+			return y/100;
 		},
 		submitData: function(event) {
 			if (event) {
