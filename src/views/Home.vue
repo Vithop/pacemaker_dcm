@@ -47,6 +47,7 @@ export default {
 						password: this.password
 					})
 					.then(() => {
+						console.log("go to dashboard")
 						this.$router.push("/DashBoard");
 					})
 					.catch(err => {

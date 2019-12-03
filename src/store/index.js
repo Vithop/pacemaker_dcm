@@ -151,9 +151,8 @@ export default new Vuex.Store({
       });
     },
     login({ commit, state }, payload) {
-      return new Promise(resolve => {
-        // console.log(state.users);
-        // console.log(payload);
+      return new Promise((resolve, reject) => {
+        
         var userIndex = state.users.indexOf(payload.username);
         //console.log("userIndex", userIndex);
         if (userIndex != -1) {
@@ -161,6 +160,8 @@ export default new Vuex.Store({
             if(state.passwords[userIndex] == payload.password){
               commit("setCurrentUsers", payload.username);
               resolve("Admin Has Logged In!")
+            }else{
+              throw new Error("Password is Incorrect!");
             }
           }
           bcrypt
@@ -169,13 +170,14 @@ export default new Vuex.Store({
               if (res) {
                 commit("setCurrentUsers", payload.username);
                 resolve("Login Succesfull!");
-              } 
+              }else{
+                reject(Error("Password is Incorrect!"));
+              }
             })
             .catch((err) =>{
               console.log(err);
               throw err;
             });
-            throw new Error("Password is Incorrect!");
         } else {
           throw new Error("User doesn't exist!! Go Sign Up!");
         }
