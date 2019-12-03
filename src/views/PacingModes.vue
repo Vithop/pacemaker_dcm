@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<h3>Pacing Modes and Programmable Parameters</h3>
+		<h4>Pacing Modes and Programmable Parameters</h4>
 		<q-tabs v-model="paceType" class="bg-teal text-white shadow-2">
 			<div v-for="(paceOption, index) in paceOptions" :key="index">
 				<q-tab :name="paceOption" :label="paceOption" />
@@ -172,99 +172,7 @@
 				</div>
 
 			</div>
-			<!-- <div class="col2">
-				<div
-					class="q-pa-md"
-					v-if="paceType == 'AAI' || paceType == 'VVI' || paceType == 'AAIR' || paceType == 'VVIR'">
-					<q-item-label header class="pace-rate-label">Hysteresis Rate Limit</q-item-label>
-
-					<span class="slider-badge">
-						<q-badge color="green">
-							Off or same choice as Lower Rate Limit currently:
-							{{ this.HRL ? this.lowerRateLimit : 0 }}
-						</q-badge>
-					</span>
-
-					<q-toggle v-model="HRL" color="green" />
-				</div>
-
-
-				<div
-					class="q-pa-md"
-					v-if="paceType === 'AOOR' || paceType === 'AAIR' || paceType === 'VOOR' || paceType === 'VVIR' || paceType === 'DOOR'">
-					<q-item-label header class="pace-rate-label">Maximum Sensor Rate</q-item-label>
-
-					<span class="slider-badge">
-						<q-badge color="pink">Maximum Sensor Rate (50 - 175ppm): {{ maxSensorRate }}</q-badge>
-					</span>
-
-					<q-slider v-model="maxSensorRate" :min="50" :max="175" markers :step="5" color="pink" label />
-				</div>
-
-
-				<div class="q-pa-md" v-if="paceType == 'AAI' || paceType == 'VVI' || paceType == 'AAI' || paceType == 'VVI'">
-					<q-item-label header class="pace-rate-label">Rate Smoothing</q-item-label>
-
-					<span class="slider-badge">
-						<q-badge color="pink">
-							Rate Smoothing:(Off, 3, 6, 9, 12, 15, 18, 21){{
-							rateSmoothing
-							}}
-						</q-badge>
-					</span>
-					<q-slider v-model="rateSmoothing" :min="0" :max="21" markers :step="3" color="pink" label />
-				</div>
-
-				<div
-					class="q-pa-md"
-					v-if="paceType === 'AOOR' ||  paceType === 'AAIR' || paceType === 'VOOR' || paceType === 'VVIR' || paceType === 'DOOR'">
-					<q-item-label header class="pace-rate-label">Activity Threshold</q-item-label>
-
-					<span class="slider-badge">
-						<q-badge color="pink">Activity Threshold: {{ activityThreshold }}</q-badge>
-					</span>
-
-					<q-option-group style="text-align: left; padding-top: 20px;" v-model="activityThreshold" :options="aTOptions" color="pink" inline dense />
-				</div>
-
-				<div
-					class="q-pa-md"
-					v-if="paceType === 'AOOR' ||  paceType === 'AAIR' || paceType === 'VOOR' || paceType === 'VVIR' || paceType === 'DOOR'">
-					<q-item-label header class="pace-rate-label">Reaction Time</q-item-label>
-
-					<span class="slider-badge">
-						<q-badge color="pink">Reaction Time (10 - 50 sec): {{ reactTime }}</q-badge>
-					</span>
-
-					<q-slider v-model="reactTime" :min="10" :max="50" markers :step="10" color="pink" label />
-				</div>
-
-				<div
-					class="q-pa-md"
-					v-if="paceType === 'AOOR' ||  paceType === 'AAIR' || paceType === 'VOOR' || paceType === 'VVIR' || paceType === 'DOOR'">
-					<q-item-label header class="pace-rate-label">Response Factor</q-item-label>
-
-					<span class="slider-badge">
-						<q-badge color="pink">Response Factor (1 - 16): {{ resFactor }}</q-badge>
-					</span>
-
-					<q-slider v-model="resFactor" :min="1" :max="16" markers :step="1" color="pink" label />
-				</div>
-
-				<div
-					class="q-pa-md"
-					v-if=" paceType === 'AOOR' || paceType === 'AAIR' || paceType === 'VOOR' || paceType === 'VVIR' || paceType === 'DOOR'">
-					<q-item-label header class="pace-rate-label">Recovery Time</q-item-label>
-
-					<span class="slider-badge">
-						<q-badge color="pink">Recovery Time (2 - 16): {{ recoveryTime }}</q-badge>
-					</span>
-
-					<q-slider v-model="recoveryTime" :min="2" :max="16" markers :step="1" color="pink" label />
-				</div>
-
-
-			</div> -->
+			
 		</div>
 		<q-btn unelevated rounded color="teal-13" label="Save Settings to Board" v-on:click="submitData" />
 	</div>
@@ -365,14 +273,6 @@ export default {
 				this.$store.commit("setBPM",value);
 			}
 		},
-		maxSensorRate:{
-			get(){
-				return this.$store.state.userData[this.$store.state.currentUser].maxSensorRate;
-			},
-			set(value){
-				this.$store.commit("setMaxSensorRate",value)
-			}
-		}, 
 		fixedAvDelay:{
 			get(){
 				return this.$store.state.userData[this.$store.state.currentUser].fixedAvDelay;
@@ -429,14 +329,6 @@ export default {
 				this.$store.commit("setVentricularPulseWidth",value)
 			}
 		}, 
-		ventricularSensitivity:{
-			get(){
-				return this.$store.state.userData[this.$store.state.currentUser].ventricularSensitivity;
-			},
-			set(value){
-				this.$store.commit("setVentricularSensitivity",value)
-			}
-		}, 
 		VRP:{
 			get(){
 				return this.$store.state.userData[this.$store.state.currentUser].VRP;
@@ -445,63 +337,78 @@ export default {
 				this.$store.commit("setVRP",value)
 			}
 		}, 
-		PVARP:{
-			get(){
-				return this.$store.state.userData[this.$store.state.currentUser].PVARP;
-			},
-			set(value){
-				this.$store.commit("setPVARP",value)
-			}
-		}, 
-		HRL:{
-			get(){
-				return this.$store.state.userData[this.$store.state.currentUser].HRL;
-			},
-			set(value){
-				this.$store.commit("setHRL",value)
-			}
-		}, 
-		rateSmoothing:{
-			get(){
-				return this.$store.state.userData[this.$store.state.currentUser].rateSmoothing;
-			},
-			set(value){
-				this.$store.commit("setRateSmoothing",value)
-			}
-		}, 
-		activityThreshold:{
-			get(){
-				return this.$store.state.userData[this.$store.state.currentUser].activityThreshold;
-			},
-			set(value){
-				this.$store.commit("setActivityThreshold",value)
-			}
-		}, 
-		reactTime:{
-			get(){
-				return this.$store.state.userData[this.$store.state.currentUser].reactTime;
-			},
-			set(value){
-				this.$store.commit("setReactTime",value)
-			}
-		}, 
-		resFactor:{
-			get(){
-				return this.$store.state.userData[this.$store.state.currentUser].resFactor;
-			},
-			set(value){
-				this.$store.commit("setResFactor",value)
-			}
-		}, 
-		recoveryTime:{
-			get(){
-				return this.$store.state.userData[this.$store.state.currentUser].recoveryTim;
-			},
-			set(value){
-				this.$store.commit("setRecoveryTime",value)
-			}
-		}, 
-	
+		// maxSensorRate:{
+		// 	get(){
+		// 		return this.$store.state.userData[this.$store.state.currentUser].maxSensorRate;
+		// 	},
+		// 	set(value){
+		// 		this.$store.commit("setMaxSensorRate",value)
+		// 	}
+		// }, 
+		// ventricularSensitivity:{
+		// 	get(){
+		// 		return this.$store.state.userData[this.$store.state.currentUser].ventricularSensitivity;
+		// 	},
+		// 	set(value){
+		// 		this.$store.commit("setVentricularSensitivity",value)
+		// 	}
+		// }, 
+		// PVARP:{
+		// 	get(){
+		// 		return this.$store.state.userData[this.$store.state.currentUser].PVARP;
+		// 	},
+		// 	set(value){
+		// 		this.$store.commit("setPVARP",value)
+		// 	}
+		// }, 
+		// HRL:{
+		// 	get(){
+		// 		return this.$store.state.userData[this.$store.state.currentUser].HRL;
+		// 	},
+		// 	set(value){
+		// 		this.$store.commit("setHRL",value)
+		// 	}
+		// }, 
+		// rateSmoothing:{
+		// 	get(){
+		// 		return this.$store.state.userData[this.$store.state.currentUser].rateSmoothing;
+		// 	},
+		// 	set(value){
+		// 		this.$store.commit("setRateSmoothing",value)
+		// 	}
+		// }, 
+		// activityThreshold:{
+		// 	get(){
+		// 		return this.$store.state.userData[this.$store.state.currentUser].activityThreshold;
+		// 	},
+		// 	set(value){
+		// 		this.$store.commit("setActivityThreshold",value)
+		// 	}
+		// }, 
+		// reactTime:{
+		// 	get(){
+		// 		return this.$store.state.userData[this.$store.state.currentUser].reactTime;
+		// 	},
+		// 	set(value){
+		// 		this.$store.commit("setReactTime",value)
+		// 	}
+		// }, 
+		// resFactor:{
+		// 	get(){
+		// 		return this.$store.state.userData[this.$store.state.currentUser].resFactor;
+		// 	},
+		// 	set(value){
+		// 		this.$store.commit("setResFactor",value)
+		// 	}
+		// }, 
+		// recoveryTime:{
+		// 	get(){
+		// 		return this.$store.state.userData[this.$store.state.currentUser].recoveryTim;
+		// 	},
+		// 	set(value){
+		// 		this.$store.commit("setRecoveryTime",value)
+		// 	}
+		// }, 
 	},
 	mounted:function(){
 		console.log(this.$store.state.currentUser);
