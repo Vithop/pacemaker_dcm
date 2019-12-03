@@ -2,7 +2,6 @@
 <template>
 	<q-drawer
 		show-if-above
-		v-model="left"
 		side="left"
 		behavior="desktop"
 		:mini="true"

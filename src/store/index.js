@@ -17,47 +17,112 @@ export default new Vuex.Store({
     users: ["admin"],
     passwords: ["password123"],
     currentUser: "",
-    //newUsers should replace users once working
-    newUsers:{
-      "admin":{
-        paceType:"AOO",
-        lowerRateLimit:0,
-        upperRateLimit:0,
-        atricalPulseAmp:0,
-        atricalPulseWidth: 0.5,
-        atricalRefractoryPeriod: 200,
-        VentricularPulseAmp: 4.0,
-        VentricularPulseWidth: 0.5,
+    devicePort: null,
+    //userData should replace users once working
+    userData:{
+      admin:{
+        paceType: "AOO",
+        lowerRateLimit: 50,
+        upperRateLimit: 120,
+        BPM:60,
+        atricalPulseAmp: 50,
+        atricalPulseWidth: 2,
+        ventricularPulseAmp: 50,
+        ventricularPulseWidth: 2,
+        fixedAvDelay: 150,
+        ARP: 250,
+        VRP: 320,
+        maxSensorRate: 120,
+        atricalSensitivity: 2.5,
+        ventricularSensitivity: 2.5,
         PVARP: 200,
-        HRL: true
+        HRL: 0,
+        rateSmoothing: 0,
+        activityThreshold: "Med",
+        reactTime: 30,
+        resFactor: 8,
+        recoveryTime: 5
       }
-    }
+    },
   }, 
   mutations: {
     signUp(state, payload) {
+      console.log(payload.username);
+      console.log(payload.password);
       state.users.push(payload.username);
       state.passwords.push(payload.password);
       state.currentUser = payload.username;
-      state.newUsers[payload.username] = payload.pacemakerParameters;
+      state.userData[payload.username] = payload.pacemakerParameters;
     },
     setCurrentUsers(state, username) {
       state.currentUser = username;
     },
-    setProgramableParameters(state, payload){
-      state.newUsers[state.currentUser] = 
-      {
-        paceType:payload.paceType,
-        lowerRateLimit:payload.lowerRateLimit,
-        upperRateLimit:payload.upperRateLimit,
-        atricalPulseAmp:payload.atricalPulseAmp,
-        atricalPulseWidth: payload.atricalPulseWidth,
-        atricalRefractoryPeriod: payload.atricalRefractoryPeriod,
-        VentricularPulseAmp: payload.VentricularPulseAmp,
-        VentricularPulseWidth: payload.VentricularPulseWidth,
-        PVARP: payload.PVARP,
-        HRL: payload.HRL
-      };
-    }
+    setPaceType(state, val){
+      state.userData[state.currentUser].paceType = val;
+    },
+    setLowerRateLimit(state, val){
+      state.userData[state.currentUser].lowerRateLimit = val;
+    },
+    setUpperRateLimit(state, val){
+      state.userData[state.currentUser].upperRateLimit = val;
+    },
+    setBPM(state, val){
+      state.userData[state.currentUser].BPM = val;
+    },
+    setMaxSensorRate(state, val){
+      state.userData[state.currentUser].maxSensorRate = val;
+    },
+    setFixedAvDelay(state, val){
+      state.userData[state.currentUser].fixedAvDelay = val;
+    },
+    setAtricalPulseAmp(state, val){
+      state.userData[state.currentUser].atricalPulseAmp = val;
+    },
+    setAtricalPulseWidth(state, val){
+      state.userData[state.currentUser].atricalPulseWidth = val;
+    },
+    setAtricalSensitivity(state, val){
+      state.userData[state.currentUser].atricalSensitivity = val;
+    },
+    setARP(state, val){
+      state.userData[state.currentUser].ARP = val;
+    },
+    setVentricularPulseAmp(state, val){
+      state.userData[state.currentUser].ventricularPulseAmp = val;
+    },
+    setVentricularPulseWidth(state, val){
+      state.userData[state.currentUser].ventricularPulseWidth = val;
+    },
+    setVentricularSensitivity(state, val){
+      state.userData[state.currentUser].ventricularSensitivity = val;
+    },
+    setVRP(state, val){
+      state.userData[state.currentUser].VRP = val;
+    },
+    setPVARP(state, val){
+      state.userData[state.currentUser].PVARP = val;
+    },
+    setHRL(state, val){
+      state.userData[state.currentUser].HRL = val;
+    },
+    setRateSmoothing(state, val){
+      state.userData[state.currentUser].rateSmoothing = val;
+    },
+    setActivityThreshold(state, val){
+      state.userData[state.currentUser].activityThreshold = val;
+    },
+    setReactTime(state, val){
+      state.userData[state.currentUser].reactTime = val;
+    },
+    setResFactor(state, val){
+      state.userData[state.currentUser].resFactor = val;
+    },
+    setRecoveryTime(state, val){
+      state.userData[state.currentUser].recoveryTime = val;
+    },
+    setDevicePort(state, val){
+      state.devicePort = val;
+    },
   },
   actions: {
     signUp({ commit }, payload) {
@@ -66,24 +131,36 @@ export default new Vuex.Store({
           username: payload.username,
           password: hash,
           pacemakerParameters: {
-            paceType:"AOO",
-            lowerRateLimit:0,
-            upperRateLimit:0,
-            atricalPulseAmp:0,
-            atricalPulseWidth: 0.5,
-            atricalRefractoryPeriod: 200,
-            VentricularPulseAmp: 4.0,
-            VentricularPulseWidth: 0.5,
+            paceType: "AOO",
+            lowerRateLimit: 50,
+            upperRateLimit: 120,
+            BPM:60,
+            atricalPulseAmp: 50,
+            atricalPulseWidth: 2,
+            ventricularPulseAmp: 50,
+            ventricularPulseWidth: 2,
+            fixedAvDelay: 150,
+            ARP: 250,
+            VRP: 320,
+            maxSensorRate: 120,
+            atricalSensitivity: 2.5,
+            ventricularSensitivity: 2.5,
             PVARP: 200,
-            HRL: true
+            HRL: 0,
+            rateSmoothing: 0,
+            activityThreshold: "Med",
+            reactTime: 30,
+            resFactor: 8,
+            recoveryTime: 5
           }
         });
+      }).catch(err =>{
+        console.log(err);
       });
     },
     login({ commit, state }, payload) {
-      return new Promise(resolve => {
-        // console.log(state.users);
-        // console.log(payload);
+      return new Promise((resolve, reject) => {
+        
         var userIndex = state.users.indexOf(payload.username);
         //console.log("userIndex", userIndex);
         if (userIndex != -1) {
@@ -91,6 +168,8 @@ export default new Vuex.Store({
             if(state.passwords[userIndex] == payload.password){
               commit("setCurrentUsers", payload.username);
               resolve("Admin Has Logged In!")
+            }else{
+              throw new Error("Password is Incorrect!");
             }
           }
           bcrypt
@@ -99,13 +178,14 @@ export default new Vuex.Store({
               if (res) {
                 commit("setCurrentUsers", payload.username);
                 resolve("Login Succesfull!");
-              } 
+              }else{
+                reject(Error("Password is Incorrect!"));
+              }
             })
             .catch((err) =>{
               console.log(err);
               throw err;
             });
-            throw new Error("Password is Incorrect!");
         } else {
           throw new Error("User doesn't exist!! Go Sign Up!");
         }
@@ -114,8 +194,8 @@ export default new Vuex.Store({
     logout({ commit }) {
       commit("setCurrentUsers", "");
     },
-    saveUsersParameters({commit}, payload){
-      commit("setProgramableParameters", payload);
+    saveUsersParameters(){
+
       //Use promise to send serial data
       // return new Promise(resolve =>{
       //   resolve("User Parameters saved succesfully!");

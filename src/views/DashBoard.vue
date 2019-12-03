@@ -1,7 +1,7 @@
 <template>
 	<div>
 		<div class="small">
-			<line-chart :chart-data="datacollection"></line-chart>
+			<line-chart :chartData="datacollection"></line-chart>
 		</div>
 		<div class="q-pa-md row items-start q-gutter-md">
 			<q-card class="my-card bg-grey-3 text-grey-10">
