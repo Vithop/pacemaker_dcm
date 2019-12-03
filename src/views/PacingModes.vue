@@ -411,8 +411,7 @@ export default {
 		// }, 
 	},
 	mounted:function(){
-		console.log(this.$store.state.currentUser);
-		console.log(this.$store.state.userData);
+		//    
 	},
 	methods: {
 		round_two_digits: function (x) {

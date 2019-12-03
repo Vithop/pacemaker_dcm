@@ -50,9 +50,9 @@ export default {
 	methods: {
 		doSignUp: function(event) {
 			if (event) {
-				if(this.$store.state.users.length == 10){
+				if(this.$store.state.users.length == 11){
 					this.message = "Maximum 10 users!!";
-				}else if (this.$store.state.users.includes[this.username]) {
+				} else if (this.$store.state.users.includes(this.username)) {
 					this.message = "User name is already taken";
 				} else if (this.tempPassWord1 != this.tempPassWord2) {
 					this.message = "Passwords don't match";

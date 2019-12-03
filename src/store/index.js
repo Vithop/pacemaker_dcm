@@ -126,6 +126,7 @@ export default new Vuex.Store({
   },
   actions: {
     signUp({ commit }, payload) {
+      console.log("do signUp");
       bcrypt.hash(payload.password, saltRounds).then(hash => {
         commit("signUp", {
           username: payload.username,
@@ -162,7 +163,7 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         
         var userIndex = state.users.indexOf(payload.username);
-        //console.log("userIndex", userIndex);
+        console.log("userIndex", userIndex);
         if (userIndex != -1) {
           if(userIndex == 0){
             if(state.passwords[userIndex] == payload.password){
@@ -176,6 +177,7 @@ export default new Vuex.Store({
             .compare(payload.password, state.passwords[userIndex])
             .then(res => {
               if (res) {
+                console.log("Logic Success!")
                 commit("setCurrentUsers", payload.username);
                 resolve("Login Succesfull!");
               }else{
