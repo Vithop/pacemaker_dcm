@@ -23,6 +23,7 @@ export default new Vuex.Store({
         paceType: "AOO",
         lowerRateLimit: 30,
         upperRateLimit: 120,
+        BPM:60,
         maxSensorRate: 120,
         fixedAvDelay: 150,
         atricalPulseAmp: 2.0,
@@ -64,6 +65,9 @@ export default new Vuex.Store({
     },
     setUpperRateLimit(state, val){
       state.userData[state.currentUser].upperRateLimit = val;
+    },
+    setBPM(state, val){
+      state.userData[state.currentUser].BPM = val;
     },
     setMaxSensorRate(state, val){
       state.userData[state.currentUser].maxSensorRate = val;
@@ -127,6 +131,7 @@ export default new Vuex.Store({
             paceType: "AOO",
             lowerRateLimit: 30,
             upperRateLimit: 120,
+            BPM:60,
             maxSensorRate: 120,
             fixedAvDelay: 150,
             atricalPulseAmp: 2.0,
