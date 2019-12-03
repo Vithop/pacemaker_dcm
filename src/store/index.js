@@ -195,7 +195,7 @@ export default new Vuex.Store({
       commit("setCurrentUsers", "");
     },
     saveUsersParameters(){
-
+      
       //Use promise to send serial data
       // return new Promise(resolve =>{
       //   resolve("User Parameters saved succesfully!");

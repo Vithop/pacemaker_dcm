@@ -21,7 +21,6 @@ import { QTabs, QRouteTab } from "quasar";
 import SerialPort from "serialport";
 import Readline from "@serialport/parser-readline";
 import Ready from "@serialport/parser-ready";
-// import { resolve } from 'dns';
 // @vuese
 // Used also used for login flow and display user info
 export default {
@@ -42,8 +41,8 @@ export default {
 	},
 	methods: {
 		getDeviceComName(manufacturer) {
-			
-			return SerialPort.list().then ((ports) => {	
+			console.log("get Device Com Name");
+			SerialPort.list().then ((ports) => {	
 				var devComName;
 				ports.forEach((path) => {
 					let {comName} = path;
@@ -55,6 +54,15 @@ export default {
 				console.log(devComName);
 				const devicePort = new SerialPort(devComName, {baudRate:manufacturer.baudRate}, console.log);
 				console.log(devicePort);
+				if(devicePort !== null){
+					this.isPaceMakerConnected = true;
+					this.$store.commit("setDevicePort", devicePort);
+					console.log(this.$store.state.devicePort);
+				} else {
+					this.isPaceMakerConnected = false;
+					this.$store.commit("setDevicePort", devicePort);
+					console.log("devicePort has disconneted");
+				}
 				return devicePort;
 			});
 		},
@@ -119,23 +127,23 @@ export default {
 			int16Values[6] = upperRateLimit;
 			int16Values[7] = lowerRateLimit;
 			var writeBuffer = Buffer.from(buffer)
-			// devicePort.open();
-			// for(var i = 0; i < 20; i++) {
-			// 	devicePort.write(writeBuffer);
-			// 	devicePort.drain();
-			// 	console.log("wrote some values to paceMaker")
-			// }
+			devicePort.open();
+			for(var i = 0; i < 20; i++) {
+				devicePort.write(writeBuffer);
+				devicePort.drain();
+				console.log("wrote some values to paceMaker: " + writeBuffer)
+			}
 
-			var parser = devicePort.pipe(new Ready({ delimiter: "READY" }));
-			parser.on('ready', () => {
-				console.log('the ready byte sequence has been received');
-				console.log(buffer);
-				for(var i = 0; i < 20; i++) {
-					devicePort.write(writeBuffer);
-					devicePort.drain();
-					devicePort.read();
-				}
-			});
+			// var parser = devicePort.pipe(new Ready({ delimiter: "READY" }));
+			// parser.on('ready', () => {
+			// 	console.log('the ready byte sequence has been received');
+			// 	console.log(buffer);
+			// 	for(var i = 0; i < 20; i++) {
+			// 		devicePort.write(writeBuffer);
+			// 		devicePort.drain();
+			// 		devicePort.read();
+			// 	}
+			// });
 			return {devicePort, writeBuffer};
 				// console.log('Data:', devicePort.read())
 				// parser = devicePort.pipe(new Readline({delimiter: "\n"}));
@@ -212,20 +220,15 @@ export default {
 			}).catch(console.log);
 		}
 	},
-    updated: function(){
+    mounted: function(){
 		console.log("topbar is mounted");
 		const arduino = {name: "Arduino LLC (www.arduino.cc)", baudRate: 9600};
 		// const paceMaker = {name: "SEGGER", baudRate: 115200}
 		//var {currentUser, userData} = this.$store.state;
-		if(this.isLoggedIn){
-			const t = this.getDeviceComName(arduino);
-			const u = t.then((devicePort) => {
-				this.$store.commit("setDevicePort", devicePort);
-				console.log(this.$store.state.devicePort);
-				return this.sendData(devicePort);
-			});
-			u.then(this.confirmSet);
-		}
+		
+
+		setInterval(this.getDeviceComName(arduino), 500);
+			// u.then(this.confirmSet);
     }
 };
 </script>
