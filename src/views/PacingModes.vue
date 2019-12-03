@@ -172,7 +172,7 @@
 				</div>
 
 			</div>
-			<div class="col2">
+			<!-- <div class="col2">
 				<div
 					class="q-pa-md"
 					v-if="paceType == 'AAI' || paceType == 'VVI' || paceType == 'AAIR' || paceType == 'VVIR'">
@@ -264,13 +264,13 @@
 				</div>
 
 
-			</div>
+			</div> -->
 		</div>
 		<q-btn unelevated rounded color="teal-13" label="Save Settings to Board" v-on:click="submitData" />
 	</div>
 </template>
 <script>
-import { /*QRange,*/ QBadge, QSlider, QToggle, QTabs, QTab, QOptionGroup } from "quasar";
+import { /*QRange,*/ QBadge, QSlider, /*QToggle,*/ QTabs, QTab /*QOptionGroup*/ } from "quasar";
 //import {mapState} from "vuex";
 // @vuese
 // Pacing modes and parameters view
@@ -280,10 +280,10 @@ export default {
 		//QRange,
 		QBadge,
 		QSlider,
-		QToggle,
+		//QToggle,
 		QTabs,
-		QTab,
-		QOptionGroup
+		QTab
+		//QOptionGroup
 	},
 	data: function() {
 		return {
