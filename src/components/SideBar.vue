@@ -5,7 +5,7 @@
 		side="left"
 		behavior="desktop"
 		:mini="true"
-		:mini-width="75"
+		:mini-width="100"
 		:breakpoint="500"
 		bordered
 		content-class="bg-grey-3"
@@ -14,26 +14,21 @@
 		<q-list padding class="sidebar">
 			<q-item active clickable v-ripple to="/DashBoard">
 				<q-item-section avatar>
-					<q-icon name="ion-pulse" />
+					<q-icon name="ion-pulse" color="secondary"/>
 				</q-item-section>
 			</q-item>
 			<q-item active clickable v-ripple to="/PacingModes">
 				<q-item-section avatar>
-					<q-icon name="ion-heart" />
+					<q-icon name="ion-settings" color="secondary"/>
 				</q-item-section>
 			</q-item>
 
 			<q-item active clickable v-ripple v-on:click="signOut">
 				<q-item-section avatar>
-					<q-icon name="ion-log-out" />
+					<q-icon name="ion-log-out" color="red-13"/>
 				</q-item-section>
 			</q-item>
 
-			<q-item active clickable v-ripple>
-				<q-item-section avatar>
-					<q-icon name="ion-settings" />
-				</q-item-section>
-			</q-item>
 		</q-list>
 	</q-drawer>
 </template>
