@@ -119,10 +119,12 @@ export default {
 			int16Values[6] = upperRateLimit;
 			int16Values[7] = lowerRateLimit;
 			var writeBuffer = Buffer.from(buffer)
-			// console.log("buffer: " + buffer + " int16vals: " + int16Values + " int8Vals: " + int8Vals);
-			// devicePort.write(buffer);
-			// devicePort.drain();
-			// console.log("wrote some values to paceMaker")
+			// devicePort.open();
+			// for(var i = 0; i < 20; i++) {
+			// 	devicePort.write(writeBuffer);
+			// 	devicePort.drain();
+			// 	console.log("wrote some values to paceMaker")
+			// }
 
 			var parser = devicePort.pipe(new Ready({ delimiter: "READY" }));
 			parser.on('ready', () => {
