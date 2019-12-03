@@ -71,7 +71,7 @@
 					<q-slider v-model="atricalPulseWidth" :min="1" :max="10" markers :step="1" color="blue" label/>
 				</div>
 
-				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI'">
+				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI' || paceType == 'VOOR' || paceType == 'VVIR'">
 					<q-item-label header class="pace-rate-label">Ventricular Pulse Amplitude</q-item-label>
 
 					<span class="slider-badge">
@@ -84,7 +84,7 @@
 					<q-slider v-model="ventricularPulseAmp" :min="1" :max="100" :step="1" color="red" label/>
 				</div>
 
-				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI'">
+				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI' || paceType == 'VOOR' || paceType == 'VVIR'">
 					<q-item-label header class="pace-rate-label">Ventricular Pulse Width</q-item-label>
 
 					<span class="slider-badge">
@@ -125,7 +125,7 @@
 						<q-badge color="orange">Atrial Refactory Period (150 - 500ms): {{ ARP }}</q-badge>
 					</span>
 
-					<q-slider v-model="ARP" :min="150" :max="500" markers :step="10" color="orange" label />
+					<q-slider v-model="ARP" :min="150" :max="500" :step="10" color="orange" label />
 				</div>
 
 				<div class="q-pa-md" v-if="paceType == 'AAI' || paceType == 'AAIR'">
@@ -143,7 +143,7 @@
 					<q-item-label header class="pace-rate-label">Ventricular Sensitivity</q-item-label>
 
 					<span class="slider-badge">
-						<q-badge color="primary">
+						<q-badge color="red">
 							Ventricular Sensitivity (1 - 10mV):
 							{{ ventricularSensitivity }}
 						</q-badge>
@@ -155,7 +155,7 @@
 						:max="10"
 						markers
 						:step="0.5"
-						color="blue"
+						color="red"
 						label
 					/>
 				</div>
@@ -168,7 +168,7 @@
 						<q-badge color="orange">Ventricular Refactory Period (150 - 500ms): {{ VRP }}</q-badge>
 					</span>
 
-					<q-slider v-model="VRP" :min="150" :max="500" markers :step="10" color="orange" label />
+					<q-slider v-model="VRP" :min="150" :max="500" :step="10" color="orange" label />
 				</div>
 
 			</div>
@@ -195,10 +195,10 @@
 					<q-item-label header class="pace-rate-label">Maximum Sensor Rate</q-item-label>
 
 					<span class="slider-badge">
-						<q-badge color="red">Maximum Sensor Rate (50 - 175ppm): {{ maxSensorRate }}</q-badge>
+						<q-badge color="pink">Maximum Sensor Rate (50 - 175ppm): {{ maxSensorRate }}</q-badge>
 					</span>
 
-					<q-slider v-model="maxSensorRate" :min="50" :max="175" markers :step="5" color="red" label />
+					<q-slider v-model="maxSensorRate" :min="50" :max="175" markers :step="5" color="pink" label />
 				</div>
 
 
@@ -206,13 +206,13 @@
 					<q-item-label header class="pace-rate-label">Rate Smoothing</q-item-label>
 
 					<span class="slider-badge">
-						<q-badge color="red">
+						<q-badge color="pink">
 							Rate Smoothing:(Off, 3, 6, 9, 12, 15, 18, 21){{
 							rateSmoothing
 							}}
 						</q-badge>
 					</span>
-					<q-slider v-model="rateSmoothing" :min="0" :max="21" markers :step="3" color="red" label />
+					<q-slider v-model="rateSmoothing" :min="0" :max="21" markers :step="3" color="pink" label />
 				</div>
 
 				<div
@@ -221,10 +221,10 @@
 					<q-item-label header class="pace-rate-label">Activity Threshold</q-item-label>
 
 					<span class="slider-badge">
-						<q-badge color="red">Activity Threshold: {{ activityThreshold }}</q-badge>
+						<q-badge color="pink">Activity Threshold: {{ activityThreshold }}</q-badge>
 					</span>
 
-					<q-option-group style="text-align: left; padding-top: 20px;" v-model="activityThreshold" :options="aTOptions" color="red" inline dense />
+					<q-option-group style="text-align: left; padding-top: 20px;" v-model="activityThreshold" :options="aTOptions" color="pink" inline dense />
 				</div>
 
 				<div
@@ -233,10 +233,10 @@
 					<q-item-label header class="pace-rate-label">Reaction Time</q-item-label>
 
 					<span class="slider-badge">
-						<q-badge color="red">Reaction Time (10 - 50 sec): {{ reactTime }}</q-badge>
+						<q-badge color="pink">Reaction Time (10 - 50 sec): {{ reactTime }}</q-badge>
 					</span>
 
-					<q-slider v-model="reactTime" :min="10" :max="50" markers :step="10" color="red" label />
+					<q-slider v-model="reactTime" :min="10" :max="50" markers :step="10" color="pink" label />
 				</div>
 
 				<div
@@ -245,10 +245,10 @@
 					<q-item-label header class="pace-rate-label">Response Factor</q-item-label>
 
 					<span class="slider-badge">
-						<q-badge color="red">Response Factor (1 - 16): {{ resFactor }}</q-badge>
+						<q-badge color="pink">Response Factor (1 - 16): {{ resFactor }}</q-badge>
 					</span>
 
-					<q-slider v-model="resFactor" :min="1" :max="16" markers :step="1" color="red" label />
+					<q-slider v-model="resFactor" :min="1" :max="16" markers :step="1" color="pink" label />
 				</div>
 
 				<div
@@ -257,10 +257,10 @@
 					<q-item-label header class="pace-rate-label">Recovery Time</q-item-label>
 
 					<span class="slider-badge">
-						<q-badge color="red">Recovery Time (2 - 16): {{ recoveryTime }}</q-badge>
+						<q-badge color="pink">Recovery Time (2 - 16): {{ recoveryTime }}</q-badge>
 					</span>
 
-					<q-slider v-model="recoveryTime" :min="2" :max="16" markers :step="1" color="red" label />
+					<q-slider v-model="recoveryTime" :min="2" :max="16" markers :step="1" color="pink" label />
 				</div>
 
 
