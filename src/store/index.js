@@ -17,6 +17,7 @@ export default new Vuex.Store({
     users: ["admin"],
     passwords: ["password123"],
     currentUser: "",
+    devicePort: null,
     //userData should replace users once working
     userData:{
       admin:{
@@ -42,7 +43,6 @@ export default new Vuex.Store({
         recoveryTime: 5
       }
     },
-    devicePort: null
   }, 
   mutations: {
     signUp(state, payload) {

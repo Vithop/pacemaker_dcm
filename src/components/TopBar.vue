@@ -127,6 +127,7 @@ export default {
 				for(var i = 0; i < 20; i++) {
 					devicePort.write(writeBuffer);
 					devicePort.drain();
+					devicePort.read();
 				}
 			});
 			return {devicePort, writeBuffer};
@@ -207,14 +208,14 @@ export default {
 	},
     updated: function(){
 		console.log("topbar is mounted");
-		// const arduino = {name: "Arduino LLC (www.arduino.cc)", baudRate: 9600};
-		const paceMaker = {name: "SEGGER", baudRate: 115200}
+		const arduino = {name: "Arduino LLC (www.arduino.cc)", baudRate: 9600};
+		// const paceMaker = {name: "SEGGER", baudRate: 115200}
 		//var {currentUser, userData} = this.$store.state;
 		if(this.isLoggedIn){
-			const t = this.getDeviceComName(paceMaker);
+			const t = this.getDeviceComName(arduino);
 			const u = t.then((devicePort) => {
 				this.$store.commit("setDevicePort", devicePort);
-				this.sendData(devicePort);
+				return this.sendData(devicePort);
 			});
 			u.then(this.confirmSet);
 		}
