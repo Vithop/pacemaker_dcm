@@ -42,7 +42,7 @@ export default new Vuex.Store({
         recoveryTime: 5
       }
     },
-    streamMode: [0x55, 0x22] // Set or Echo
+    devicePort: null
   }, 
   mutations: {
     signUp(state, payload) {
@@ -115,6 +115,9 @@ export default new Vuex.Store({
     },
     setRecoveryTime(state, val){
       state.userData[state.currentUser].recoveryTime = val;
+    },
+    setDevicePort(state, val){
+      state.devicePort = val;
     },
   },
   actions: {

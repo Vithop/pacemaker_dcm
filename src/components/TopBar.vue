@@ -48,19 +48,19 @@ export default {
 				ports.forEach((path) => {
 					let {comName} = path;
 					console.log(path);
-					if (path.manufacturer === manufacturer)   {
+					if (path.manufacturer === manufacturer.name)   {
 						devComName = comName;
 					}
 				});
 				console.log(devComName);
-				const devicePort = new SerialPort(devComName, {baudRate:115200}, console.log);
+				const devicePort = new SerialPort(devComName, {baudRate:manufacturer.baudRate}, console.log);
 				console.log(devicePort);
 				return devicePort;
 			});
 		},
 		sendData(devicePort){
 			var enumPaceType;
-			const {streamMode, userData, currentUser} = this.$store.state;
+			const {userData, currentUser} = this.$store.state;
 			const {
 				paceType,
 				// lowerRateLimit,
@@ -95,56 +95,57 @@ export default {
 			if(paceType == "AAIR") enumPaceType = 9;
 			if(paceType == "VVIR") enumPaceType = 10;
 			
-			var buffer = new Buffer(14);
-			var int8Vals = new Int8Array(buffer);
-			var int16Values = new Int16Array(buffer);
+			var buffer = new ArrayBuffer(14);
+			var int8Vals = new Int8Array(buffer, 0, 2);
+			var int16Values = new Int16Array(buffer, 2, 6);
 
 			if(paceType){
 				if(paceType.charAt(0) == 'A'){
-					int16Values[1] = atricalPulseWidth;
-					int16Values[4] = atricalPulseAmp;
+					int16Values[0] = atricalPulseWidth * 10;
+					int16Values[3] = atricalPulseAmp * 2;
 				} else {
-					int16Values[1] = ventricularPulseWidth;
-					int16Values[4] = ventricularPulseAmp;
+					int16Values[0] = ventricularPulseWidth * 10;
+					int16Values[3] = ventricularPulseAmp * 2;
 				}
 			}
-			int8Vals[0] = 15;
-			int8Vals[1] = streamMode;
-			int16Values[2] = 60;	//BPM
-			int16Values[3] = enumPaceType;
-			int16Values[5] = ARP;
-			int16Values[6] = VRP;
-
-			console.log("buffer: " + buffer + " int16vals: " + int16Values + " int8Vals: " + int8Vals);
-			devicePort.write(buffer);
-			devicePort.drain();
-			console.log("wrote some values to paceMaker")
+			int8Vals[0] = 0x16;
+			int8Vals[1] = 0x55;
+			int16Values[1] = 60;	//BPM
+			int16Values[2] = enumPaceType;
+			int16Values[4] = ARP;
+			int16Values[5] = VRP;
+			var writeBuffer = Buffer.from(buffer)
+			// console.log("buffer: " + buffer + " int16vals: " + int16Values + " int8Vals: " + int8Vals);
+			// devicePort.write(buffer);
+			// devicePort.drain();
+			// console.log("wrote some values to paceMaker")
 
 			var parser = devicePort.pipe(new Ready({ delimiter: "READY" }));
 			parser.on('ready', () => {
 				console.log('the ready byte sequence has been received');
 				console.log(buffer);
 				for(var i = 0; i < 20; i++) {
-					devicePort.write(buffer);
+					devicePort.write(writeBuffer);
 					devicePort.drain();
 				}
 			});
-			return {devicePort, buffer};
+			return {devicePort, writeBuffer};
 				// console.log('Data:', devicePort.read())
 				// parser = devicePort.pipe(new Readline({delimiter: "\n"}));
 				// parser.on('data', console.log);
 		},
-		confirmSet({devicePort, buffer}) {
+		confirmSet({devicePort, writeBuffer}) {
 			console.log(devicePort);
 
 			const parser = devicePort.pipe(new Readline());
+			console.log(parser);
 			parser.on('data', (data) => {
 				console.log("confirming Set data: " +  data);
-				if(data === "echo: " + buffer + "\n"){
+				if(data === "echo: " + writeBuffer + "\n"){
 					console.log("data has been set");
 				}else {
 					console.log("data has not been set");
-					devicePort.write(buffer);
+					devicePort.write(writeBuffer);
 					// this.sendData(devicePort).then(this.confirmSet);
 				}
 			});
@@ -206,12 +207,15 @@ export default {
 	},
     updated: function(){
 		console.log("topbar is mounted");
+		// const arduino = {name: "Arduino LLC (www.arduino.cc)", baudRate: 9600};
+		const paceMaker = {name: "SEGGER", baudRate: 115200}
 		//var {currentUser, userData} = this.$store.state;
 		if(this.isLoggedIn){
-			const arduino = "Arduino LLC (www.arduino.cc)";
-			// const paceMaker = "SEGGER"
-			const t = this.getDeviceComName(arduino);
-			const u = t.then(this.sendData);
+			const t = this.getDeviceComName(paceMaker);
+			const u = t.then((devicePort) => {
+				this.$store.commit("setDevicePort", devicePort);
+				this.sendData(devicePort);
+			});
 			u.then(this.confirmSet);
 		}
     }
