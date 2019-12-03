@@ -20,7 +20,6 @@
 import { QTabs, QRouteTab } from "quasar";
 import SerialPort from "serialport";
 import Readline from "@serialport/parser-readline";
-import Ready from "@serialport/parser-ready";
 // @vuese
 // Used also used for login flow and display user info
 export default {
@@ -165,60 +164,6 @@ export default {
 				}
 			});
 		},
-		arduinoTalk(){
-			var devicePort;
-			var parser;
-			
-			SerialPort.list().then ((ports) => {
-				var devComName;
-				ports.forEach((path) => {
-					let {comName} = path;
-					console.log(path);
-					// const port = new SerialPort(comName, {baudRate: 9600}, console.log);
-					if (path.manufacturer === "Arduino LLC (www.arduino.cc)") {
-						devComName = comName;
-					}
-				});
-				return devComName;
-
-			}).then((deviceComName) => {
-				console.log(deviceComName);
-				devicePort = new SerialPort(deviceComName, {baudRate:9600}, console.log);
-				console.log(devicePort);
-				// devicePort.open();
-				parser = devicePort.pipe(new Ready({ delimiter: 'READY' }));
-				parser.on('ready', () => {
-					console.log('the ready byte sequence has been received');
-					devicePort.write("Please talk to me\n");
-					// devicePort.drain();
-				});
-			}).then(() => {
-				parser = devicePort.pipe(new Readline({delimiter: "No\n"}));
-				parser.on('data', (data) => {
-					console.log("2" + data);
-					devicePort.write("Cmon Please talk to me\n");
-					// devicePort.drain();
-				}); 
-			}).then(() => {
-				parser = devicePort.pipe(new Readline({delimiter: "I don't wanna\n"}));
-				parser.on('data', (data) => {
-					console.log("3" + data);
-					devicePort.write("Why won't you talk to me\n");
-					// devicePort.drain();
-				}); 
-			}).then(() => {
-				parser = devicePort.pipe(new Readline({delimiter: "Cause they're watching us\n"}));
-				parser.on('data', (data) => {
-					console.log("4" + data);
-				});
-			}).then(() => {
-				parser = devicePort.pipe(new Readline({delimiter: "END\n"}));
-				parser.on('data', (data) => {
-					console.log("5" + data);
-					return;
-				});
-			}).catch(console.log);
-		}
 	},
     mounted: function(){
 		console.log("topbar is mounted");
