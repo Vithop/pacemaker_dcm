@@ -123,9 +123,10 @@ export default {
 			devicePort.on("open", () => {
 				console.log("open port");
 				devicePort.write(writeBuffer);
-				devicePort.on("data", (data) => {
-				console.log("data that has been echoed: " + data);
-				});
+				// devicePort.on("data", (data) => {
+				// 	console.log("data that has been echoed: " + data);
+				// });
+				return;
 			});
 			for(var i = 0; i < 20; i++) {
 				devicePort.write(writeBuffer);
@@ -134,7 +135,7 @@ export default {
 				console.log("data that has been echoed: " + devicePort.read())
 				console.log(buffer);
 			}
-			// devicePort.close();
+			devicePort.close();
 
 			// var parser = devicePort.pipe(new Readline());
 			// parser.on('data', (data) => {
