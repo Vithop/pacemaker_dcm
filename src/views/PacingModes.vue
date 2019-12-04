@@ -25,13 +25,13 @@
 					<q-item-label header class="pace-rate-label">Beats per Minute</q-item-label>
 
 					<span class="slider-badge">
-						<q-badge color="secondary">Beats per Minute (50 - 100bpm): {{ BPM }}</q-badge>
+						<q-badge color="secondary">Beats per Minute (50 - 120bpm): {{ BPM }}</q-badge>
 					</span>
 
-					<q-slider v-model="BPM" :min="50" :max="100" :step="1" color="green" label />
+					<q-slider v-model="BPM" :min="50" :max="120" :step="1" color="green" label />
 				</div>
 
-				<div class="q-pa-md" v-if="paceType === 'DOO' || paceType === 'DOOR'">
+				<div class="q-pa-md" v-if="paceType === 'DOO' || paceType === 'DOOR' || paceType === 'DDDR'">
 					<q-item-label header class="pace-rate-label">Fixed AV Delay</q-item-label>
 
 					<span class="slider-badge">
@@ -71,7 +71,7 @@
 					<q-slider v-model="atricalPulseWidth" :min="1" :max="10" markers :step="1" color="blue" label/>
 				</div>
 
-				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI' || paceType == 'VOOR' || paceType == 'VVIR' || paceType == 'DOO' || paceType == 'DOOR'">
+				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI' || paceType == 'VOOR' || paceType == 'VVIR' || paceType == 'DOO' || paceType == 'DOOR'|| paceType == 'DDDR'">
 					<q-item-label header class="pace-rate-label">Ventricular Pulse Amplitude</q-item-label>
 
 					<span class="slider-badge">
@@ -84,7 +84,7 @@
 					<q-slider v-model="ventricularPulseAmp" :min="70" :max="100" :step="1" color="red" label/>
 				</div>
 
-				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI' || paceType == 'VOOR' || paceType == 'VVIR' || paceType == 'DOO' || paceType == 'DOOR'">
+				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI' || paceType == 'VOOR' || paceType == 'VVIR' || paceType == 'DOO' || paceType == 'DOOR' || paceType == 'DDDR'">
 					<q-item-label header class="pace-rate-label">Ventricular Pulse Width</q-item-label>
 
 					<span class="slider-badge">
@@ -207,7 +207,8 @@ export default {
 				"AAI",
 				"VVI",
 				"AAIR",
-				"VVIR"
+				"VVIR",
+				"DDDR"
 			],
 			aTOptions: [
 				{

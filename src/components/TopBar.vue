@@ -50,21 +50,24 @@ export default {
 			SerialPort.list().then ((ports) => {	
 				ports.forEach((path) => {
 					let {comName} = path;
-					console.log(path);
+					//console.log(path);
 					if (path.manufacturer === manufacturer.name) {
 						devComName = comName;
 						setTimeout(() => {this.$store.commit("setIsPaceMakerConnected", true);}, 500);
 					}
 				});
 				console.log(devComName);
-				console.log(devicePort);
+				//console.log(devicePort);
 				if(devComName === null){
-					setTimeout(() => {this.$store.commit("setIsPaceMakerConnected", false);}, 500);
+					setTimeout(() => {
+						this.$store.commit("setIsPaceMakerConnected", false);
+						devicePort = null;
+					}, 500);
 				}
 				try{
 					if(devicePort === null && this.isPaceMakerConnected){
 						devicePort = new SerialPort(devComName, {baudRate:manufacturer.baudRate}, console.log);
-						console.log(devicePort);
+						console.log("%c New SerialPort", "color:red; font-size: 20px");
 					}
 				}catch{
 					devicePort = null;
@@ -115,6 +118,7 @@ export default {
 			if(paceType === "VVI") enumPaceMode = 8;
 			if(paceType === "AAIR") enumPaceMode = 9;
 			if(paceType === "VVIR") enumPaceMode = 10;
+			if(paceType === "DDDR") enumPaceMode = 11;
 			
 			var buffer = new ArrayBuffer(20);
 			var int8Vals = new Int8Array(buffer, 0, 2);
@@ -165,20 +169,6 @@ export default {
 				//return {devicePort, writeBuffer};
 			
 				//devicePort.close();
-	
-				// var parser = devicePort.pipe(new Readline());
-				// parser.on('data', (data) => {
-				// 	console.log('the ready byte sequence has been received and data is: ' + data );
-				// 	console.log(buffer);
-				// 	for(var i = 0; i < 20; i++) {
-				// 		devicePort.write(writeBuffer);
-				// 		devicePort.drain();
-				// 		// devicePort.read();
-				// 	}
-				// });
-					// console.log('Data:', devicePort.read())
-					// parser = devicePort.pipe(new Readline({delimiter: "\n"}));
-					// parser.on('data', console.log);
 			}else alert("Parameters Not Saved! Error: Device not connected");
 		},
 		confirmSet({devicePort, writeBuffer}) {
@@ -204,7 +194,7 @@ export default {
 		const paceMaker = {name: "SEGGER", baudRate: 115200}
 		//var {currentUser, userData} = this.$store.state;
 		
-		// this.getDeviceComName(paceMaker);
+		//this.getDeviceComName(paceMaker);
 		setInterval(this.getDeviceComName, 500, paceMaker);
 		window.addEventListener('send-data', this.sendData);
 			// u.then(this.confirmSet);
