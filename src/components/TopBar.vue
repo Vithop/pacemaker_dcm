@@ -1,6 +1,6 @@
 <template>
 	<div id="top">
-        <span v-if="isLoggedIn" class="topbar" >
+        <span v-if="isLoggedIn" class="topbar" overlay>
             <p class="q-mr-xl">Welcome to {{this.$store.state.currentUser}}'s DCM</p>
             <p class="q-mr-sm">Pacemaker status  </p>
             <q-icon v-if="!isPaceMakerConnected" name="ion-radio-button-on" size="20px" color="red-13"/>

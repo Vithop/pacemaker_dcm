@@ -4,19 +4,22 @@
 		show-if-above
 		side="left"
 		behavior="desktop"
-		:mini="true"
-		:max-width="200"
+		:mini="miniState"
+        @mouseover="miniState = false"
+        @mouseout="miniState = true"
+        mini-to-overlay
+		:width="150"
 		:breakpoint="500"
 		bordered
-		content-class="bg-grey-3"
+		content-class="bg-white-3"
 	>
 		<!-- drawer content -->
 		<q-list padding class="sidebar">
-			<q-item active clickable v-ripple to="/DashBoard">
+			<q-item active clickable v-ripple to="/DashBoard" color="black">
 				<q-item-section avatar>
 					<q-icon name="ion-pulse" color="secondary"/>
 				</q-item-section>
-				<q-item-section>DashBoard</q-item-section>
+				<q-item-section color="black">DashBoard</q-item-section>
 			</q-item>
 			<q-item active clickable v-ripple to="/PacingModes">
 				<q-item-section avatar>
@@ -39,8 +42,16 @@
 <script>
 // @vuese
 // Controls navagation after login
+
+
 export default {
 	name: "sideBar",
+	data() {
+		return {
+			drawer: false,
+			miniState: true
+		};
+	},	
 	methods: {
 		signOut: function(event) {
 			if (event) {
@@ -56,9 +67,17 @@ export default {
 <style scoped>
 .q-icon {
 	font-size: 32px;
+	padding-right: 10px;
 }
 .q-item {
 	padding-top: 10px;
 	padding-bottom: 10px;
+}
+.q-item__section--avatar {
+	min-width: 0px;
+}
+.q-item__section--main {
+	color: black;
+	text-align: left;
 }
 </style>
