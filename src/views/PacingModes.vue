@@ -8,7 +8,7 @@
 		</q-tabs>
 		<div class="row">
 			<div class="col">
-				<div class="q-pa-md" v-if="paceType === 'AOOR' || paceType === 'AAIR' || paceType === 'VOOR' || paceType === 'VVIR' || paceType === 'DOOR'">
+				<div class="q-pa-md" v-if="paceType === 'AOOR' || paceType === 'AAIR' || paceType === 'VOOR' || paceType === 'VVIR' || paceType === 'DOOR' || paceType === 'DDDR'">
 					<q-item-label header class="pace-rate-label">Pacing Rate Limit</q-item-label>
 					<span class="slider-badge">
 						<q-badge color="secondary">Lower Rate Limit (50 - 90bpm): {{ lowerRateLimit }}</q-badge>
