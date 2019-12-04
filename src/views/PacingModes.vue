@@ -489,13 +489,16 @@ export default {
 
 				devicePort.on("open", () => {
 					console.log("open port");
-					devicePort.on("data", (data) => {
-						// for(var i = 0; i < 20; i++) {
-						// 	devicePort.write(writeBuffer);
-						// }
-						console.log("data that has been echoed 1: " + data);
-					});
+					devicePort.write(writeBuffer);
+					// devicePort.on("data", (data) => {
+					// 	devicePort.write(writeBuffer);
+					// 	// for(var i = 0; i < 20; i++) {
+					// 	// 	devicePort.write(writeBuffer);
+					// 	// }
+					// 	console.log("data that has been echoed 1: " + data);
+					// });
 				});
+
 				for(var i = 0; i < 20; i++) {
 					devicePort.write(writeBuffer);
 					// devicePort.drain();
@@ -503,7 +506,7 @@ export default {
 					console.log("data that has been echoed 2: " + devicePort.read())
 					console.log(buffer);
 				}
-				// devicePort.close();
+				devicePort.close();
 
 				// var parser = devicePort.pipe(new Readline());
 				// parser.on('data', (data) => {
