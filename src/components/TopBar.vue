@@ -50,21 +50,21 @@ export default {
 			SerialPort.list().then ((ports) => {	
 				ports.forEach((path) => {
 					let {comName} = path;
-					//console.log(path);
+					console.log(path);
 					if (path.manufacturer === manufacturer.name) {
 						devComName = comName;
 						this.$store.commit("setIsPaceMakerConnected", true);
 					}
 				});
-				// console.log(devComName);
-				// console.log(devicePort);
+				console.log(devComName);
+				console.log(devicePort);
 				if(devComName === null){
 					this.$store.commit("setIsPaceMakerConnected", false);
 				}
 				try{
 					if(devicePort === null && this.isPaceMakerConnected){
 						devicePort = new SerialPort(devComName, {baudRate:manufacturer.baudRate}, console.log);
-						//console.log(devicePort);
+						console.log(devicePort);
 					}
 				}catch{
 					devicePort = null;
@@ -73,8 +73,10 @@ export default {
 
 			});
 		},
-		sendData(){
+		sendData: async function(){
 			console.log("start send data");
+			console.log("send data path: ");
+			console.log(devicePort);
 			var enumPaceMode;
 			const {userData, currentUser} = this.$store.state;
 			const {
@@ -138,25 +140,30 @@ export default {
 			int16Values[8] = fixedAvDelay;
 			var writeBuffer = Buffer.from(buffer)
 			if(devicePort !== null){
-				devicePort.drain();
-				devicePort.flush();
-
+				// if(!devicePort.write(writeBuffer)){
+				// 	devicePort.drain()
+				// }
+				// devicePort.on("write", () => devicePort.write(writeBuffer));
 				devicePort.on("open", () => {
 					console.log("open port");
 					devicePort.write(writeBuffer);
 					// devicePort.on("data", (data) => {
 					// 	console.log("data that has been echoed: " + data);
 					// });
-					return;
 				});
 				for(var i = 0; i < 20; i++) {
 					devicePort.write(writeBuffer);
-					devicePort.drain();
+					//devicePort.drain();
 					console.log("wrote some values to paceMaker: ");
 					console.log("data that has been echoed: " + devicePort.read())
 					console.log(buffer);
 				}
-				devicePort.close();
+			
+				console.log("sent all data");
+				alert("Settings have been saved to your pacemaker!");
+				//return {devicePort, writeBuffer};
+			
+				//devicePort.close();
 	
 				// var parser = devicePort.pipe(new Readline());
 				// parser.on('data', (data) => {
@@ -168,9 +175,6 @@ export default {
 				// 		// devicePort.read();
 				// 	}
 				// });
-				console.log("sent all data");
-				alert("Settings have been saved to your pacemaker!");
-				return {devicePort, writeBuffer};
 					// console.log('Data:', devicePort.read())
 					// parser = devicePort.pipe(new Readline({delimiter: "\n"}));
 					// parser.on('data', console.log);
@@ -196,12 +200,12 @@ export default {
 	},
     mounted: function(){
 		console.log("topbar is mounted");
-		//const arduino = {name: "Arduino LLC (www.arduino.cc)", baudRate: 9600};
+		// const arduino = {name: "Arduino LLC (www.arduino.cc)", baudRate: 9600};
 		const paceMaker = {name: "SEGGER", baudRate: 115200}
 		//var {currentUser, userData} = this.$store.state;
 		
 		this.getDeviceComName(paceMaker);
-		// setInterval(this.getDeviceComName, 1000, paceMaker);
+		//setInterval(this.getDeviceComName, 500, paceMaker);
 		window.addEventListener('send-data', this.sendData);
 			// u.then(this.confirmSet);
     }
