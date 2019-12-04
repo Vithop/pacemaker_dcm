@@ -53,13 +53,13 @@ export default {
 					console.log(path);
 					if (path.manufacturer === manufacturer.name) {
 						devComName = comName;
-						this.$store.commit("setIsPaceMakerConnected", true);
+						setTimeout(() => {this.$store.commit("setIsPaceMakerConnected", true);}, 500);
 					}
 				});
 				console.log(devComName);
 				console.log(devicePort);
 				if(devComName === null){
-					this.$store.commit("setIsPaceMakerConnected", false);
+					setTimeout(() => {this.$store.commit("setIsPaceMakerConnected", false);}, 500);
 				}
 				try{
 					if(devicePort === null && this.isPaceMakerConnected){
@@ -139,7 +139,8 @@ export default {
 			int16Values[7] = lowerRateLimit;
 			int16Values[8] = fixedAvDelay;
 			var writeBuffer = Buffer.from(buffer)
-			if(devicePort !== null){
+			
+			if(devicePort !== null && this.isPaceMakerConnected){
 				// if(!devicePort.write(writeBuffer)){
 				// 	devicePort.drain()
 				// }
@@ -178,8 +179,7 @@ export default {
 					// console.log('Data:', devicePort.read())
 					// parser = devicePort.pipe(new Readline({delimiter: "\n"}));
 					// parser.on('data', console.log);
-			}
-			alert("Parameters Not Saved! Error: Device not connected");
+			}else alert("Parameters Not Saved! Error: Device not connected");
 		},
 		confirmSet({devicePort, writeBuffer}) {
 			console.log(devicePort);
@@ -204,8 +204,8 @@ export default {
 		const paceMaker = {name: "SEGGER", baudRate: 115200}
 		//var {currentUser, userData} = this.$store.state;
 		
-		this.getDeviceComName(paceMaker);
-		//setInterval(this.getDeviceComName, 500, paceMaker);
+		// this.getDeviceComName(paceMaker);
+		setInterval(this.getDeviceComName, 500, paceMaker);
 		window.addEventListener('send-data', this.sendData);
 			// u.then(this.confirmSet);
     }
