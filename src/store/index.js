@@ -42,7 +42,7 @@ export default new Vuex.Store({
       console.log(payload.password);
       state.users.push(payload.username);
       state.passwords.push(payload.password);
-      state.currentUser = payload.username;
+      //state.currentUser = payload.username;
       state.userData[payload.username] = payload.pacemakerParameters;
     },
     setCurrentUsers(state, username) {

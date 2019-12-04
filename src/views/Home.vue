@@ -36,6 +36,11 @@ export default {
 			message: ""
 		};
 	},
+	beforeMount:function(){
+		if(this.$store.state.currentUser != "") {
+			this.$router.push("/DashBoard");
+		}  
+	},
 	methods: {
 		// @vuese
 		// Used to submit login info and move to Dashboard screen if succesfull

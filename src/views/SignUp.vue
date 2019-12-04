@@ -65,7 +65,7 @@ export default {
 							password: this.tempPassWord1
 						})
 						.then(() => {
-							this.$router.push("/DashBoard");
+							this.$router.push("/");
 						})
 				}
 			}
