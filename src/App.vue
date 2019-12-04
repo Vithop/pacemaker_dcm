@@ -21,9 +21,9 @@ export default {
 		SideBar,
 		TopBar
 	},
-	beforeCreate: function(){ 
-		this.$store.dispatch("logout")
-	},
+	// beforeCreate: function(){ 
+	// 	this.$store.dispatch("logout")
+	// },
 	computed: {
 		isLoggedIn(){
             return (this.$store.state.currentUser != '')
