@@ -133,13 +133,14 @@ export default {
 			int16Values[6] = upperRateLimit;
 			int16Values[7] = lowerRateLimit;
 			var writeBuffer = Buffer.from(buffer)
+
 			devicePort.open();
 			for(var i = 0; i < 20; i++) {
 				devicePort.write(writeBuffer);
 				devicePort.drain();
 				console.log("wrote some values to paceMaker: " + writeBuffer)
 			}
-
+			
 			// var parser = devicePort.pipe(new Ready({ delimiter: "READY" }));
 			// parser.on('ready', () => {
 			// 	console.log('the ready byte sequence has been received');
@@ -174,12 +175,12 @@ export default {
 	},
     mounted: function(){
 		console.log("topbar is mounted");
-		const arduino = {name: "Arduino LLC (www.arduino.cc)", baudRate: 9600};
-		// const paceMaker = {name: "SEGGER", baudRate: 115200}
+		// const arduino = {name: "Arduino LLC (www.arduino.cc)", baudRate: 9600};
+		const paceMaker = {name: "SEGGER", baudRate: 115200}
 		//var {currentUser, userData} = this.$store.state;
 		
 
-		setInterval(this.getDeviceComName, 500, arduino);
+		setInterval(this.getDeviceComName, 500, paceMaker);
 			// u.then(this.confirmSet);
     }
 };
