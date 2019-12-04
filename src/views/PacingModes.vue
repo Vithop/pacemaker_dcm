@@ -436,7 +436,8 @@ export default {
 					ARP,
 					ventricularPulseAmp,
 					ventricularPulseWidth,
-					VRP
+					VRP,
+					fixedAvDelay
 					} = userData[currentUser];
 			/*
 				Beginning of transmission
@@ -462,9 +463,9 @@ export default {
 				if(paceType === "AAIR") enumPaceMode = 9;
 				if(paceType === "VVIR") enumPaceMode = 10;
 				
-				var buffer = new ArrayBuffer(18);
+				var buffer = new ArrayBuffer(20);
 				var int8Vals = new Int8Array(buffer, 0, 2);
-				var int16Values = new Int16Array(buffer, 2, 8);
+				var int16Values = new Int16Array(buffer, 2, 9);
 
 				if(paceType){
 					if(paceType.charAt(0) == 'A'){
@@ -483,6 +484,7 @@ export default {
 				int16Values[5] = VRP;
 				int16Values[6] = upperRateLimit;
 				int16Values[7] = lowerRateLimit;
+				int16Values[8] = fixedAvDelay;
 				var writeBuffer = Buffer.from(buffer)
 
 				devicePort.on("open", () => {
