@@ -2,10 +2,11 @@
 	<div>
 		<h2>Sign Up</h2>
 		<div class="login">
-			<q-input rounded outlined v-model="username" hint="User Name" />
+			<q-input rounded outlined v-model="username" hint="User Name" v-on:keyup.enter="doSignUp"/>
 			<br />
 			<q-input
 				v-model="tempPassWord1"
+				v-on:keyup.enter="doSignUp"
 				rounded
 				outlined
 				:type="isPwd ? 'password' : 'text'"
@@ -20,7 +21,7 @@
 				</template>
 			</q-input>
 			<br />
-			<q-input rounded outlined v-model="tempPassWord2" type="password" hint="Retype Password" />
+			<q-input rounded outlined v-model="tempPassWord2" type="password" hint="Retype Password" v-on:keyup.enter="doSignUp"/>
 		</div>
 		<q-btn unelevated rounded color="teal-13" label="Sign Up" v-on:click="doSignUp" />
 		<p style="color: red">{{message}}</p>

@@ -274,9 +274,11 @@ export default {
 		
 		paceType:{
 			get(){
+				console.log("get pacetype "+this.$store.state.userData[this.$store.state.currentUser].paceType);
 				return this.$store.state.userData[this.$store.state.currentUser].paceType;
 			},
 			set(value){
+				console.log("set pacetype "+ value)
 				this.$store.commit("setPaceType",value)
 			}
 		}, 
@@ -441,8 +443,10 @@ export default {
 		// 	}
 		// }, 
 	},
-	mounted:function(){
-		//    
+	beforeMount:function(){
+		if(this.$store.state.currentUser == "") {
+			this.$router.push("/");
+		}  
 	},
 	methods: {
 		round_two_digits: function (x) {

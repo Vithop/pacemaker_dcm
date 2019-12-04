@@ -41,6 +41,11 @@ export default {
 				"Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
 		};
 	},
+	beforeMount:function(){
+		if(this.$store.state.currentUser == "") {
+			this.$router.push("/");
+		}  
+	},
 	mounted() {
 		this.fillData();
 	},

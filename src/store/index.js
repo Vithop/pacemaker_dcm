@@ -33,16 +33,6 @@ export default new Vuex.Store({
         fixedAvDelay: 150,
         ARP: 250,
         VRP: 320
-        // maxSensorRate: 120,
-        // atricalSensitivity: 2.5,
-        // ventricularSensitivity: 2.5,
-        // PVARP: 200,
-        // HRL: 0,
-        // rateSmoothing: 0,
-        // activityThreshold: "Med",
-        // reactTime: 30,
-        // resFactor: 8,
-        // recoveryTime: 5
       }
     },
   }, 
@@ -65,6 +55,7 @@ export default new Vuex.Store({
       state.isPaceMakerConnected = connected;
     },
     setPaceType(state, val){
+      console.log("Mutate pacetype " + val);
       state.userData[state.currentUser].paceType = val;
     },
     setLowerRateLimit(state, val){
@@ -100,68 +91,49 @@ export default new Vuex.Store({
     setVRP(state, val){
       state.userData[state.currentUser].VRP = val;
     },
-    // setMaxSensorRate(state, val){
-    //   state.userData[state.currentUser].maxSensorRate = val;
-    // },
-    // setVentricularSensitivity(state, val){
-    //   state.userData[state.currentUser].ventricularSensitivity = val;
-    // },
-    // setPVARP(state, val){
-    //   state.userData[state.currentUser].PVARP = val;
-    // },
-    // setHRL(state, val){
-    //   state.userData[state.currentUser].HRL = val;
-    // },
-    // setRateSmoothing(state, val){
-    //   state.userData[state.currentUser].rateSmoothing = val;
-    // },
-    // setActivityThreshold(state, val){
-    //   state.userData[state.currentUser].activityThreshold = val;
-    // },
-    // setReactTime(state, val){
-    //   state.userData[state.currentUser].reactTime = val;
-    // },
-    // setResFactor(state, val){
-    //   state.userData[state.currentUser].resFactor = val;
-    // },
-    // setRecoveryTime(state, val){
-    //   state.userData[state.currentUser].recoveryTime = val;
-    // },
   },
   actions: {
     signUp({ commit }, payload) {
-      console.log("do signUp");
-      bcrypt.hash(payload.password, saltRounds).then(hash => {
-        commit("signUp", {
-          username: payload.username,
-          password: hash,
-          pacemakerParameters: {
-            paceType: "AOO",
-            lowerRateLimit: 50,
-            upperRateLimit: 120,
-            BPM:60,
-            atricalPulseAmp: 50,
-            atricalPulseWidth: 2,
-            ventricularPulseAmp: 50,
-            ventricularPulseWidth: 2,
-            fixedAvDelay: 150,
-            ARP: 250,
-            VRP: 320,
-            maxSensorRate: 120,
-            atricalSensitivity: 2.5,
-            ventricularSensitivity: 2.5,
-            PVARP: 200,
-            HRL: 0,
-            rateSmoothing: 0,
-            activityThreshold: "Med",
-            reactTime: 30,
-            resFactor: 8,
-            recoveryTime: 5
-          }
+      return new Promise(resolve =>{
+        console.log("do signUp");
+        bcrypt.hash(payload.password, saltRounds).then(hash => {
+          commit("signUp", {
+            username: payload.username,
+            password: hash,
+            pacemakerParameters: {
+              paceType: "AOO",
+              lowerRateLimit: 50,
+              upperRateLimit: 120,
+              BPM:60,
+              atricalPulseAmp: 50,
+              atricalPulseWidth: 2,
+              ventricularPulseAmp: 50,
+              ventricularPulseWidth: 2,
+              fixedAvDelay: 150,
+              ARP: 250,
+              VRP: 320,
+              maxSensorRate: 120,
+              atricalSensitivity: 2.5,
+              ventricularSensitivity: 2.5,
+              PVARP: 200,
+              HRL: 0,
+              rateSmoothing: 0,
+              activityThreshold: "Med",
+              reactTime: 30,
+              resFactor: 8,
+              recoveryTime: 5
+            }
+          });
+        })
+        .then(()=> {
+          console.log("done sign up")
+          resolve("SignUp succes");
+        })
+        .catch(err =>{
+          console.log(err);
         });
-      }).catch(err =>{
-        console.log(err);
       });
+
     },
     login({ commit, state }, payload) {
       return new Promise((resolve, reject) => {
