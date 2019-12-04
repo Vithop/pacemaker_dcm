@@ -179,7 +179,7 @@
 </template>
 <script>
 import { /*QRange,*/ QBadge, QSlider, /*QToggle,*/ QTabs, QTab /*QOptionGroup*/ } from "quasar";
-import SerialPort from "serialport";
+//import SerialPort from "serialport";
 // import Readline from "@serialport/parser-readline";
 //import {mapState} from "vuex";
 // @vuese
@@ -420,125 +420,23 @@ export default {
 			var y = Math.trunc(x *100);
 			return y/100;
 		},
-		sendData: function(devPort){
-			return new Promise((resolve, reject) => {
-				if(!this.$store.state.isPaceMakerConnected) reject("no devport to send data to. ")
-				const devicePort = new SerialPort(devPort.path);
-				var enumPaceMode;
-				const {userData, currentUser} = this.$store.state;
-				const {
-					paceType,
-					lowerRateLimit,
-					upperRateLimit,
-					BPM,
-					atricalPulseAmp,
-					atricalPulseWidth,
-					ARP,
-					ventricularPulseAmp,
-					ventricularPulseWidth,
-					VRP,
-					fixedAvDelay
-					} = userData[currentUser];
-			/*
-				Beginning of transmission
-				Set or Echo
-				Width
-				BPM
-				Mode
-				Duty Cycle In -> amplitude
-				ARP
-				VRP
-				upper rate limit
-				lower rate limit
-				order of pace types Aoo, voo, doo, aoor, voor, door, aai, vvi, aair, vvir
-			*/
-				if(paceType === "AOO") enumPaceMode = 1;
-				if(paceType === "VOO") enumPaceMode = 2;
-				if(paceType === "DOO") enumPaceMode = 3;
-				if(paceType === "AOOR") enumPaceMode = 4;
-				if(paceType === "VOOR") enumPaceMode = 5;
-				if(paceType === "DOOR") enumPaceMode = 6;
-				if(paceType === "AAI") enumPaceMode = 7;
-				if(paceType === "VVI") enumPaceMode = 8;
-				if(paceType === "AAIR") enumPaceMode = 9;
-				if(paceType === "VVIR") enumPaceMode = 10;
-				
-				var buffer = new ArrayBuffer(20);
-				var int8Vals = new Int8Array(buffer, 0, 2);
-				var int16Values = new Int16Array(buffer, 2, 9);
-
-				if(paceType){
-					if(paceType.charAt(0) == 'A'){
-						int16Values[0] = atricalPulseWidth;
-						int16Values[3] = atricalPulseAmp;
-					} else {
-						int16Values[0] = ventricularPulseWidth;
-						int16Values[3] = ventricularPulseAmp;
-					}
-				}
-				int8Vals[0] = 0x16;
-				int8Vals[1] = 0x55;
-				int16Values[1] = BPM;
-				int16Values[2] = enumPaceMode;
-				int16Values[4] = ARP;
-				int16Values[5] = VRP;
-				int16Values[6] = upperRateLimit;
-				int16Values[7] = lowerRateLimit;
-				int16Values[8] = fixedAvDelay;
-				var writeBuffer = Buffer.from(buffer)
-
-				devicePort.on("open", () => {
-					console.log("open port");
-					devicePort.write(writeBuffer);
-					// devicePort.on("data", (data) => {
-					// 	devicePort.write(writeBuffer);
-					// 	// for(var i = 0; i < 20; i++) {
-					// 	// 	devicePort.write(writeBuffer);
-					// 	// }
-					// 	console.log("data that has been echoed 1: " + data);
-					// });
-				});
-
-				for(var i = 0; i < 20; i++) {
-					devicePort.write(writeBuffer);
-					// devicePort.drain();
-					console.log("wrote some values to paceMaker: ");
-					console.log("data that has been echoed 2: " + devicePort.read())
-					console.log(buffer);
-				}
-				devicePort.close();
-
-				// var parser = devicePort.pipe(new Readline());
-				// parser.on('data', (data) => {
-				// 	console.log('the ready byte sequence has been received and data is: ' + data );
-				// 	console.log(buffer);
-				// 	for(var i = 0; i < 20; i++) {
-				// 		devicePort.write(writeBuffer);
-				// 		devicePort.drain();
-				// 		// devicePort.read();
-				// 	}
-				// });
-				// return {devicePort, writeBuffer};
-				resolve("sent a pack of data");
-				
-			});
-
-		},
 		submitData: function(event) {
 			if (event) {
-				this.sendData(this.$store.state.devicePort)
-				.then(() => 
-					{
-						alert("Settings have been saved to your pacemaker!");
-						console.log(
-							this.$store.state.userData[
-								this.$store.state.currentUser
-							]
-						);
-					})
-					.catch(err => {
-						alert("Parameters Not Saved! Error: " + err);
-					});
+				console.log("send data event");
+				dispatchEvent(new CustomEvent('send-data'))
+				// this.sendData(this.$store.state.devicePort)
+				// .then(() => 
+				// 	{
+				// 		alert("Settings have been saved to your pacemaker!");
+				// 		console.log(
+				// 			this.$store.state.userData[
+				// 				this.$store.state.currentUser
+				// 			]
+				// 		);
+				// 	})
+				// 	.catch(err => {
+				// 		alert("Parameters Not Saved! Error: " + err);
+				// 	});
 			}
 		}
 	}
