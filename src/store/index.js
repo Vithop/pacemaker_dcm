@@ -18,6 +18,7 @@ export default new Vuex.Store({
     passwords: ["password123"],
     currentUser: "",
     devicePort: null,
+    isPaceMakerConnected: false,
     //userData should replace users once working
     userData:{
       admin:{
@@ -56,6 +57,12 @@ export default new Vuex.Store({
     },
     setCurrentUsers(state, username) {
       state.currentUser = username;
+    },
+    setDevicePort(state, val){
+      state.devicePort = val;
+    },
+    setIsPaceMakerConnected(state, connected){
+      state.isPaceMakerConnected = connected;
     },
     setPaceType(state, val){
       state.userData[state.currentUser].paceType = val;
@@ -120,12 +127,10 @@ export default new Vuex.Store({
     // setRecoveryTime(state, val){
     //   state.userData[state.currentUser].recoveryTime = val;
     // },
-    // setDevicePort(state, val){
-    //   state.devicePort = val;
-    // },
   },
   actions: {
     signUp({ commit }, payload) {
+      console.log("do signUp");
       bcrypt.hash(payload.password, saltRounds).then(hash => {
         commit("signUp", {
           username: payload.username,
@@ -162,7 +167,7 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         
         var userIndex = state.users.indexOf(payload.username);
-        //console.log("userIndex", userIndex);
+        console.log("userIndex", userIndex);
         if (userIndex != -1) {
           if(userIndex == 0){
             if(state.passwords[userIndex] == payload.password){
@@ -176,6 +181,7 @@ export default new Vuex.Store({
             .compare(payload.password, state.passwords[userIndex])
             .then(res => {
               if (res) {
+                console.log("Logic Success!")
                 commit("setCurrentUsers", payload.username);
                 resolve("Login Succesfull!");
               }else{
@@ -195,7 +201,7 @@ export default new Vuex.Store({
       commit("setCurrentUsers", "");
     },
     saveUsersParameters(){
-
+      
       //Use promise to send serial data
       // return new Promise(resolve =>{
       //   resolve("User Parameters saved succesfully!");

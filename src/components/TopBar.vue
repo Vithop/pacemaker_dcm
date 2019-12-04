@@ -20,10 +20,9 @@
 import { QTabs, QRouteTab } from "quasar";
 import SerialPort from "serialport";
 import Readline from "@serialport/parser-readline";
-import Ready from "@serialport/parser-ready";
-// import { resolve } from 'dns';
 // @vuese
 // Used also used for login flow and display user info
+var devicePort = null;
 export default {
   name: "topbar",
 	components: {
@@ -32,34 +31,56 @@ export default {
     },
     data() {
         return {
-           isPaceMakerConnected: false, 
+            
         }
     },
     computed:{
         isLoggedIn(){
             return (this.$store.state.currentUser != '')
-        }
+		},
+		isPaceMakerConnected(){
+			return this.$store.state.isPaceMakerConnected;
+		}
 	},
 	methods: {
 		getDeviceComName(manufacturer) {
-			
-			return SerialPort.list().then ((ports) => {	
-				var devComName;
+			// console.log("get Device Com Name");
+			// console.log(this.isPaceMakerConnected);
+			var devComName = null;
+			SerialPort.list().then ((ports) => {	
 				ports.forEach((path) => {
 					let {comName} = path;
-					console.log(path);
-					if (path.manufacturer === manufacturer.name)   {
+					//console.log(path);
+					if (path.manufacturer === manufacturer.name) {
 						devComName = comName;
+						setTimeout(() => {this.$store.commit("setIsPaceMakerConnected", true);}, 500);
 					}
 				});
 				console.log(devComName);
-				const devicePort = new SerialPort(devComName, {baudRate:manufacturer.baudRate}, console.log);
-				console.log(devicePort);
-				return devicePort;
+				//console.log(devicePort);
+				if(devComName === null){
+					setTimeout(() => {
+						this.$store.commit("setIsPaceMakerConnected", false);
+						devicePort = null;
+					}, 500);
+				}
+				try{
+					if(devicePort === null && this.isPaceMakerConnected){
+						devicePort = new SerialPort(devComName, {baudRate:manufacturer.baudRate}, console.log);
+						console.log("%c New SerialPort", "color:red; font-size: 20px");
+					}
+				}catch{
+					devicePort = null;
+					this.$store.commit("setIsPaceMakerConnected", false);
+				}
+
 			});
 		},
-		sendData(devicePort){
-			var enumPaceType;
+		sendData: async function(){
+			console.log("start send data");
+			console.log("send data path: ");
+			console.log(devicePort);
+			var enumPaceMode;
 			const {userData, currentUser} = this.$store.state;
 			const {
 				paceType,
@@ -71,7 +92,8 @@ export default {
 				ARP,
 				ventricularPulseAmp,
 				ventricularPulseWidth,
-				VRP
+				VRP,
+				fixedAvDelay
 				} = userData[currentUser];
 		/*
 			Beginning of transmission
@@ -86,60 +108,68 @@ export default {
 			lower rate limit
 			order of pace types Aoo, voo, doo, aoor, voor, door, aai, vvi, aair, vvir
 		*/
-			if(paceType == "AOO") enumPaceType = 1;
-			if(paceType == "VOO") enumPaceType = 2;
-			if(paceType == "DOO") enumPaceType = 3;
-			if(paceType == "AOOR") enumPaceType = 4;
-			if(paceType == "VOOR") enumPaceType = 5;
-			if(paceType == "DOOR") enumPaceType = 6;
-			if(paceType == "AAI") enumPaceType = 7;
-			if(paceType == "VVI") enumPaceType = 8;
-			if(paceType == "AAIR") enumPaceType = 9;
-			if(paceType == "VVIR") enumPaceType = 10;
+			if(paceType === "AOO") enumPaceMode = 1;
+			if(paceType === "VOO") enumPaceMode = 2;
+			if(paceType === "DOO") enumPaceMode = 3;
+			if(paceType === "AOOR") enumPaceMode = 4;
+			if(paceType === "VOOR") enumPaceMode = 5;
+			if(paceType === "DOOR") enumPaceMode = 6;
+			if(paceType === "AAI") enumPaceMode = 7;
+			if(paceType === "VVI") enumPaceMode = 8;
+			if(paceType === "AAIR") enumPaceMode = 9;
+			if(paceType === "VVIR") enumPaceMode = 10;
+			if(paceType === "DDDR") enumPaceMode = 11;
 			
-			var buffer = new ArrayBuffer(18);
+			var buffer = new ArrayBuffer(20);
 			var int8Vals = new Int8Array(buffer, 0, 2);
-			var int16Values = new Int16Array(buffer, 2, 8);
+			var int16Values = new Int16Array(buffer, 2, 9);
 
 			if(paceType){
 				if(paceType.charAt(0) == 'A'){
-					int16Values[0] = atricalPulseWidth * 10;
-					int16Values[3] = atricalPulseAmp * 2;
+					int16Values[0] = atricalPulseWidth;
+					int16Values[3] = atricalPulseAmp;
 				} else {
-					int16Values[0] = ventricularPulseWidth * 10;
-					int16Values[3] = ventricularPulseAmp * 2;
+					int16Values[0] = ventricularPulseWidth;
+					int16Values[3] = ventricularPulseAmp;
 				}
 			}
 			int8Vals[0] = 0x16;
 			int8Vals[1] = 0x55;
 			int16Values[1] = BPM;
-			int16Values[2] = enumPaceType;
+			int16Values[2] = enumPaceMode;
 			int16Values[4] = ARP;
 			int16Values[5] = VRP;
 			int16Values[6] = upperRateLimit;
 			int16Values[7] = lowerRateLimit;
+			int16Values[8] = fixedAvDelay;
 			var writeBuffer = Buffer.from(buffer)
-			// devicePort.open();
-			// for(var i = 0; i < 20; i++) {
-			// 	devicePort.write(writeBuffer);
-			// 	devicePort.drain();
-			// 	console.log("wrote some values to paceMaker")
-			// }
-
-			var parser = devicePort.pipe(new Ready({ delimiter: "READY" }));
-			parser.on('ready', () => {
-				console.log('the ready byte sequence has been received');
-				console.log(buffer);
+			
+			if(devicePort !== null && this.isPaceMakerConnected){
+				// if(!devicePort.write(writeBuffer)){
+				// 	devicePort.drain()
+				// }
+				// devicePort.on("write", () => devicePort.write(writeBuffer));
+				devicePort.on("open", () => {
+					console.log("open port");
+					devicePort.write(writeBuffer);
+					// devicePort.on("data", (data) => {
+					// 	console.log("data that has been echoed: " + data);
+					// });
+				});
 				for(var i = 0; i < 20; i++) {
 					devicePort.write(writeBuffer);
-					devicePort.drain();
-					devicePort.read();
+					//devicePort.drain();
+					console.log("wrote some values to paceMaker: ");
+					console.log("data that has been echoed: " + devicePort.read())
+					console.log(buffer);
 				}
-			});
-			return {devicePort, writeBuffer};
-				// console.log('Data:', devicePort.read())
-				// parser = devicePort.pipe(new Readline({delimiter: "\n"}));
-				// parser.on('data', console.log);
+			
+				console.log("sent all data");
+				alert("Press ok to send data to the pacemaker");
+				//return {devicePort, writeBuffer};
+			
+				//devicePort.close();
+			}else alert("Parameters Not Saved! Error: Device not connected");
 		},
 		confirmSet({devicePort, writeBuffer}) {
 			console.log(devicePort);
@@ -157,75 +187,17 @@ export default {
 				}
 			});
 		},
-		arduinoTalk(){
-			var devicePort;
-			var parser;
-			
-			SerialPort.list().then ((ports) => {
-				var devComName;
-				ports.forEach((path) => {
-					let {comName} = path;
-					console.log(path);
-					// const port = new SerialPort(comName, {baudRate: 9600}, console.log);
-					if (path.manufacturer === "Arduino LLC (www.arduino.cc)") {
-						devComName = comName;
-					}
-				});
-				return devComName;
-
-			}).then((deviceComName) => {
-				console.log(deviceComName);
-				devicePort = new SerialPort(deviceComName, {baudRate:9600}, console.log);
-				console.log(devicePort);
-				// devicePort.open();
-				parser = devicePort.pipe(new Ready({ delimiter: 'READY' }));
-				parser.on('ready', () => {
-					console.log('the ready byte sequence has been received');
-					devicePort.write("Please talk to me\n");
-					// devicePort.drain();
-				});
-			}).then(() => {
-				parser = devicePort.pipe(new Readline({delimiter: "No\n"}));
-				parser.on('data', (data) => {
-					console.log("2" + data);
-					devicePort.write("Cmon Please talk to me\n");
-					// devicePort.drain();
-				}); 
-			}).then(() => {
-				parser = devicePort.pipe(new Readline({delimiter: "I don't wanna\n"}));
-				parser.on('data', (data) => {
-					console.log("3" + data);
-					devicePort.write("Why won't you talk to me\n");
-					// devicePort.drain();
-				}); 
-			}).then(() => {
-				parser = devicePort.pipe(new Readline({delimiter: "Cause they're watching us\n"}));
-				parser.on('data', (data) => {
-					console.log("4" + data);
-				});
-			}).then(() => {
-				parser = devicePort.pipe(new Readline({delimiter: "END\n"}));
-				parser.on('data', (data) => {
-					console.log("5" + data);
-					return;
-				});
-			}).catch(console.log);
-		}
 	},
-    updated: function(){
+    mounted: function(){
 		console.log("topbar is mounted");
-		const arduino = {name: "Arduino LLC (www.arduino.cc)", baudRate: 9600};
-		// const paceMaker = {name: "SEGGER", baudRate: 115200}
+		// const arduino = {name: "Arduino LLC (www.arduino.cc)", baudRate: 9600};
+		const paceMaker = {name: "SEGGER", baudRate: 115200}
 		//var {currentUser, userData} = this.$store.state;
-		if(this.isLoggedIn){
-			const t = this.getDeviceComName(arduino);
-			const u = t.then((devicePort) => {
-				this.$store.commit("setDevicePort", devicePort);
-				console.log(this.$store.state.devicePort);
-				return this.sendData(devicePort);
-			});
-			u.then(this.confirmSet);
-		}
+		
+		//this.getDeviceComName(paceMaker);
+		setInterval(this.getDeviceComName, 500, paceMaker);
+		window.addEventListener('send-data', this.sendData);
+			// u.then(this.confirmSet);
     }
 };
 </script>

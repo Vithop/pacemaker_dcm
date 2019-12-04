@@ -15,7 +15,7 @@
 					</span>
 					<q-slider v-model.lazy="lowerRateLimit" :min="50" :max="80" :step="1" color="green" label/>
 					<span class="slider-badge">
-						<q-badge color="secondary">Upper rate Limit (50 - 175ppm): {{ upperRateLimit }}</q-badge>
+						<q-badge color="secondary">Upper rate Limit (80 - 200bpm): {{ upperRateLimit }}</q-badge>
 					</span>
 					<q-slider v-model="upperRateLimit" :min="80" :max="200" :step="1" color="green" label />
 				</div>
@@ -25,13 +25,13 @@
 					<q-item-label header class="pace-rate-label">Beats per Minute</q-item-label>
 
 					<span class="slider-badge">
-						<q-badge color="secondary">Beats per Minute (50 - 100bpm): {{ BPM }}</q-badge>
+						<q-badge color="secondary">Beats per Minute (50 - 120bpm): {{ BPM }}</q-badge>
 					</span>
 
-					<q-slider v-model="BPM" :min="50" :max="100" :step="1" color="green" label />
+					<q-slider v-model="BPM" :min="50" :max="120" :step="1" color="green" label />
 				</div>
 
-				<div class="q-pa-md" v-if="paceType === 'DOO' || paceType === 'DOOR'">
+				<div class="q-pa-md" v-if="paceType === 'DOO' || paceType === 'DOOR' || paceType === 'DDDR'">
 					<q-item-label header class="pace-rate-label">Fixed AV Delay</q-item-label>
 
 					<span class="slider-badge">
@@ -48,12 +48,12 @@
 
 					<span class="slider-badge">
 						<q-badge color="primary">
-							Atrial Pulse Amplitude (1-100% of 5V):
+							Atrial Pulse Amplitude (70-100% of 5V):
 							{{ round_two_digits((atricalPulseAmp/100) * 5) }}V
 						</q-badge>
 					</span>
 
-					<q-slider v-model="atricalPulseAmp"	:min="1" :max="100" :step="1"	color="blue" label/>
+					<q-slider v-model="atricalPulseAmp"	:min="70" :max="100" :step="1"	color="blue" label/>
 				</div>
 
 				<div
@@ -71,20 +71,20 @@
 					<q-slider v-model="atricalPulseWidth" :min="1" :max="10" markers :step="1" color="blue" label/>
 				</div>
 
-				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI' || paceType == 'VOOR' || paceType == 'VVIR'">
+				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI' || paceType == 'VOOR' || paceType == 'VVIR' || paceType == 'DOO' || paceType == 'DOOR'|| paceType == 'DDDR'">
 					<q-item-label header class="pace-rate-label">Ventricular Pulse Amplitude</q-item-label>
 
 					<span class="slider-badge">
 						<q-badge color="red">
-							Ventricular Pulse Amplitude (1-100% of 5V):
+							Ventricular Pulse Amplitude (70-100% of 5V):
 							{{ round_two_digits((ventricularPulseAmp/100) * 5) }}V
 						</q-badge>
 					</span>
 
-					<q-slider v-model="ventricularPulseAmp" :min="1" :max="100" :step="1" color="red" label/>
+					<q-slider v-model="ventricularPulseAmp" :min="70" :max="100" :step="1" color="red" label/>
 				</div>
 
-				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI' || paceType == 'VOOR' || paceType == 'VVIR'">
+				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI' || paceType == 'VOOR' || paceType == 'VVIR' || paceType == 'DOO' || paceType == 'DOOR' || paceType == 'DDDR'">
 					<q-item-label header class="pace-rate-label">Ventricular Pulse Width</q-item-label>
 
 					<span class="slider-badge">
@@ -97,7 +97,7 @@
 					<q-slider v-model="ventricularPulseWidth" :min="1" :max="10"	markers	:step="1"	color="red"	label/>
 				</div>
 
-				<div class="q-pa-md" v-if="paceType == 'AAI' || paceType == 'AAIR'">
+				<!-- <div class="q-pa-md" v-if="paceType == 'AAI' || paceType == 'AAIR'">
 					<q-item-label header class="pace-rate-label">Atrial Sensitivity</q-item-label>
 
 					<span class="slider-badge">
@@ -116,7 +116,7 @@
 						color="blue"
 						label
 					/>
-				</div>
+				</div> -->
 
 				<div class="q-pa-md" v-if="paceType == 'AAI' || paceType == 'AAIR'">
 					<q-item-label header class="pace-rate-label">Atrial Refactory Period</q-item-label>
@@ -128,7 +128,7 @@
 					<q-slider v-model="ARP" :min="150" :max="500" :step="10" color="orange" label />
 				</div>
 
-				<div class="q-pa-md" v-if="paceType == 'AAI' || paceType == 'AAIR'">
+				<!-- <div class="q-pa-md" v-if="paceType == 'AAI' || paceType == 'AAIR'">
 					<q-item-label header class="pace-rate-label">Post Ventricular Atrial Refractory Period (PVARP)</q-item-label>
 
 					<span class="slider-badge">
@@ -136,10 +136,10 @@
 					</span>
 
 					<q-slider v-model="PVARP" :min="150" :max="500" markers :step="10" color="orange" label />
-				</div>
+				</div> -->
 				
 				
-				<div class="q-pa-md" v-if="paceType == 'VVI' || paceType == 'VVIR'">
+				<!-- <div class="q-pa-md" v-if="paceType == 'VVI' || paceType == 'VVIR'">
 					<q-item-label header class="pace-rate-label">Ventricular Sensitivity</q-item-label>
 
 					<span class="slider-badge">
@@ -158,7 +158,7 @@
 						color="red"
 						label
 					/>
-				</div>
+				</div> -->
 
 
 				<div class="q-pa-md" v-if="paceType == 'VVI' || paceType == 'VVIR'">
@@ -179,6 +179,8 @@
 </template>
 <script>
 import { /*QRange,*/ QBadge, QSlider, /*QToggle,*/ QTabs, QTab /*QOptionGroup*/ } from "quasar";
+//import SerialPort from "serialport";
+// import Readline from "@serialport/parser-readline";
 //import {mapState} from "vuex";
 // @vuese
 // Pacing modes and parameters view
@@ -205,7 +207,8 @@ export default {
 				"AAI",
 				"VVI",
 				"AAIR",
-				"VVIR"
+				"VVIR",
+				"DDDR"
 			],
 			aTOptions: [
 				{
@@ -411,8 +414,7 @@ export default {
 		// }, 
 	},
 	mounted:function(){
-		console.log(this.$store.state.currentUser);
-		console.log(this.$store.state.userData);
+		//    
 	},
 	methods: {
 		round_two_digits: function (x) {
@@ -421,19 +423,21 @@ export default {
 		},
 		submitData: function(event) {
 			if (event) {
-				this.$store
-					.dispatch("saveUsersParameters").then(() => 
-					{
-						alert("Settings have been saved to your pacemaker!");
-						console.log(
-							this.$store.state.userData[
-								this.$store.state.currentUser
-							]
-						);
-					})
-					.catch(err => {
-						alert("Parameters Not Saved! Error: " + err);
-					});
+				console.log("send data event");
+				dispatchEvent(new CustomEvent('send-data'))
+				// this.sendData(this.$store.state.devicePort)
+				// .then(() => 
+				// 	{
+				// 		alert("Settings have been saved to your pacemaker!");
+				// 		console.log(
+				// 			this.$store.state.userData[
+				// 				this.$store.state.currentUser
+				// 			]
+				// 		);
+				// 	})
+				// 	.catch(err => {
+				// 		alert("Parameters Not Saved! Error: " + err);
+				// 	});
 			}
 		}
 	}
