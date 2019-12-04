@@ -10,10 +10,10 @@
 		<q-btn unelevated rounded color="teal-13" label="Login"  v-on:click="doLogin" />
 		<p style="color: red">{{message}}</p>
 		<h4>About</h4>
-		<ul>Application Model Number: 1.0</ul>
-		<ul>Revision Number: 0.0</ul>
-		<ul>DCM serial number: 235-457-553</ul>
-		<ul>Made by Dasani Skwad</ul>
+		<div>Application Model Number: 1.0</div>
+		<div>Revision Number: 0.0</div>
+		<div>DCM serial number: 235-457-553</div>
+		<div>Made by Dasani Skwad</div>
 	</div>
 </template>
 <script>
