@@ -15,7 +15,7 @@
 					</span>
 					<q-slider v-model.lazy="lowerRateLimit" :min="50" :max="80" :step="1" color="green" label/>
 					<span class="slider-badge">
-						<q-badge color="secondary">Upper rate Limit (50 - 175ppm): {{ upperRateLimit }}</q-badge>
+						<q-badge color="secondary">Upper rate Limit (80 - 200bpm): {{ upperRateLimit }}</q-badge>
 					</span>
 					<q-slider v-model="upperRateLimit" :min="80" :max="200" :step="1" color="green" label />
 				</div>
