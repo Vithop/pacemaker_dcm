@@ -31,17 +31,17 @@ export default new Vuex.Store({
         ventricularPulseWidth: 2,
         fixedAvDelay: 150,
         ARP: 250,
-        VRP: 320,
-        maxSensorRate: 120,
-        atricalSensitivity: 2.5,
-        ventricularSensitivity: 2.5,
-        PVARP: 200,
-        HRL: 0,
-        rateSmoothing: 0,
-        activityThreshold: "Med",
-        reactTime: 30,
-        resFactor: 8,
-        recoveryTime: 5
+        VRP: 320
+        // maxSensorRate: 120,
+        // atricalSensitivity: 2.5,
+        // ventricularSensitivity: 2.5,
+        // PVARP: 200,
+        // HRL: 0,
+        // rateSmoothing: 0,
+        // activityThreshold: "Med",
+        // reactTime: 30,
+        // resFactor: 8,
+        // recoveryTime: 5
       }
     },
   }, 
@@ -69,9 +69,6 @@ export default new Vuex.Store({
     setBPM(state, val){
       state.userData[state.currentUser].BPM = val;
     },
-    setMaxSensorRate(state, val){
-      state.userData[state.currentUser].maxSensorRate = val;
-    },
     setFixedAvDelay(state, val){
       state.userData[state.currentUser].fixedAvDelay = val;
     },
@@ -93,36 +90,39 @@ export default new Vuex.Store({
     setVentricularPulseWidth(state, val){
       state.userData[state.currentUser].ventricularPulseWidth = val;
     },
-    setVentricularSensitivity(state, val){
-      state.userData[state.currentUser].ventricularSensitivity = val;
-    },
     setVRP(state, val){
       state.userData[state.currentUser].VRP = val;
     },
-    setPVARP(state, val){
-      state.userData[state.currentUser].PVARP = val;
-    },
-    setHRL(state, val){
-      state.userData[state.currentUser].HRL = val;
-    },
-    setRateSmoothing(state, val){
-      state.userData[state.currentUser].rateSmoothing = val;
-    },
-    setActivityThreshold(state, val){
-      state.userData[state.currentUser].activityThreshold = val;
-    },
-    setReactTime(state, val){
-      state.userData[state.currentUser].reactTime = val;
-    },
-    setResFactor(state, val){
-      state.userData[state.currentUser].resFactor = val;
-    },
-    setRecoveryTime(state, val){
-      state.userData[state.currentUser].recoveryTime = val;
-    },
-    setDevicePort(state, val){
-      state.devicePort = val;
-    },
+    // setMaxSensorRate(state, val){
+    //   state.userData[state.currentUser].maxSensorRate = val;
+    // },
+    // setVentricularSensitivity(state, val){
+    //   state.userData[state.currentUser].ventricularSensitivity = val;
+    // },
+    // setPVARP(state, val){
+    //   state.userData[state.currentUser].PVARP = val;
+    // },
+    // setHRL(state, val){
+    //   state.userData[state.currentUser].HRL = val;
+    // },
+    // setRateSmoothing(state, val){
+    //   state.userData[state.currentUser].rateSmoothing = val;
+    // },
+    // setActivityThreshold(state, val){
+    //   state.userData[state.currentUser].activityThreshold = val;
+    // },
+    // setReactTime(state, val){
+    //   state.userData[state.currentUser].reactTime = val;
+    // },
+    // setResFactor(state, val){
+    //   state.userData[state.currentUser].resFactor = val;
+    // },
+    // setRecoveryTime(state, val){
+    //   state.userData[state.currentUser].recoveryTime = val;
+    // },
+    // setDevicePort(state, val){
+    //   state.devicePort = val;
+    // },
   },
   actions: {
     signUp({ commit }, payload) {
