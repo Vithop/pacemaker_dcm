@@ -43,7 +43,7 @@
 
 				<div
 					class="q-pa-md"
-					v-if="paceType === 'AOO' ||  paceType === 'AAI' ||  paceType === 'AOOR' || paceType === 'AAIR'">
+					v-if="paceType === 'AOO' ||  paceType === 'AAI' ||  paceType === 'AOOR' || paceType === 'AAIR'|| paceType == 'DOO' || paceType == 'DOOR' || paceType == 'DDDR'">
 					<q-item-label header class="pace-rate-label">Atrial Pulse Amplitude</q-item-label>
 
 					<span class="slider-badge">
@@ -58,7 +58,7 @@
 
 				<div
 					class="q-pa-md"
-					v-if="paceType == 'AOO' || paceType == 'AAI' || paceType === 'AOOR' || paceType === 'AAIR'">
+					v-if="paceType == 'AOO' || paceType == 'AAI' || paceType === 'AOOR' || paceType === 'AAIR' || paceType == 'DOO' || paceType == 'DOOR' || paceType == 'DDDR'">
 					<q-item-label header class="pace-rate-label">Atrial Pulse Width</q-item-label>
 
 					<span class="slider-badge">
@@ -71,7 +71,7 @@
 					<q-slider v-model="atricalPulseWidth" :min="1" :max="10" markers :step="1" color="blue" label/>
 				</div>
 
-				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI' || paceType == 'VOOR' || paceType == 'VVIR'">
+				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI' || paceType == 'VOOR' || paceType == 'VVIR' || paceType == 'DOO' || paceType == 'DOOR' || paceType == 'DDDR'">
 					<q-item-label header class="pace-rate-label">Ventricular Pulse Amplitude</q-item-label>
 
 					<span class="slider-badge">
@@ -84,7 +84,7 @@
 					<q-slider v-model="ventricularPulseAmp" :min="70" :max="100" :step="1" color="red" label/>
 				</div>
 
-				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI' || paceType == 'VOOR' || paceType == 'VVIR'">
+				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI' || paceType == 'VOOR' || paceType == 'VVIR' || paceType == 'DOO' || paceType == 'DOOR' || paceType == 'DDDR'">
 					<q-item-label header class="pace-rate-label">Ventricular Pulse Width</q-item-label>
 
 					<span class="slider-badge">
@@ -98,34 +98,7 @@
 				</div>
 
 
-				<div class="q-pa-md" v-if="paceType == 'DOO' || paceType == 'DOOR'|| paceType == 'DDDR'">
-					<q-item-label header class="pace-rate-label">Pulse Amplitude</q-item-label>
-
-					<span class="slider-badge">
-						<q-badge color="red">
-							Pulse Amplitude (70-100% of 5V):
-							{{ round_two_digits((ventricularPulseAmp/100) * 5) }}V
-						</q-badge>
-					</span>
-
-					<q-slider v-model="ventricularPulseAmp" :min="70" :max="100" :step="1" color="red" label/>
-				</div>
-
-
-				<div class="q-pa-md" v-if="paceType == 'DOO' || paceType == 'DOOR' || paceType == 'DDDR'">
-					<q-item-label header class="pace-rate-label">Pulse Width</q-item-label>
-
-					<span class="slider-badge">
-						<q-badge color="red">
-							Pulse Width (1 - 10ms):
-							{{ ventricularPulseWidth }}
-						</q-badge>
-					</span>
-
-					<q-slider v-model="ventricularPulseWidth" :min="1" :max="10"	markers	:step="1"	color="red"	label/>
-				</div>
-
-				<!-- <div class="q-pa-md" v-if="paceType == 'AAI' || paceType == 'AAIR'">
+				<div class="q-pa-md" v-if="paceType == 'AAI' || paceType == 'AAIR'">
 					<q-item-label header class="pace-rate-label">Atrial Sensitivity</q-item-label>
 
 					<span class="slider-badge">
@@ -144,7 +117,7 @@
 						color="blue"
 						label
 					/>
-				</div> -->
+				</div>
 
 				<div class="q-pa-md" v-if="paceType == 'AAI' || paceType == 'AAIR'">
 					<q-item-label header class="pace-rate-label">Atrial Refactory Period</q-item-label>
@@ -156,7 +129,7 @@
 					<q-slider v-model="ARP" :min="150" :max="500" :step="10" color="orange" label />
 				</div>
 
-				<!-- <div class="q-pa-md" v-if="paceType == 'AAI' || paceType == 'AAIR'">
+				<div class="q-pa-md" v-if="paceType == 'AAI' || paceType == 'AAIR'">
 					<q-item-label header class="pace-rate-label">Post Ventricular Atrial Refractory Period (PVARP)</q-item-label>
 
 					<span class="slider-badge">
@@ -164,10 +137,10 @@
 					</span>
 
 					<q-slider v-model="PVARP" :min="150" :max="500" markers :step="10" color="orange" label />
-				</div> -->
+				</div>
 				
 				
-				<!-- <div class="q-pa-md" v-if="paceType == 'VVI' || paceType == 'VVIR'">
+				<div class="q-pa-md" v-if="paceType == 'VVI' || paceType == 'VVIR'">
 					<q-item-label header class="pace-rate-label">Ventricular Sensitivity</q-item-label>
 
 					<span class="slider-badge">
@@ -186,7 +159,7 @@
 						color="red"
 						label
 					/>
-				</div> -->
+				</div>
 
 
 				<div class="q-pa-md" v-if="paceType == 'VVI' || paceType == 'VVIR'">
@@ -200,13 +173,84 @@
 				</div>
 
 			</div>
+			<div class="col2">
+				<div
+					class="q-pa-md"
+					v-if="paceType == 'AAI' || paceType == 'VVI' || paceType == 'AAIR' || paceType == 'VVIR'">
+					<q-item-label header class="pace-rate-label">Hysteresis Rate Limit</q-item-label>
+					<span class="slider-badge">
+						<q-badge color="green">
+							Off or same choice as Lower Rate Limit currently:
+							{{ this.HRL ? this.lowerRateLimit : 0 }}
+						</q-badge>
+					</span>
+					<q-toggle v-model="HRL" color="green" />
+				</div>
+				<div
+					class="q-pa-md"
+					v-if="paceType === 'AOOR' || paceType === 'AAIR' || paceType === 'VOOR' || paceType === 'VVIR' || paceType === 'DOOR'  || paceType === 'DDDR'">
+					<q-item-label header class="pace-rate-label">Maximum Sensor Rate</q-item-label>
+					<span class="slider-badge">
+						<q-badge color="pink">Maximum Sensor Rate (50 - 175ppm): {{ maxSensorRate }}</q-badge>
+					</span>
+					<q-slider v-model="maxSensorRate" :min="50" :max="175" markers :step="5" color="pink" label />
+				</div>
+				
+				<div class="q-pa-md" v-if="paceType == 'AAI' || paceType == 'VVI' || paceType == 'AAI' || paceType == 'VVI'">
+					<q-item-label header class="pace-rate-label">Rate Smoothing</q-item-label>
+					<span class="slider-badge">
+						<q-badge color="pink">
+							Rate Smoothing:(Off, 3, 6, 9, 12, 15, 18, 21){{
+							rateSmoothing
+							}}
+						</q-badge>
+					</span>
+					<q-slider v-model="rateSmoothing" :min="0" :max="21" markers :step="3" color="pink" label />
+				</div>
+				<div
+					class="q-pa-md"
+					v-if="paceType === 'AOOR' ||  paceType === 'AAIR' || paceType === 'VOOR' || paceType === 'VVIR' || paceType === 'DOOR' || paceType === 'DDDR'">
+					<q-item-label header class="pace-rate-label">Activity Threshold</q-item-label>
+					<span class="slider-badge">
+						<q-badge color="pink">Activity Threshold: {{ activityThreshold }}</q-badge>
+					</span>
+					<q-option-group style="text-align: left; padding-top: 20px;" v-model="activityThreshold" :options="aTOptions" color="pink" inline dense />
+				</div>
+				<div
+					class="q-pa-md"
+					v-if="paceType === 'AOOR' ||  paceType === 'AAIR' || paceType === 'VOOR' || paceType === 'VVIR' || paceType === 'DOOR' || paceType === 'DDDR'">
+					<q-item-label header class="pace-rate-label">Reaction Time</q-item-label>
+					<span class="slider-badge">
+						<q-badge color="pink">Reaction Time (10 - 50 sec): {{ reactTime }}</q-badge>
+					</span>
+					<q-slider v-model="reactTime" :min="10" :max="50" markers :step="10" color="pink" label />
+				</div>
+				<div
+					class="q-pa-md"
+					v-if="paceType === 'AOOR' ||  paceType === 'AAIR' || paceType === 'VOOR' || paceType === 'VVIR' || paceType === 'DOOR' || paceType === 'DDDR'">
+					<q-item-label header class="pace-rate-label">Response Factor</q-item-label>
+					<span class="slider-badge">
+						<q-badge color="pink">Response Factor (1 - 16): {{ resFactor }}</q-badge>
+					</span>
+					<q-slider v-model="resFactor" :min="1" :max="16" markers :step="1" color="pink" label />
+				</div>
+				<div
+					class="q-pa-md"
+					v-if=" paceType === 'AOOR' || paceType === 'AAIR' || paceType === 'VOOR' || paceType === 'VVIR' || paceType === 'DOOR' || paceType === 'DDDR'">
+					<q-item-label header class="pace-rate-label">Recovery Time</q-item-label>
+					<span class="slider-badge">
+						<q-badge color="pink">Recovery Time (2 - 16): {{ recoveryTime }}</q-badge>
+					</span>
+					<q-slider v-model="recoveryTime" :min="2" :max="16" markers :step="1" color="pink" label />
+				</div>
+			</div>
 			
 		</div>
 		<q-btn unelevated rounded color="teal-13" label="Save Settings to Board" v-on:click="submitData" />
 	</div>
 </template>
 <script>
-import { /*QRange,*/ QBadge, QSlider, /*QToggle,*/ QTabs, QTab /*QOptionGroup*/ } from "quasar";
+import { /*QRange,*/ QBadge, QSlider, QToggle, QTabs, QTab, QOptionGroup } from "quasar";
 //import SerialPort from "serialport";
 // import Readline from "@serialport/parser-readline";
 //import {mapState} from "vuex";
@@ -218,10 +262,10 @@ export default {
 		//QRange,
 		QBadge,
 		QSlider,
-		//QToggle,
+		QToggle,
 		QTabs,
-		QTab
-		//QOptionGroup
+		QTab,
+		QOptionGroup
 	},
 	data: function() {
 		return {
@@ -370,78 +414,78 @@ export default {
 				this.$store.commit("setVRP",value)
 			}
 		}, 
-		// maxSensorRate:{
-		// 	get(){
-		// 		return this.$store.state.userData[this.$store.state.currentUser].maxSensorRate;
-		// 	},
-		// 	set(value){
-		// 		this.$store.commit("setMaxSensorRate",value)
-		// 	}
-		// }, 
-		// ventricularSensitivity:{
-		// 	get(){
-		// 		return this.$store.state.userData[this.$store.state.currentUser].ventricularSensitivity;
-		// 	},
-		// 	set(value){
-		// 		this.$store.commit("setVentricularSensitivity",value)
-		// 	}
-		// }, 
-		// PVARP:{
-		// 	get(){
-		// 		return this.$store.state.userData[this.$store.state.currentUser].PVARP;
-		// 	},
-		// 	set(value){
-		// 		this.$store.commit("setPVARP",value)
-		// 	}
-		// }, 
-		// HRL:{
-		// 	get(){
-		// 		return this.$store.state.userData[this.$store.state.currentUser].HRL;
-		// 	},
-		// 	set(value){
-		// 		this.$store.commit("setHRL",value)
-		// 	}
-		// }, 
-		// rateSmoothing:{
-		// 	get(){
-		// 		return this.$store.state.userData[this.$store.state.currentUser].rateSmoothing;
-		// 	},
-		// 	set(value){
-		// 		this.$store.commit("setRateSmoothing",value)
-		// 	}
-		// }, 
-		// activityThreshold:{
-		// 	get(){
-		// 		return this.$store.state.userData[this.$store.state.currentUser].activityThreshold;
-		// 	},
-		// 	set(value){
-		// 		this.$store.commit("setActivityThreshold",value)
-		// 	}
-		// }, 
-		// reactTime:{
-		// 	get(){
-		// 		return this.$store.state.userData[this.$store.state.currentUser].reactTime;
-		// 	},
-		// 	set(value){
-		// 		this.$store.commit("setReactTime",value)
-		// 	}
-		// }, 
-		// resFactor:{
-		// 	get(){
-		// 		return this.$store.state.userData[this.$store.state.currentUser].resFactor;
-		// 	},
-		// 	set(value){
-		// 		this.$store.commit("setResFactor",value)
-		// 	}
-		// }, 
-		// recoveryTime:{
-		// 	get(){
-		// 		return this.$store.state.userData[this.$store.state.currentUser].recoveryTim;
-		// 	},
-		// 	set(value){
-		// 		this.$store.commit("setRecoveryTime",value)
-		// 	}
-		// }, 
+		ventricularSensitivity:{
+			get(){
+				return this.$store.state.userData[this.$store.state.currentUser].ventricularSensitivity;
+			},
+			set(value){
+				this.$store.commit("setVentricularSensitivity",value)
+			}
+		}, 
+		PVARP:{
+			get(){
+				return this.$store.state.userData[this.$store.state.currentUser].PVARP;
+			},
+			set(value){
+				this.$store.commit("setPVARP",value)
+			}
+		}, 
+		maxSensorRate:{
+			get(){
+				return this.$store.state.userData[this.$store.state.currentUser].maxSensorRate;
+			},
+			set(value){
+				this.$store.commit("setMaxSensorRate",value)
+			}
+		}, 
+		HRL:{
+			get(){
+				return this.$store.state.userData[this.$store.state.currentUser].HRL;
+			},
+			set(value){
+				this.$store.commit("setHRL",value)
+			}
+		}, 
+		rateSmoothing:{
+			get(){
+				return this.$store.state.userData[this.$store.state.currentUser].rateSmoothing;
+			},
+			set(value){
+				this.$store.commit("setRateSmoothing",value)
+			}
+		}, 
+		activityThreshold:{
+			get(){
+				return this.$store.state.userData[this.$store.state.currentUser].activityThreshold;
+			},
+			set(value){
+				this.$store.commit("setActivityThreshold",value)
+			}
+		}, 
+		reactTime:{
+			get(){
+				return this.$store.state.userData[this.$store.state.currentUser].reactTime;
+			},
+			set(value){
+				this.$store.commit("setReactTime",value)
+			}
+		}, 
+		resFactor:{
+			get(){
+				return this.$store.state.userData[this.$store.state.currentUser].resFactor;
+			},
+			set(value){
+				this.$store.commit("setResFactor",value)
+			}
+		}, 
+		recoveryTime:{
+			get(){
+				return this.$store.state.userData[this.$store.state.currentUser].recoveryTim;
+			},
+			set(value){
+				this.$store.commit("setRecoveryTime",value)
+			}
+		}, 
 	},
 	beforeMount:function(){
 		if(this.$store.state.currentUser == "") {
