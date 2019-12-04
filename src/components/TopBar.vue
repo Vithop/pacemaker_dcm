@@ -165,7 +165,7 @@ export default {
 				}
 			
 				console.log("sent all data");
-				alert("Settings have been saved to your pacemaker!");
+				alert("Press ok to send data to the pacemaker");
 				//return {devicePort, writeBuffer};
 			
 				//devicePort.close();
