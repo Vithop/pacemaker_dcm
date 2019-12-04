@@ -72,7 +72,7 @@ export default {
 
 			});
 		},
-		sendData(devicePort){
+		sendData: function(devicePort){
 			var enumPaceType;
 			const {userData, currentUser} = this.$store.state;
 			const {
