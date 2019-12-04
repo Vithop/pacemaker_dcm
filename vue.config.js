@@ -4,7 +4,7 @@ module.exports = {
       treeShake: true
     },
     electronBuilder: {
-      externals: ['serialport'],
+      externals: ['serialport'], 
       builderOptions: {
         win: {
           icon: '.public/icon.ico'
