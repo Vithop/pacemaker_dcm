@@ -65,7 +65,7 @@ export default {
 				paceType,
 				lowerRateLimit,
 				upperRateLimit,
-				// BPM,
+				BPM,
 				atricalPulseAmp,
 				atricalPulseWidth,
 				ARP,
@@ -112,7 +112,7 @@ export default {
 			}
 			int8Vals[0] = 0x16;
 			int8Vals[1] = 0x55;
-			int16Values[1] = 150;
+			int16Values[1] = BPM;
 			int16Values[2] = enumPaceMode;
 			int16Values[4] = ARP;
 			int16Values[5] = VRP;
