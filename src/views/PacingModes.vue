@@ -8,16 +8,16 @@
 		</q-tabs>
 		<div class="row">
 			<div class="col">
-				<div class="q-pa-md">
+				<div class="q-pa-md" v-if="paceType === 'AOOR' || paceType === 'AAIR' || paceType === 'VOOR' || paceType === 'VVIR' || paceType === 'DOOR'">
 					<q-item-label header class="pace-rate-label">Pacing Rate Limit</q-item-label>
 					<span class="slider-badge">
-						<q-badge color="secondary">Lower Rate Limit (50 - 80bpm): {{ lowerRateLimit }}</q-badge>
+						<q-badge color="secondary">Lower Rate Limit (50 - 90bpm): {{ lowerRateLimit }}</q-badge>
 					</span>
-					<q-slider v-model.lazy="lowerRateLimit" :min="50" :max="80" :step="1" color="green" label/>
+					<q-slider v-model.lazy="lowerRateLimit" :min="50" :max="90" :step="1" color="green" label/>
 					<span class="slider-badge">
-						<q-badge color="secondary">Upper rate Limit (80 - 200bpm): {{ upperRateLimit }}</q-badge>
+						<q-badge color="secondary">Upper rate Limit (90 - 175bpm): {{ upperRateLimit }}</q-badge>
 					</span>
-					<q-slider v-model="upperRateLimit" :min="80" :max="200" :step="1" color="green" label />
+					<q-slider v-model="upperRateLimit" :min="90" :max="175" :step="5" markers color="green" label />
 				</div>
 
  
@@ -25,10 +25,10 @@
 					<q-item-label header class="pace-rate-label">Beats per Minute</q-item-label>
 
 					<span class="slider-badge">
-						<q-badge color="secondary">Beats per Minute (50 - 120bpm): {{ BPM }}</q-badge>
+						<q-badge color="secondary">Beats per Minute (50 - 175bpm): {{ BPM }}</q-badge>
 					</span>
 
-					<q-slider v-model="BPM" :min="50" :max="120" :step="1" color="green" label />
+					<q-slider v-model="BPM" :min="50" :max="175" :step="1" color="green" label />
 				</div>
 
 				<div class="q-pa-md" v-if="paceType === 'DOO' || paceType === 'DOOR' || paceType === 'DDDR'">
@@ -71,7 +71,7 @@
 					<q-slider v-model="atricalPulseWidth" :min="1" :max="10" markers :step="1" color="blue" label/>
 				</div>
 
-				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI' || paceType == 'VOOR' || paceType == 'VVIR' || paceType == 'DOO' || paceType == 'DOOR'|| paceType == 'DDDR'">
+				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI' || paceType == 'VOOR' || paceType == 'VVIR'">
 					<q-item-label header class="pace-rate-label">Ventricular Pulse Amplitude</q-item-label>
 
 					<span class="slider-badge">
@@ -84,12 +84,40 @@
 					<q-slider v-model="ventricularPulseAmp" :min="70" :max="100" :step="1" color="red" label/>
 				</div>
 
-				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI' || paceType == 'VOOR' || paceType == 'VVIR' || paceType == 'DOO' || paceType == 'DOOR' || paceType == 'DDDR'">
+				<div class="q-pa-md" v-if="paceType == 'VOO' || paceType == 'VVI' || paceType == 'VOOR' || paceType == 'VVIR'">
 					<q-item-label header class="pace-rate-label">Ventricular Pulse Width</q-item-label>
 
 					<span class="slider-badge">
 						<q-badge color="red">
 							Ventricular Pulse Width (1 - 10ms):
+							{{ ventricularPulseWidth }}
+						</q-badge>
+					</span>
+
+					<q-slider v-model="ventricularPulseWidth" :min="1" :max="10"	markers	:step="1"	color="red"	label/>
+				</div>
+
+
+				<div class="q-pa-md" v-if="paceType == 'DOO' || paceType == 'DOOR'|| paceType == 'DDDR'">
+					<q-item-label header class="pace-rate-label">Pulse Amplitude</q-item-label>
+
+					<span class="slider-badge">
+						<q-badge color="red">
+							Pulse Amplitude (70-100% of 5V):
+							{{ round_two_digits((ventricularPulseAmp/100) * 5) }}V
+						</q-badge>
+					</span>
+
+					<q-slider v-model="ventricularPulseAmp" :min="70" :max="100" :step="1" color="red" label/>
+				</div>
+
+
+				<div class="q-pa-md" v-if="paceType == 'DOO' || paceType == 'DOOR' || paceType == 'DDDR'">
+					<q-item-label header class="pace-rate-label">Pulse Width</q-item-label>
+
+					<span class="slider-badge">
+						<q-badge color="red">
+							Pulse Width (1 - 10ms):
 							{{ ventricularPulseWidth }}
 						</q-badge>
 					</span>

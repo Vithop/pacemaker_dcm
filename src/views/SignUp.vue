@@ -22,7 +22,7 @@
 			<br />
 			<q-input rounded outlined v-model="tempPassWord2" type="password" hint="Retype Password" />
 		</div>
-		<q-btn unelevated rounded color="teal-13" label="Login" v-on:click="doSignUp" />
+		<q-btn unelevated rounded color="teal-13" label="Sign Up" v-on:click="doSignUp" />
 		<p style="color: red">{{message}}</p>
 	</div>
 </template>

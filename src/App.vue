@@ -22,7 +22,7 @@ export default {
 		TopBar
 	},
 	beforeCreate: function(){ 
-		//this.$store.dispatch("logout")
+		this.$store.dispatch("logout")
 	},
 	computed: {
 		isLoggedIn(){
