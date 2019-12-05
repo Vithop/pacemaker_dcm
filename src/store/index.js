@@ -176,7 +176,7 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         
         var userIndex = state.users.indexOf(payload.username);
-        //console.log("userIndex", userIndex);
+        console.log("userIndex", userIndex);
         if (userIndex != -1) {
           if(userIndex == 0){
             if(state.passwords[userIndex] == payload.password){
