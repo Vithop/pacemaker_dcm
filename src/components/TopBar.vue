@@ -144,30 +144,18 @@ export default {
 			var writeBuffer = Buffer.from(buffer)
 			
 			if(devicePort !== null && this.isPaceMakerConnected){
-				// if(!devicePort.write(writeBuffer)){
-				// 	devicePort.drain()
-				// }
-				// devicePort.on("write", () => devicePort.write(writeBuffer));
-				devicePort.on("open", () => {
-					console.log("open port");
-					devicePort.write(writeBuffer);
-					// devicePort.on("data", (data) => {
-					// 	console.log("data that has been echoed: " + data);
-					// });
-				});
-				for(var i = 0; i < 20; i++) {
-					devicePort.write(writeBuffer);
-					//devicePort.drain();
-					// console.log("wrote some values to paceMaker: ");
-					// console.log("data that has been echoed: " + devicePort.read())
-					// console.log(buffer);
+				
+			
+				var res = devicePort.write(writeBuffer)
+				
+				if(res){
+					console.log("sent all data");
+					alert("Press ok to send data to the pacemaker");
+				}else{
+					alert("Parameters Not Saved! Error: Data sent incorrectly");
 				}
-			
-				console.log("sent all data");
-				alert("Press ok to send data to the pacemaker");
+				
 				//return {devicePort, writeBuffer};
-			
-				//devicePort.close();
 			}else alert("Parameters Not Saved! Error: Device not connected");
 		},
 	},

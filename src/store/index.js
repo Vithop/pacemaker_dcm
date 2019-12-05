@@ -48,8 +48,8 @@ export default new Vuex.Store({
   }, 
   mutations: {
     signUp(state, payload) {
-      console.log(payload.username);
-      console.log(payload.password);
+      // console.log(payload.username);
+      // console.log(payload.password);
       state.users.push(payload.username);
       state.passwords.push(payload.password);
       //state.currentUser = payload.username;
@@ -65,7 +65,7 @@ export default new Vuex.Store({
       state.isPaceMakerConnected = connected;
     },
     setPaceType(state, val){
-      console.log("Mutate pacetype " + val);
+      //console.log("Mutate pacetype " + val);
       state.userData[state.currentUser].paceType = val;
     },
     setLowerRateLimit(state, val){
@@ -176,7 +176,7 @@ export default new Vuex.Store({
       return new Promise((resolve, reject) => {
         
         var userIndex = state.users.indexOf(payload.username);
-        console.log("userIndex", userIndex);
+        //console.log("userIndex", userIndex);
         if (userIndex != -1) {
           if(userIndex == 0){
             if(state.passwords[userIndex] == payload.password){
@@ -209,13 +209,6 @@ export default new Vuex.Store({
     logout({ commit }) {
       commit("setCurrentUsers", "");
     },
-    saveUsersParameters(){
-      
-      //Use promise to send serial data
-      // return new Promise(resolve =>{
-      //   resolve("User Parameters saved succesfully!");
-      // });
-    }
 
   },
   modules: {}

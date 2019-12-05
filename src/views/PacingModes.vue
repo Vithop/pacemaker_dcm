@@ -318,11 +318,11 @@ export default {
 		
 		paceType:{
 			get(){
-				console.log("get pacetype "+this.$store.state.userData[this.$store.state.currentUser].paceType);
+				//console.log("get pacetype "+this.$store.state.userData[this.$store.state.currentUser].paceType);
 				return this.$store.state.userData[this.$store.state.currentUser].paceType;
 			},
 			set(value){
-				console.log("set pacetype "+ value)
+				//console.log("set pacetype "+ value)
 				this.$store.commit("setPaceType",value)
 			}
 		}, 
