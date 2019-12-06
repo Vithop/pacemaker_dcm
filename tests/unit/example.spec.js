@@ -1,9 +1,11 @@
 import { mount } from '@vue/test-utils'
-import Home from '@/views/Home.vue'
+import App from '@/App.vue'
 
-describe('Home.vue', () => {
-  const wrapper = mount(Home)
-  it('renders the correct markup', () => {
-    expect(wrapper.html()).toContain('<h2>Login</h2>')
+describe('App', () => {
+  test('is a Vue instance', () => {
+    const wrapper = mount(App)
+    expect(wrapper.isVueInstance()).toBeTruthy()
   })
 })
+
+

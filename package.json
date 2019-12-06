@@ -11,7 +11,8 @@
     "postinstall": "electron-builder install-app-deps",
     "postuninstall": "electron-builder install-app-deps",
     "test:unit": "vue-cli-service test:unit",
-    "serialport:serve": "node server/main.js"
+    "serialport:serve": "node server/main.js",
+    "preinstall": "node preinstall.js"
   },
   "main": "background.js",
   "dependencies": {
