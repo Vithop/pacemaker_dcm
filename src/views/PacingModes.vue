@@ -501,19 +501,7 @@ export default {
 			if (event) {
 				console.log("send data event");
 				dispatchEvent(new CustomEvent('send-data'))
-				// this.sendData(this.$store.state.devicePort)
-				// .then(() => 
-				// 	{
-				// 		alert("Settings have been saved to your pacemaker!");
-				// 		console.log(
-				// 			this.$store.state.userData[
-				// 				this.$store.state.currentUser
-				// 			]
-				// 		);
-				// 	})
-				// 	.catch(err => {
-				// 		alert("Parameters Not Saved! Error: " + err);
-				// 	});
+				
 			}
 		}
 	}

@@ -8,7 +8,7 @@
             <p class="q-ml-sm" v-text="isPaceMakerConnected?'Connected!':'Disconnected'"/>
         </span>
 		<div v-else>
-			<q-tabs active-color="teal-14" class="text-blue-grey-7">
+			<q-tabs class="text-blue-grey-7" active-color="teal-14">
 				<q-route-tab label="Login" icon="ion-log-in" to="/" exact />
 				<q-route-tab label="Sign Up" icon="ion-person-add" to="/SignUp" exact />
 			</q-tabs>

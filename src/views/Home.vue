@@ -8,7 +8,7 @@
 			<q-input rounded outlined v-model="password" type="password" hint="Password" v-on:keyup.enter="doLogin" />
 		</div>
 		<q-btn unelevated rounded color="teal-13" label="Login"  v-on:click="doLogin" />
-		<p style="color: red">{{message}}</p>
+		<p style="color: red"> {{message}} </p>
 		<h4>About</h4>
 		<div>Application Model Number: 2.0</div>
 		<div>Revision Number: 83.0</div>
