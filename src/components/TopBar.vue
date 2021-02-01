@@ -150,7 +150,7 @@ export default {
 				
 				if(res){
 					console.log("sent all data");
-					alert("Press ok to send data to the pacemaker");
+					alert("Data has been sent Successfully");
 				}else{
 					alert("Parameters Not Saved! Error: Data sent incorrectly");
 				}
